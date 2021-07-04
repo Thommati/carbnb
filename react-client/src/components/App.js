@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./Home";
 import DetailsPage from "./DetailsPage";
 import SearchResults from "./SearchResults";
+import CarTheme from "./CarTheme";
 
 function App() {
   return (
-    <Router>
-      <div>
-        {/* <nav>
+    <CarTheme>
+      <Router>
+        <div>
+          {/* <nav>
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -22,21 +24,22 @@ function App() {
           </ul>
         </nav> */}
 
-        {/* A <Switch> looks through its children <Route>s and
+          {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/deatils-page">
-            <DetailsPage />
-          </Route>
-          <Route path="/search-results">
-            <SearchResults />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+          <Switch>
+            <Route path="/deatils-page">
+              <DetailsPage />
+            </Route>
+            <Route path="/search-results">
+              <SearchResults />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </CarTheme>
   );
 }
 
