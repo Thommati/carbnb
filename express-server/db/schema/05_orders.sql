@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS orders CASCADE;
+
+CREATE TABLE orders
+(
+  id SERIAL NOT NULL PRIMARY KEY,
+  availability_id INTEGER NOT NULL,
+  renter_id INTEGER NOT NULL REFERENCES,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  price MONEY NOT NULL
+);
