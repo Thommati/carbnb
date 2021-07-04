@@ -4,7 +4,6 @@ import './ReviewItem.scss';
 
 const ReviewItem = props => {
   const { image, dateReviewed, rating, review } = props.data;
-  console.log(props);
 
   // TODO: Need a five-star rating component to display rating
   return (

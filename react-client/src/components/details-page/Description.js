@@ -29,7 +29,7 @@ const tempReviews = [
 // TODO: Written description needs to be loaded from props.
 const Description = props => {
   return (
-    <Container maxWidth="md">
+    <div className="description">
       <img
         src="https://images.unsplash.com/photo-1619405399517-d7fce0f13302?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGNvcnZldHRlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
         alt="C7 Corvette"
@@ -61,7 +61,7 @@ const Description = props => {
         </List>
       </div>
       <ReviewContainer reviews={tempReviews} avgRating="5" />
-    </Container>
+    </div>
   );
 };
 
