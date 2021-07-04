@@ -12,7 +12,7 @@ const ReviewContainer = props => {
         <span>REVIEWS</span>
         <span>{avgRating}</span>
       </div>
-      <List className="">
+      <List className="review-container">
         {reviewItems}
       </List>
     </div>
