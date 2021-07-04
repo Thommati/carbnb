@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS locations CASCADE;
+
+CREATE TABLE locations
+(
+  id SERIAL NOT NULL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  street_number VARCHAR(50) NOT NULL,
+  apartment_number VARCHAR(50),
+  street VARCHAR(250) NOT NULL,
+  city VARCHAR(250) NOT NULL,
+  province VARCHAR(250) NOT NULL,
+  country VARCHAR(100) NOT NULL,
+  postal_code VARCHAR(50) NOT NULL,
+  billing BOOLEAN NOT NULL
+);
