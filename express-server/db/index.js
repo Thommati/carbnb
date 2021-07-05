@@ -17,5 +17,5 @@ if (process.env.DATABASE_URL) {
 const pool = new Pool(dbParams);
 
 module.exports = {
-  query: (text, params) => pool.query(text, params);
+  query: (text, params) => pool.query(text, params)
 };
