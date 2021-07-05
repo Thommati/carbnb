@@ -82,19 +82,71 @@ exports.createNewCarAsync = data => {
 
 // Return a car and some user / location info by car id
 exports.getCarByIdAsync = id => {
-  queryText = `
+  const queryText = `
     SELECT cars.*, name, email, phone, city, province, country FROM cars
     JOIN users ON cars.user_id = users.id
     JOIN locations ON cars.location_id = locations.id
     WHERE cars.id = $1;
   `;
-  queryParams = [id];
+  const queryParams = [id];
   return db.query(queryText, queryParams);
 };
 
 // Delete car with the givin id
 exports.deleteCarWithIdAsync = id => {
-  queryText = 'DELETE FROM cars WHERE id = $1';
-  queryParams = [id];
+  const queryText = 'DELETE FROM cars WHERE id = $1';
+  const queryParams = [id];
+  return db.query(queryText, queryParams);
+};
+
+exports.updateCarAsync = (id, data) => {
+  const queryParams = [];
+
+  let setItems = '';
+  let values = '';
+  for (const key of Object.keys(data)) {
+    if (key === 'id') {
+      continue;
+    }
+
+    // Account for camelCase input and snake_case db columns
+    switch (key) {
+      case 'userId':
+        setItems += 'user_id, ';
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+      case 'locationId':
+        setItems += 'location_id, ';
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+      case 'petFriendly':
+        setItems += 'pet_friendly, ';
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+      case 'miniVan':
+        setItems += 'mini_van, ';
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+      default:
+        setItems += `${key}, `;
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+    }
+  }
+
+  setItems = setItems.slice(0, -2);
+  values = values.slice(0, -2);
+
+  queryParams.push(id);
+
+  queryText = `
+    UPDATE cars SET (${setItems}) = (${values}) WHERE id = $${queryParams.length};
+  `;
+
   return db.query(queryText, queryParams);
 };
