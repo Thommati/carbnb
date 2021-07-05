@@ -1,4 +1,4 @@
-const db = require('./index');
+const db = require('../index');
 
 // Get all cars / get all cars for province + city
 // Param: filters = { province: string, city: string }

@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllCarsAsync, createNewCarAsync } = require('../db/repo');
+const { getAllCarsAsync, createNewCarAsync } = require('../db/repositories/carsRepo');
 
 const router = express.Router();
 
