@@ -80,6 +80,19 @@ exports.createNewCarAsync = data => {
   return db.query(queryText, queryParams);
 };
 
+// Return a car and some user / location info by car id
+exports.getCarByIdAsync = id => {
+  queryText = `
+    SELECT cars.*, name, email, phone, city, province, country FROM cars
+    JOIN users ON cars.user_id = users.id
+    JOIN locations ON cars.location_id = locations.id
+    WHERE cars.id = $1;
+  `;
+  queryParams = [id];
+  return db.query(queryText, queryParams);
+};
+
+// Delete car with the givin id
 exports.deleteCarWithIdAsync = id => {
   queryText = 'DELETE FROM cars WHERE id = $1';
   queryParams = [id];
