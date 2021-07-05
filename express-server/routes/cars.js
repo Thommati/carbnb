@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   let queryText = `
-  SELECT * FROM cars
+  SELECT cars.*, name, email, phone, city, province, country FROM cars
   JOIN users ON cars.user_id = users.id
   JOIN locations ON locations.user_id = users.id
   `;
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
   const { province, city } = req.query;
   if (province && city) {
     queryText += `
-      WHERE locations.province = $1 AND locations.city = $2
+      WHERE LOWER(locations.province) = LOWER($1) AND LOWER(locations.city) = LOWER($2)
     `;
     queryParams.push(province, city);
   }
