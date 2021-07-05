@@ -1,5 +1,4 @@
 const express = require('express');
-// const db = require('../db');
 const { getAllCarsAsync } = require('../db/repo');
 
 const router = express.Router();
