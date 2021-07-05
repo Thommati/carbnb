@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllCarsAsync } = require('../db/repo');
+const { getAllCarsAsync, createNewCarAsync } = require('../db/repo');
 
 const router = express.Router();
 
@@ -8,14 +8,25 @@ const router = express.Router();
 // if either province or city are null then all cars in db will be returned.
 router.get('/', async (req, res) => {
   const { province, city } = req.query;
-  const { rows } = await getAllCarsAsync({province, city});
-  return res.json(rows);
+  try {
+    const { rows } = await getAllCarsAsync({province, city});
+    return res.json(rows);
+  } catch (err) {
+    console.log('Error retrieving cars from DB:', err);
+    return res.status(500).json({error: 'Internal server error'});
+  }
 });
 
 // POST /api/cars
 // Register / create a new car for a host
 router.post('/', async (req, res) => {
-  res.json({routeStatus: 'not implemented'});
+  try {
+    const response = await createNewCarAsync(req.body);
+    return res.json(response);
+  } catch (err) {
+    console.log('Error saving new car to DB:', err);
+    return res.status(500).json({error: 'Internal server error'});
+  }
 });
 
 

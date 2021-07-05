@@ -51,4 +51,30 @@ exports.createNewCarAsync = data => {
     )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9 $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21);
   `;
+
+  const queryParams = [
+    data.userId,
+    data.locationid,
+    data.make,
+    data.model,
+    data.doors,
+    data.colour,
+    data.transmission,
+    data.description,
+    data.petFriendly,
+    data.fuel,
+    data.seats,
+    data.image,
+    data.sport,
+    data.truck,
+    data.van,
+    data.miniVan,
+    data.luxury,
+    data.rv,
+    data.suv,
+    data.convertible,
+    data.economy
+  ]
+
+  return db.query(queryText, queryParams);
 };
