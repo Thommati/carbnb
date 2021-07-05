@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -31,15 +32,31 @@ const useStyles = makeStyles((theme) => ({
 function SearchBar(props) {
   const classes = useStyles();
 
+  const [location, setLocation] = useState(props.state.location);
+  const [fromDate, setFromDate] = useState(props.state.fromDate);
+  const [toDate, setToDate] = useState(props.state.toDate);
+
+  // when the global location changed (e.g PopularLocations clicked) it will update the internal state
+  useEffect(() => {
+    setLocation(props.state.location);
+  }, [props.state.location]);
+
   const handleLocationChange = (event) => {
-    props.setLocation(event.target.value);
+    setLocation(event.target.value);
   };
 
   const handleFromDateChange = (date) => {
-    props.setFromDate(date);
+    setFromDate(date);
   };
+
   const handleToDateChange = (date) => {
-    props.setToDate(date);
+    setToDate(date);
+  };
+
+  const handleSearchClick = () => {
+    props.setState((prev) => {
+      return { ...prev, location, fromDate, toDate };
+    });
   };
 
   return (
@@ -52,7 +69,7 @@ function SearchBar(props) {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={props.state.location}
+                value={location}
                 onChange={handleLocationChange}
               >
                 <MenuItem value={"Vancouver"}>Vancouver</MenuItem>
@@ -69,7 +86,7 @@ function SearchBar(props) {
               margin="normal"
               id="from-date"
               label="From"
-              value={props.state.fromDate}
+              value={fromDate}
               onChange={handleFromDateChange}
               KeyboardButtonProps={{
                 "aria-label": "change date",
@@ -85,7 +102,7 @@ function SearchBar(props) {
               margin="normal"
               id="to-date"
               label="To"
-              value={props.state.toDate}
+              value={toDate}
               onChange={handleToDateChange}
               KeyboardButtonProps={{
                 "aria-label": "change date",
@@ -94,7 +111,12 @@ function SearchBar(props) {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" fullWidth={true}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth={true}
+              onClick={handleSearchClick}
+            >
               Search
             </Button>
           </Grid>

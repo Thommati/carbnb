@@ -13,7 +13,12 @@ function Home(props) {
         setToDate={props.setToDate}
       />
       <p></p>
-      <PopularLocations setLocation={props.setLocation} />
+      {props.state.location === "" && (
+        <div>
+          <div>The Airbnb of the automotive world. bla bla</div>
+          <PopularLocations setLocation={props.setLocation} />
+        </div>
+      )}
     </div>
   );
 }
