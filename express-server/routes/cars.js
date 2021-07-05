@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllCarsAsync, createNewCarAsync } = require('../db/repositories/carsRepo');
+const { getAllCarsAsync, createNewCarAsync, deleteCarWithIdAsync } = require('../db/repositories/carsRepo');
 
 const router = express.Router();
 
@@ -25,6 +25,16 @@ router.post('/', async (req, res) => {
     return res.status(201).json(rows[0]);
   } catch (err) {
     console.log('Error saving new car to DB:', err);
+    return res.status(500).json({error: 'Internal server error'});
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    _ = await deleteCarWithIdAsync(req.params.id);
+    return res.status(204).json();
+  } catch (err) {
+    console.log('Error deleting record from DB:', err);
     return res.status(500).json({error: 'Internal server error'});
   }
 });

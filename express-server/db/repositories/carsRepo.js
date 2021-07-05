@@ -79,3 +79,9 @@ exports.createNewCarAsync = data => {
 
   return db.query(queryText, queryParams);
 };
+
+exports.deleteCarWithIdAsync = id => {
+  queryText = 'DELETE FROM cars WHERE id = $1';
+  queryParams = [id];
+  return db.query(queryText, queryParams);
+};
