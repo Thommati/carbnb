@@ -43,7 +43,7 @@ function PopularLocations(props) {
               }}
             >
               <Avatar alt="Vancouver" src={vanc} className={classes.large} />
-              <div class="place-name">Vancouver</div>
+              <div className="place-name">Vancouver</div>
             </Grid>
             <Grid
               item
@@ -54,7 +54,7 @@ function PopularLocations(props) {
               }}
             >
               <Avatar alt="Calgary" src={cal} className={classes.large} />
-              <div class="place-name">Calgary</div>
+              <div className="place-name">Calgary</div>
             </Grid>
             <Grid
               item
@@ -65,7 +65,7 @@ function PopularLocations(props) {
               }}
             >
               <Avatar alt="Toronto" src={torn} className={classes.large} />
-              <div class="place-name">Toronto</div>
+              <div className="place-name">Toronto</div>
             </Grid>
           </div>
         </Grid>
