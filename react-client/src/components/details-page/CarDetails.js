@@ -1,5 +1,6 @@
 import Description from './Description';
 import HostDetails from './HostDetails';
+import ReservationContainer from './ReservationContainer';
 
 import './CarDetails.scss';
 
@@ -10,6 +11,7 @@ const tempHost = {
 };
 
 // TODO: Host details cannot be hardcoded - get from props / state
+// TODO: Proper values need to be given to startDate and endDate
 
 // Main component that is rendered when the details page is loaded.
 // Coordinates all details page sub components.
@@ -19,6 +21,7 @@ const CarDetails = (props) => {
       <Description />
       <aside className="car-details__aside">
         <HostDetails image={tempHost.image} details={tempHost.details} reviews={tempHost.reviews} />
+        <ReservationContainer startDate={new Date('2021-08-12T18:00:00')} endDate={new Date('2021-08-18T18:00:00')}/>
       </aside>
     </section>
   );
