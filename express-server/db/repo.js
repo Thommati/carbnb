@@ -6,7 +6,7 @@ exports.getAllCarsAsync = (filters) => {
   let queryText = `
   SELECT cars.*, name, email, phone, city, province, country FROM cars
   JOIN users ON cars.user_id = users.id
-  JOIN locations ON locations.user_id = users.id
+  JOIN locations ON cars.location_id = locations.id
   `;
   const queryParams = [];
 
@@ -23,3 +23,32 @@ exports.getAllCarsAsync = (filters) => {
   return db.query(queryText, queryParams);
 };
 
+// Add a new car to the database
+exports.createNewCarAsync = data => {
+  const queryText = `
+    INSERT INTO cars (
+      user_id,
+      location_id,
+      make,
+      model,
+      doors,
+      colour,
+      transmission,
+      description,
+      pet_friendly,
+      fuel,
+      seats,
+      image,
+      sport,
+      truck,
+      van,
+      mini_van,
+      luxury,
+      rv,
+      suv,
+      convertible,
+      economy
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9 $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21);
+  `;
+};
