@@ -11,7 +11,7 @@ const mountRoutes = require('./routes');
 const app = express();
 
 // Load port from environment
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 // Express Configuration
 app.use(bodyParser.urlencoded({ extended: true }));
