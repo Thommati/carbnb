@@ -1,0 +1,17 @@
+.review-item {
+  display: flex;
+  flex-basis: 50%;
+
+  &__img {
+    height: 7rem;
+    width: 7rem;
+    object-fit: cover;
+  }
+
+  &__review-container {
+    flex-grow: 1;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+}

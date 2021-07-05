@@ -1,0 +1,13 @@
+.car-details {
+  display: flex;
+  width: 70vw;
+  margin: 0 auto;
+  margin-bottom: 5rem;
+
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    margin-left: 3rem;
+    width: 20rem;
+  }
+}
