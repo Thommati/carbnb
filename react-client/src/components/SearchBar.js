@@ -27,25 +27,19 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "8px",
   },
 }));
-let tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
 
-function SearchBar() {
+function SearchBar(props) {
   const classes = useStyles();
-  const [location, setLocation] = useState("");
-
-  const [fromDate, setFromdDate] = useState(new Date(tomorrow));
-  const [toDate, setToDate] = useState(new Date(tomorrow));
 
   const handleLocationChange = (event) => {
-    setLocation(event.target.value);
+    props.setLocation(event.target.value);
   };
 
   const handleFromDateChange = (date) => {
-    setFromdDate(date);
+    props.setFromDate(date);
   };
   const handleToDateChange = (date) => {
-    setToDate(date);
+    props.setToDate(date);
   };
 
   return (
@@ -58,12 +52,12 @@ function SearchBar() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={location}
+                value={props.state.location}
                 onChange={handleLocationChange}
               >
                 <MenuItem value={"Vancouver"}>Vancouver</MenuItem>
                 <MenuItem value={"Toronto"}>Toronto</MenuItem>
-                <MenuItem value={"Calgery"}>Calgery</MenuItem>
+                <MenuItem value={"Calgary"}>Calgary</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -75,7 +69,7 @@ function SearchBar() {
               margin="normal"
               id="from-date"
               label="From"
-              value={fromDate}
+              value={props.state.fromDate}
               onChange={handleFromDateChange}
               KeyboardButtonProps={{
                 "aria-label": "change date",
@@ -91,7 +85,7 @@ function SearchBar() {
               margin="normal"
               id="to-date"
               label="To"
-              value={toDate}
+              value={props.state.toDate}
               onChange={handleToDateChange}
               KeyboardButtonProps={{
                 "aria-label": "change date",
