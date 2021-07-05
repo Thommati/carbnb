@@ -18,11 +18,11 @@ router.get('/', async (req, res) => {
 });
 
 // POST /api/cars
-// Register / create a new car for a host
+// Register / create a new car for a host.  Returns newly created car object.
 router.post('/', async (req, res) => {
   try {
-    const response = await createNewCarAsync(req.body);
-    return res.json(response);
+    const { rows } = await createNewCarAsync(req.body);
+    return res.status(201).json(rows[0]);
   } catch (err) {
     console.log('Error saving new car to DB:', err);
     return res.status(500).json({error: 'Internal server error'});
