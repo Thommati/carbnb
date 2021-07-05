@@ -1,5 +1,6 @@
 import SearchBar from "./SearchBar";
 import PopularLocations from "./PopularLocations";
+import SearchResultsContainer from "./SearchResultsContainer";
 
 function Home(props) {
   return (
@@ -17,6 +18,11 @@ function Home(props) {
         <div>
           <div>The Airbnb of the automotive world. bla bla</div>
           <PopularLocations setLocation={props.setLocation} />
+        </div>
+      )}
+      {props.state.location !== "" && (
+        <div>
+          <SearchResultsContainer />
         </div>
       )}
     </div>

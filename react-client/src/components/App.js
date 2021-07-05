@@ -2,7 +2,6 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./Home";
 import DetailsPage from "./DetailsPage";
-import SearchResults from "./SearchResults";
 import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
 
@@ -34,9 +33,9 @@ function App() {
             <Route path="/details-page">
               <DetailsPage />
             </Route>
-            <Route path="/search-results">
+            {/* <Route path="/search-results">
               <SearchResults />
-            </Route>
+            </Route> */}
             <Route path="/">
               <Home
                 state={state}
