@@ -4,8 +4,12 @@ import Home from "./Home";
 import DetailsPage from "./DetailsPage";
 import SearchResults from "./SearchResults";
 import CarTheme from "./CarTheme";
+import useApplicationData from "../hooks/ApplicationData";
 
 function App() {
+  const { state, setState, setLocation, setFromDate, setToDate } =
+    useApplicationData();
+
   return (
     <CarTheme>
       <Router>
@@ -34,7 +38,13 @@ function App() {
               <SearchResults />
             </Route>
             <Route path="/">
-              <Home />
+              <Home
+                state={state}
+                setState={setState}
+                setLocation={setLocation}
+                setFromDate={setFromDate}
+                setToDate={setToDate}
+              />
             </Route>
           </Switch>
         </div>
