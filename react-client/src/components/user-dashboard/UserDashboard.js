@@ -1,8 +1,11 @@
 import MainContainer from "./MainContainer";
+import UserTabs from "./UserTabs";
 
 function UserDashboard() {
   return(
-      <MainContainer />
+  <div>
+    <UserTabs />
+  </div>
   )
 }
 

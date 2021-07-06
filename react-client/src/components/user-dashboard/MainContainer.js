@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   name: {
     fontWeight: 'bold',
-    color: theme.palette.secondary.dark
+    color: '#03DAC5'
   },
   status: {
     fontweight: 'bold',
@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
   },
   TableFooter: {
     justifyContent: 'right'
+  },
+  Cancel: {
+    color: 'red'
   }
 }));
 
@@ -136,7 +139,7 @@ export default function MainContainer() {
                   >{row.status}</Typography>
                 </TableCell>
                 <TableCell>
-                    <CancelIcon />
+                    <CancelIcon className={classes.Cancel}/>
                 </TableCell>
               </TableRow>
             ))}
