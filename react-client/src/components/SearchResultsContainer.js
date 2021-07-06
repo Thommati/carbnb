@@ -1,26 +1,39 @@
+import { useState } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import ResultItem from "./ResultItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
   searchBox: {
-    backgroundColor: "#ddd",
-    padding: "30px",
-    borderRadius: "8px",
+    // backgroundColor: "#ddd",
+    padding: "0",
+    // borderRadius: "8px",
   },
 }));
 
 function SearchResultsContainer() {
+  const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
   const classes = useStyles();
+  const [sortBy, setSortBy] = useState("Low To High");
+
+  const handleSortBy = (event) => {
+    setSortBy(event.target.value);
+  };
 
   const rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 11, 22, 33].map((n) => {
     return <ResultItem text={n}></ResultItem>;
@@ -28,7 +41,34 @@ function SearchResultsContainer() {
 
   return (
     <Container className={classes.searchBox} maxWidth="sm">
-      <Grid container spacing={1}>
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="demo-simple-select-outlined-label">Sort By</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          // value={sortBy}
+          // onChange={handleSortBy}
+          label="Sort By"
+        >
+          <MenuItem>Low To High</MenuItem>
+          <MenuItem>High To Low</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="demo-simple-select-outlined-label">Filters</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          // value={sortBy}
+          // onChange={handleSortBy}
+          label="Filters"
+        >
+          <MenuItem>Make</MenuItem>
+          <MenuItem>Model</MenuItem>
+          <MenuItem>Doors</MenuItem>
+        </Select>
+      </FormControl>
+      <Grid container spacing={2}>
         {rows}
       </Grid>
     </Container>
