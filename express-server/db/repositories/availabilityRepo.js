@@ -1,13 +1,21 @@
 const db = require('../index');
 
-exports.getAllAvailabilitiesAsync = () => {
-  const queryText = `
+exports.getAllAvailabilitiesAsync = (ownerId) => {
+  let queryText = `
     SELECT availability.*, name, email, phone, make, model
     FROM availability
     JOIN users ON owner_id = users.id
-    JOIN cars ON car_id = cars.id;
+    JOIN cars ON car_id = cars.id
   `;
   const queryParams = [];
+
+  if (ownerId) {
+    queryText += 'WHERE owner_id = $1';
+    queryParams.push(ownerId);
+  }
+
+  queryText += ';';
+
   return db.query(queryText, queryParams);
 };
 
