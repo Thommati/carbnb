@@ -8,7 +8,7 @@ import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
 
 function App() {
-  const { state, setState, setLocation, setFromDate, setToDate } =
+  const { search, setSearch, setLocation, setFromDate, setToDate } =
     useApplicationData();
 
   return (
@@ -40,8 +40,8 @@ function App() {
             </Route> */}
             <Route path="/">
               <Home
-                state={state}
-                setState={setState}
+                search={search}
+                setSearch={setSearch}
                 setLocation={setLocation}
                 setFromDate={setFromDate}
                 setToDate={setToDate}

@@ -7,20 +7,20 @@ function Home(props) {
     <div>
       Home
       <SearchBar
-        state={props.state}
-        setState={props.setState}
+        search={props.search}
+        setSearch={props.setSearch}
         setLocation={props.setLocation}
         setFromDate={props.setFromDate}
         setToDate={props.setToDate}
       />
       <p></p>
-      {props.state.location === "" && (
+      {props.search.location === "" && (
         <div>
           <div>The Airbnb of the automotive world. bla bla</div>
           <PopularLocations setLocation={props.setLocation} />
         </div>
       )}
-      {props.state.location !== "" && (
+      {props.search.location !== "" && (
         <div>
           <SearchResultsContainer />
         </div>

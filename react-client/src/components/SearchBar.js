@@ -32,14 +32,14 @@ const useStyles = makeStyles((theme) => ({
 function SearchBar(props) {
   const classes = useStyles();
 
-  const [location, setLocation] = useState(props.state.location);
-  const [fromDate, setFromDate] = useState(props.state.fromDate);
-  const [toDate, setToDate] = useState(props.state.toDate);
+  const [location, setLocation] = useState(props.search.location);
+  const [fromDate, setFromDate] = useState(props.search.fromDate);
+  const [toDate, setToDate] = useState(props.search.toDate);
 
-  // when the global location changed (e.g PopularLocations clicked) it will update the internal state
+  // when the global location changed (e.g PopularLocations clicked) it will update the internal search
   useEffect(() => {
-    setLocation(props.state.location);
-  }, [props.state.location]);
+    setLocation(props.search.location);
+  }, [props.search.location]);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
@@ -54,7 +54,7 @@ function SearchBar(props) {
   };
 
   const handleSearchClick = () => {
-    props.setState((prev) => {
+    props.setSearch((prev) => {
       return { ...prev, location, fromDate, toDate };
     });
   };
