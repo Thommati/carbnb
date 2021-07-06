@@ -20,3 +20,9 @@ exports.getOrdersForHostWithIdAsync = id => {
   const queryParams = [id];
   return db.query(queryText, queryParams);
 };
+
+exports.deleteOrderWithIdAsync = id => {
+  const queryText = 'DELETE FROM orders WHERE id = $1';
+  const queryParams = [id];
+  return db.query(queryText, queryParams);
+};

@@ -1,7 +1,8 @@
 const express = require('express');
 const {
   getOrdersForRenterWithIdAsync,
-  getOrdersForHostWithIdAsync
+  getOrdersForHostWithIdAsync,
+  deleteOrderWithIdAsync,
 } = require('../db/repositories/orderRepo');
 
 const router = express.Router();
@@ -26,6 +27,16 @@ router.get('/host/:id', async (req, res) => {
     return res.json(rows);
   } catch (err) {
     console.log('Error retrieving orders for host', err);
+    res.status(500).json({error: 'Internal server error'});
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    _ = deleteOrderWithIdAsync(req.params.id);
+    return res.status(204).json();
+  } catch (err) {
+    console.log('Error deleting order', err);
     res.status(500).json({error: 'Internal server error'});
   }
 });
