@@ -1,19 +1,30 @@
 import SearchBar from "./SearchBar";
 import PopularLocations from "./PopularLocations";
+import SearchResultsContainer from "./SearchResultsContainer";
 
 function Home(props) {
   return (
     <div>
       Home
       <SearchBar
-        state={props.state}
-        setState={props.setState}
+        search={props.search}
+        setSearch={props.setSearch}
         setLocation={props.setLocation}
         setFromDate={props.setFromDate}
         setToDate={props.setToDate}
       />
       <p></p>
-      <PopularLocations setLocation={props.setLocation} />
+      {props.search.location === "" && (
+        <div>
+          <div>The Airbnb of the automotive world. bla bla</div>
+          <PopularLocations setLocation={props.setLocation} />
+        </div>
+      )}
+      {props.search.location !== "" && (
+        <div>
+          <SearchResultsContainer cars={props.cars} />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,14 +1,15 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./Home";
-import CarDetails from './details-page/CarDetails';
-import SearchResults from "./SearchResults";
+
+import CarDetails from "./details-page/CarDetails";
+
 import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
-import UserDashboard from './user-dashboard/UserDashboard';
+import UserDashboard from "./user-dashboard/UserDashboard";
 
 function App() {
-  const { state, setState, setLocation, setFromDate, setToDate } =
+  const { search, setSearch, setLocation, setFromDate, setToDate, cars } =
     useApplicationData();
 
   return (
@@ -35,19 +36,17 @@ function App() {
             <Route path="/details-page">
               <CarDetails />
             </Route>
-            <Route path="/search-results">
-              <SearchResults />
-            </Route>
             <Route path="/user-dashboard">
               <UserDashboard />
             </Route>
             <Route path="/">
               <Home
-                state={state}
-                setState={setState}
+                search={search}
+                setSearch={setSearch}
                 setLocation={setLocation}
                 setFromDate={setFromDate}
                 setToDate={setToDate}
+                cars={cars}
               />
             </Route>
           </Switch>
