@@ -15,3 +15,13 @@ exports.createNewUserAsync = user => {
   ];
   return db.query(queryText, queryParams);
 };
+
+exports.getUserByIdAsync = id => {
+  queryText = `
+    SELECT *
+    FROM users
+    WHERE id = $1;
+  `;
+  queryParams = [id];
+  return db.query(queryText, queryParams);
+};
