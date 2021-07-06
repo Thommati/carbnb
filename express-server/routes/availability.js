@@ -42,7 +42,6 @@ router.put('/:id', async (req, res) => {
   try {
     _ = await updateAvailabilityWithIdAsync(req.params.id, req.body);
     return res.status(204).json();
-    return res.json({queryText});
   } catch (err) {
     console.log('Error updating availability', err);
     return res.status(500).json({error: 'Internal server error'});
