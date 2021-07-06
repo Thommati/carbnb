@@ -26,3 +26,19 @@ exports.deleteOrderWithIdAsync = id => {
   const queryParams = [id];
   return db.query(queryText, queryParams);
 };
+
+exports.createNewOrderAsync = order => {
+  queryText = `
+    INSERT INTO orders (availability_id, renter_id, start_date, end_date, price)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *;
+  `;
+  queryParams = [
+    order.availabilityId,
+    order.renterId,
+    order.startDate,
+    order.endDate,
+    order.price
+  ];
+  return db.query(queryText, queryParams);
+};
