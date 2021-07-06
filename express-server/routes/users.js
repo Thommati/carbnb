@@ -21,13 +21,6 @@ router.post('/', async (req, res) => {
     // Create JWT token
     const token = generateJwtToken(id, name, email, image);
 
-    // const returnedUser = {
-    //   id: rows[0].id,
-    //   name: rows[0].name,
-    //   email: rows[0].email,
-    //   image: rows[0].image
-    // };
-
     return res.status(201).json(token);
   } catch (err) {
     console.log('Error creating new user', err);
