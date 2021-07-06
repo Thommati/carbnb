@@ -42,3 +42,55 @@ exports.deleteAvailabilityAsync = id => {
   const queryParams = [id];
   return db.query(queryText, queryParams);
 }
+
+exports.updateAvailabilityWithIdAsync = (id, data) => {
+  const queryParams = [];
+
+  let setItems = '';
+  let values = '';
+  for (const key of Object.keys(data)) {
+    if (['id', 'ownerId'].includes(key)) {
+      continue;
+    }
+
+    // Account for camelCase input and snake_case db columns
+    switch (key) {
+      case 'locationId':
+        setItems += 'location_id, ';
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+      case 'carId':
+        setItems += 'car_id, ';
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+      case 'startDate':
+        setItems += 'start_date, ';
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+      case 'endDate':
+        setItems += 'end_date, ';
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+      default:
+        setItems += `${key}, `;
+        queryParams.push(data[key]);
+        values += `$${queryParams.length}, `;
+        break;
+    }
+  }
+
+  setItems = setItems.slice(0, -2);
+  values = values.slice(0, -2);
+
+  queryParams.push(id);
+
+  queryText = `
+    UPDATE availability SET (${setItems}) = (${values})
+    WHERE id = $${queryParams.length};
+  `;
+  return db.query(queryText, queryParams);
+};
