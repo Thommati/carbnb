@@ -4,6 +4,7 @@ const {
   getOrdersForHostWithIdAsync,
   deleteOrderWithIdAsync,
   createNewOrderAsync,
+  UpdateOrderWithIdAsync,
 } = require('../db/repositories/orderRepo');
 
 const router = express.Router();
@@ -52,6 +53,18 @@ router.post ('/', async (req, res) => {
     return res.status(201).json(rows[0]);
   } catch (err) {
     console.log('Error creating / saving new order');
+    return res.status(500).json({error: 'Internal server error'});
+  }
+});
+
+// PUT /api/orders/:id
+// Update an order with the given id.  Can only edit start and end dates.
+router.put('/:id', async (req, res) => {
+  try {
+    _ = await UpdateOrderWithIdAsync(req.params.id, req.body);
+    return res.status(204).json();
+  } catch (err) {
+    console.log('Error updating order', err);
     return res.status(500).json({error: 'Internal server error'});
   }
 });

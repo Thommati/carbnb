@@ -42,3 +42,12 @@ exports.createNewOrderAsync = order => {
   ];
   return db.query(queryText, queryParams);
 };
+
+exports.UpdateOrderWithIdAsync = (id, order) => {
+  queryText = `
+    UPDATE orders SET (start_date, end_date) = ($1, $2)
+    WHERE id = $3;
+  `;
+  queryParams = [order.startDate, order.endDate, id];
+  return db.query(queryText, queryParams);
+};
