@@ -8,6 +8,9 @@ const {
 
 const router = express.Router();
 
+// GET /api/availability
+// GET /api/availability?ownerId={id}
+// Retrieves all availabilities, and optionally filters by owner id
 router.get('/', async (req, res) => {
   try {
     const { rows } = await getAllAvailabilitiesAsync(req.query.ownerId);
@@ -18,6 +21,8 @@ router.get('/', async (req, res) => {
   }
 });
 
+// POST /api/availability
+// Creates a new availability
 router.post('/', async (req, res) => {
   try {
     const { rows } = await createAvailabilityAsync(req.body);
@@ -28,6 +33,8 @@ router.post('/', async (req, res) => {
   }
 });
 
+// DELETE /api/availability/:id
+// Deletes the availability with the given id
 router.delete('/:id', async (req, res) => {
   try {
     _ = await deleteAvailabilityAsync(req.params.id);
@@ -38,6 +45,10 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// PUT /api/availability/:id
+// Updates the givan availability.  Requires at least two fields set on the body
+// to work.  Best to pass in the entire availability object.  Will not allow id
+// or owner_id to be changed.
 router.put('/:id', async (req, res) => {
   try {
     _ = await updateAvailabilityWithIdAsync(req.params.id, req.body);

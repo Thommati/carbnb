@@ -1,5 +1,6 @@
 const db = require('../index');
 
+// Retrieve all availabilities, or all availabilities for a specific owner
 exports.getAllAvailabilitiesAsync = (ownerId) => {
   let queryText = `
     SELECT availability.*, name, email, phone, make, model
@@ -19,6 +20,7 @@ exports.getAllAvailabilitiesAsync = (ownerId) => {
   return db.query(queryText, queryParams);
 };
 
+// Create a new availability.  Pass in availability column data except id.
 exports.createAvailabilityAsync = data => {
   const queryText = `
     INSERT INTO availability (
@@ -45,12 +47,14 @@ exports.createAvailabilityAsync = data => {
   return db.query(queryText, queryParams);
 };
 
+// Delete an availability with a given id
 exports.deleteAvailabilityAsync = id => {
   const queryText = 'DELETE FROM availability WHERE id = $1';
   const queryParams = [id];
   return db.query(queryText, queryParams);
 }
 
+// Update an availability.  Pass in th availability id, and all availability fields.
 exports.updateAvailabilityWithIdAsync = (id, data) => {
   const queryParams = [];
 
