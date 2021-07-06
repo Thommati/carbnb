@@ -22,7 +22,7 @@ function Home(props) {
       )}
       {props.search.location !== "" && (
         <div>
-          <SearchResultsContainer />
+          <SearchResultsContainer cars={props.cars} />
         </div>
       )}
     </div>

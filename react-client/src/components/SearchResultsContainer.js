@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchResultsContainer() {
+function SearchResultsContainer(props) {
   const classes = useStyles();
   // const [sortBy, setSortBy] = useState("Low To High");
 
@@ -37,8 +37,8 @@ function SearchResultsContainer() {
   //   setSortBy(event.target.value);
   // };
 
-  const rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 11, 22, 33].map((n) => {
-    return <ResultItem text={n}></ResultItem>;
+  const rows = props.cars.rows.map((car) => {
+    return <ResultItem key={car.id} car={car}></ResultItem>;
   });
 
   return (

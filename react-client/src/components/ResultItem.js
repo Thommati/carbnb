@@ -29,10 +29,12 @@ function ResultItem(props) {
         <FavoriteBorderIcon className={classes.fav} />
         <img
           className={classes.img}
-          src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-          alt="Porsche"
+          src={props.car.image}
+          alt={props.car.make + " " + props.car.model}
         />
-        <span className={classes.h}>Porsche 2020</span>
+        <span className={classes.h}>
+          {props.car.make} {props.car.model}
+        </span>
         <br />
         <span>4.9 stars</span>
       </Paper>

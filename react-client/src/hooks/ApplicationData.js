@@ -5,6 +5,8 @@ let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
 export default function useApplicationData(initial) {
+  ////////////////// Search state ///////////////////////
+
   const [search, setSearch] = useState({
     location: "",
     fromDate: new Date(tomorrow),
@@ -29,17 +31,38 @@ export default function useApplicationData(initial) {
     });
   };
 
+  ////////////////// Cars state ///////////////////////
+
+  const [cars, setCars] = useState({
+    rows: [],
+    selected: null,
+  });
+
+  const setSelected = function (selected) {
+    setCars((prev) => {
+      return { ...prev, selected };
+    });
+  };
+
+  const clearSelected = function () {
+    setSelected(null);
+  };
+
   useEffect(() => {
-    axios
-      .get("/api/cars")
-      .then(function (response) {
-        // handle success
-        console.log(response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
+    if (search.location !== "") {
+      axios
+        .get("/api/cars")
+        .then(function (response) {
+          // handle success
+          setCars((prev) => {
+            return { ...prev, rows: response.data };
+          });
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    }
   }, [search]);
 
   return {
@@ -48,5 +71,6 @@ export default function useApplicationData(initial) {
     setLocation,
     setFromDate,
     setToDate,
+    cars,
   };
 }

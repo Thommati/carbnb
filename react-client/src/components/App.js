@@ -8,7 +8,7 @@ import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
 
 function App() {
-  const { search, setSearch, setLocation, setFromDate, setToDate } =
+  const { search, setSearch, setLocation, setFromDate, setToDate, cars } =
     useApplicationData();
 
   return (
@@ -45,6 +45,7 @@ function App() {
                 setLocation={setLocation}
                 setFromDate={setFromDate}
                 setToDate={setToDate}
+                cars={cars}
               />
             </Route>
           </Switch>
