@@ -5,6 +5,7 @@ import CarDetails from './details-page/CarDetails';
 import SearchResults from "./SearchResults";
 import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
+import UserDashboard from './user-dashboard/UserDashboard';
 
 function App() {
   const { state, setState, setLocation, setFromDate, setToDate } =
@@ -36,6 +37,9 @@ function App() {
             </Route>
             <Route path="/search-results">
               <SearchResults />
+            </Route>
+            <Route path="/user-dashboard">
+              <UserDashboard />
             </Route>
             <Route path="/">
               <Home
