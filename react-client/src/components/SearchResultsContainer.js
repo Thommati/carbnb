@@ -15,25 +15,27 @@ const useStyles = makeStyles((theme) => ({
     padding: "0",
     // borderRadius: "8px",
   },
+  formControl: {
+    marginBottom: theme.spacing(1),
+    minWidth: 120,
+  },
+  formControlRight: {
+    marginBottom: theme.spacing(1),
+    minWidth: 120,
+    float: "right",
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 function SearchResultsContainer() {
-  const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
-
   const classes = useStyles();
-  const [sortBy, setSortBy] = useState("Low To High");
+  // const [sortBy, setSortBy] = useState("Low To High");
 
-  const handleSortBy = (event) => {
-    setSortBy(event.target.value);
-  };
+  // const handleSortBy = (event) => {
+  //   setSortBy(event.target.value);
+  // };
 
   const rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 11, 22, 33].map((n) => {
     return <ResultItem text={n}></ResultItem>;
@@ -54,7 +56,7 @@ function SearchResultsContainer() {
           <MenuItem>High To Low</MenuItem>
         </Select>
       </FormControl>
-      <FormControl variant="outlined" className={classes.formControl}>
+      <FormControl variant="outlined" className={classes.formControlRight}>
         <InputLabel id="demo-simple-select-outlined-label">Filters</InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
