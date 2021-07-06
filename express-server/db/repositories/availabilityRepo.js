@@ -36,3 +36,9 @@ exports.createAvailabilityAsync = data => {
   ];
   return db.query(queryText, queryParams);
 };
+
+exports.deleteAvailabilityAsync = id => {
+  const queryText = 'DELETE FROM availability WHERE id = $1';
+  const queryParams = [id];
+  return db.query(queryText, queryParams);
+}
