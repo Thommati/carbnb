@@ -1,7 +1,9 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./Home";
-import DetailsPage from "./DetailsPage";
+
+import CarDetails from "./details-page/CarDetails";
+
 import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
 
@@ -31,7 +33,7 @@ function App() {
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/details-page">
-              <DetailsPage />
+              <CarDetails />
             </Route>
             {/* <Route path="/search-results">
               <SearchResults />
