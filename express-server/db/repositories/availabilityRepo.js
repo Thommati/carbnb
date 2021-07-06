@@ -11,8 +11,28 @@ exports.getAllAvailabilitiesAsync = () => {
   return db.query(queryText, queryParams);
 };
 
-exports.createAvailability = data => {
-  const queryText =``;
-  const queryParams = [];
+exports.createAvailabilityAsync = data => {
+  const queryText = `
+    INSERT INTO availability (
+      location_id,
+      owner_id,
+      start_date,
+      end_date,
+      delivery,
+      car_id,
+      price
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING *;
+  `;
+  const queryParams = [
+    data.locationId,
+    data.ownerId,
+    data.startDate,
+    data.endDate,
+    data.delivery,
+    data.carId,
+    data.price
+  ];
   return db.query(queryText, queryParams);
 };
