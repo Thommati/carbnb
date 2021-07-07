@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import { Rating } from '@material-ui/lab';
 import Box from '@material-ui/core/Box';
+import RateReviewIcon from '@material-ui/icons/RateReview';
 
 const labels = {
   1: 'Very Poor',
@@ -20,10 +21,14 @@ const labels = {
 
 const useStyles = makeStyles({
   root: {
-    width: 200,
+    width: 500,
     display: 'flex',
     alignItems: 'center',
   },
+  Review: {
+    color: '#9ccc65',
+    fontSize: 30
+  }
 });
 
 function FormReview() {
@@ -51,6 +56,7 @@ function FormReview() {
 
 export default function UserReview() {
   const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -62,9 +68,7 @@ export default function UserReview() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Leave a Review
-      </Button>
+      <RateReviewIcon className={classes.Review} onClick={handleClickOpen}/>
       <Dialog open={open} onClose={handleClose} aria-labelledby="review-rating">
         <DialogTitle id="review-rating">Review</DialogTitle>
         <DialogContent>
