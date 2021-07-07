@@ -6,7 +6,6 @@ import {
 } from '@material-ui/core'
 import MainContainer from "./MainContainer";
 
-
 export default function AdminTabs () {
   const [value,setValue]=React.useState(0);
   const handleTabs=(e, value) => {

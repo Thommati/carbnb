@@ -5,7 +5,7 @@ import {
   AppBar
 } from '@material-ui/core'
 import MainContainer from "./MainContainer";
-
+import Favourites from "./Favourites";
 
 export default function UserTabs () {
   const [value,setValue]=React.useState(0);
@@ -28,7 +28,7 @@ export default function UserTabs () {
         <MainContainer />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Favourites
+        <Favourites />
       </TabPanel>
     </div>
   );
