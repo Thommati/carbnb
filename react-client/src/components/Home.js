@@ -16,7 +16,7 @@ function Home(props) {
         setFilters={props.setFilters}
         setPets={props.setPets}
         setRv={props.setRv}
-        setElectric={props.setElectric}
+        setSport={props.setSport}
       />
       <p></p>
       {props.search.location === "" && (
@@ -31,6 +31,7 @@ function Home(props) {
             cars={props.cars}
             setSelected={props.setSelected}
             clearSelected={props.clearSelected}
+            filters={props.filters}
           />
         </div>
       )}

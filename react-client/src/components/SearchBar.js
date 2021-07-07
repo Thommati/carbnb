@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -122,45 +122,50 @@ function SearchBar(props) {
               Search
             </Button>
           </Grid>
-          <Grid item xs={4}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={props.filters.pets}
-                  onChange={() => props.setPets(!props.filters.pets)}
-                  name="checkedB"
-                  color="primary"
+
+          {props.search.location !== "" && (
+            <Fragment>
+              <Grid item xs={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={props.filters.pets}
+                      onChange={() => props.setPets(!props.filters.pets)}
+                      name="petCb"
+                      color="primary"
+                    />
+                  }
+                  label="Pet Friendly"
                 />
-              }
-              label="Pet Friendly"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={props.filters.rv}
-                  onChange={() => props.setRv(!props.filters.rv)}
-                  name="checkedB"
-                  color="primary"
+              </Grid>
+              <Grid item xs={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={props.filters.rv}
+                      onChange={() => props.setRv(!props.filters.rv)}
+                      name="rvCb"
+                      color="primary"
+                    />
+                  }
+                  label="RV's Only"
                 />
-              }
-              label="RV's Only"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={props.filters.electric}
-                  onChange={() => props.setElectric(!props.filters.electric)}
-                  name="checkedB"
-                  color="primary"
+              </Grid>
+              <Grid item xs={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={props.filters.sport}
+                      onChange={() => props.setSport(!props.filters.sport)}
+                      name="sportCb"
+                      color="primary"
+                    />
+                  }
+                  label="Sport"
                 />
-              }
-              label="Electric"
-            />
-          </Grid>
+              </Grid>
+            </Fragment>
+          )}
         </Grid>
       </MuiPickersUtilsProvider>
     </Container>

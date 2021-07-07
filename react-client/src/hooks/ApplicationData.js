@@ -36,7 +36,7 @@ export default function useApplicationData(initial) {
   const [filters, setFilters] = useState({
     pets: false,
     rv: false,
-    electric: false,
+    sport: false,
   });
 
   const setPets = function (pets) {
@@ -51,9 +51,9 @@ export default function useApplicationData(initial) {
     });
   };
 
-  const setElectric = function (electric) {
+  const setSport = function (sport) {
     setFilters((prev) => {
-      return { ...prev, electric };
+      return { ...prev, sport };
     });
   };
 
@@ -124,7 +124,7 @@ export default function useApplicationData(initial) {
     setFilters,
     setPets,
     setRv,
-    setElectric,
+    setSport,
     cars,
     setSelected,
     clearSelected,

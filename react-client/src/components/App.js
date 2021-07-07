@@ -19,7 +19,7 @@ function App() {
     setFilters,
     setPets,
     setRv,
-    setElectric,
+    setSport,
     cars,
     setSelected,
     clearSelected,
@@ -66,7 +66,7 @@ function App() {
                 setFilters={setFilters}
                 setPets={setPets}
                 setRv={setRv}
-                setElectric={setElectric}
+                setSport={setSport}
               />
             </Route>
           </Switch>
