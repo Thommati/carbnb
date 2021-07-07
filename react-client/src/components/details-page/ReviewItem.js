@@ -12,6 +12,7 @@ const ReviewItem = props => {
   } = props.data;
 
   // TODO: Need a five-star rating component to display rating
+  // TODO: Format date stamp
   return (
     <ListItem className="review-item">
       <img
