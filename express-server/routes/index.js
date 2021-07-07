@@ -3,6 +3,7 @@ const users = require('./users');
 const locations = require('./locations');
 const availability = require('./availability');
 const orders = require('./orders');
+const reviews = require('./reviews');
 
 module.exports = app => {
   app.use('/api/cars', cars);
@@ -10,4 +11,5 @@ module.exports = app => {
   app.use('/api/locations', locations);
   app.use('/api/availability', availability);
   app.use('/api/orders', orders);
+  app.use('/api/reviews', reviews);
 };
