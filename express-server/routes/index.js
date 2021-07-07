@@ -5,6 +5,7 @@ const availability = require('./availability');
 const orders = require('./orders');
 const reviews = require('./reviews');
 const favourites = require('./favourites');
+const auth = require('./auth');
 
 module.exports = app => {
   app.use('/api/cars', cars);
@@ -14,4 +15,5 @@ module.exports = app => {
   app.use('/api/orders', orders);
   app.use('/api/reviews', reviews);
   app.use('/api/favourites', favourites);
+  app.use('/api/auth', auth);
 };
