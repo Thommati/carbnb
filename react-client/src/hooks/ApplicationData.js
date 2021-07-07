@@ -52,7 +52,11 @@ export default function useApplicationData(initial) {
   useEffect(() => {
     if (search.location !== "") {
       axios
-        .get("/api/cars")
+        .get("/api/cars", {
+          params: {
+            city: search.location,
+          },
+        })
         .then(function (response) {
           // handle success
           setCars((prev) => {
@@ -68,7 +72,7 @@ export default function useApplicationData(initial) {
 
   // get a selected car for details page
   useEffect(() => {
-    if (search.selected !== null) {
+    if (cars.selected !== null) {
       axios
         .get("/api/cars/{car.id}")
         .then(function (response) {
@@ -82,7 +86,7 @@ export default function useApplicationData(initial) {
           console.log(error);
         });
     }
-  }, [search.selected]);
+  }, [cars.selected]);
 
   return {
     search,

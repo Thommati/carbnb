@@ -48,6 +48,8 @@ function ResultItem(props) {
           {props.car.make} {props.car.model}
         </span>
         <br />
+        <span>${props.car.price}/day</span>
+        <br />
         <span>4.9 stars</span>
       </Paper>
     </Grid>
