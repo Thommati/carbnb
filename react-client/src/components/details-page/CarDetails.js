@@ -42,7 +42,7 @@ const CarDetails = (props) => {
 
   return (
     <section className="car-details">
-      <Description reviews={reviews} />
+      <Description reviews={reviews} car={car} />
       <aside className="car-details__aside">
         <HostDetails image={tempHost.image} details={tempHost.details} reviews={tempHost.reviews} />
         <ReservationContainer startDate={new Date('2021-08-12T18:00:00')} endDate={new Date('2021-08-18T18:00:00')}/>
