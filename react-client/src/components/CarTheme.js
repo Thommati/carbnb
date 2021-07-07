@@ -3,6 +3,11 @@ import { ThemeProvider } from "@material-ui/styles";
 import { blue } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
+  breakpoints: {
+    values: {
+      sm: 800,
+    },
+  },
   palette: {
     primary: {
       // Purple and green play nicely together.

@@ -1,6 +1,7 @@
 import SearchBar from "./SearchBar";
 import PopularLocations from "./PopularLocations";
 import SearchResultsContainer from "./SearchResultsContainer";
+import Footer from "./footer";
 
 function Home(props) {
   return (
@@ -35,6 +36,10 @@ function Home(props) {
           />
         </div>
       )}
+      <br />
+      <div>
+        <Footer></Footer>
+      </div>
     </div>
   );
 }

@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#ddd",
     padding: "30px",
     borderRadius: "8px",
+    // maxWidth: "800px",
   },
 }));
 
