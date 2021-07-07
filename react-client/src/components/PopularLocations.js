@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(12),
   },
   popularLocations: {
-    backgroundColor: "#ddd",
+    // backgroundColor: "#ddd",
     padding: "30px",
-    borderRadius: "8px",
+    // borderRadius: "8px",
   },
 }));
 
