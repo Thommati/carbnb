@@ -13,6 +13,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -119,6 +121,45 @@ function SearchBar(props) {
             >
               Search
             </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={props.filters.pets}
+                  onChange={() => props.setPets(!props.filters.pets)}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label="Pet Friendly"
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={props.filters.rv}
+                  onChange={() => props.setRv(!props.filters.rv)}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label="RV's Only"
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={props.filters.electric}
+                  onChange={() => props.setElectric(!props.filters.electric)}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label="Electric"
+            />
           </Grid>
         </Grid>
       </MuiPickersUtilsProvider>

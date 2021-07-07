@@ -12,6 +12,11 @@ function Home(props) {
         setLocation={props.setLocation}
         setFromDate={props.setFromDate}
         setToDate={props.setToDate}
+        filters={props.filters}
+        setFilters={props.setFilters}
+        setPets={props.setPets}
+        setRv={props.setRv}
+        setElectric={props.setElectric}
       />
       <p></p>
       {props.search.location === "" && (

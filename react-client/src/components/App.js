@@ -15,6 +15,11 @@ function App() {
     setLocation,
     setFromDate,
     setToDate,
+    filters,
+    setFilters,
+    setPets,
+    setRv,
+    setElectric,
     cars,
     setSelected,
     clearSelected,
@@ -57,6 +62,11 @@ function App() {
                 cars={cars}
                 setSelected={setSelected}
                 clearSelected={clearSelected}
+                filters={filters}
+                setFilters={setFilters}
+                setPets={setPets}
+                setRv={setRv}
+                setElectric={setElectric}
               />
             </Route>
           </Switch>
