@@ -48,10 +48,15 @@ export default function useApplicationData(initial) {
     setSelected(null);
   };
 
+  // get all the cars for the search results
   useEffect(() => {
     if (search.location !== "") {
       axios
-        .get("/api/cars")
+        .get("/api/cars", {
+          params: {
+            city: search.location,
+          },
+        })
         .then(function (response) {
           // handle success
           setCars((prev) => {
@@ -65,6 +70,24 @@ export default function useApplicationData(initial) {
     }
   }, [search]);
 
+  // get a selected car for details page
+  useEffect(() => {
+    if (cars.selected !== null) {
+      axios
+        .get("/api/cars/{car.id}")
+        .then(function (response) {
+          // handle success
+          setCars((prev) => {
+            return { ...prev, rows: response.data };
+          });
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    }
+  }, [cars.selected]);
+
   return {
     search,
     setSearch,
@@ -72,5 +95,7 @@ export default function useApplicationData(initial) {
     setFromDate,
     setToDate,
     cars,
+    setSelected,
+    clearSelected,
   };
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -31,14 +31,26 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchResultsContainer(props) {
   const classes = useStyles();
-  // const [sortBy, setSortBy] = useState("Low To High");
+  const [sortBy, setSortBy] = useState("1");
 
-  // const handleSortBy = (event) => {
-  //   setSortBy(event.target.value);
-  // };
+  const handleOnChangeSortBy = (event) => {
+    setSortBy(event.target.value);
+  };
 
-  const rows = props.cars.rows.map((car) => {
-    return <ResultItem key={car.id} car={car}></ResultItem>;
+  const sortedCarsRows = useMemo(() => {
+    let carRows = [...props.cars.rows];
+    carRows.sort((a, b) => (a.price - b.price) * sortBy);
+    return carRows;
+  }, [sortBy, props.cars.rows]);
+
+  const resultItems = sortedCarsRows.map((car) => {
+    return (
+      <ResultItem
+        key={car.id}
+        car={car}
+        setSelected={props.setSelected}
+      ></ResultItem>
+    );
   });
 
   return (
@@ -48,30 +60,16 @@ function SearchResultsContainer(props) {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          // value={sortBy}
-          // onChange={handleSortBy}
           label="Sort By"
+          onChange={handleOnChangeSortBy}
+          value={sortBy}
         >
-          <MenuItem>Low To High</MenuItem>
-          <MenuItem>High To Low</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl variant="outlined" className={classes.formControlRight}>
-        <InputLabel id="demo-simple-select-outlined-label">Filters</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          // value={sortBy}
-          // onChange={handleSortBy}
-          label="Filters"
-        >
-          <MenuItem>Make</MenuItem>
-          <MenuItem>Model</MenuItem>
-          <MenuItem>Doors</MenuItem>
+          <MenuItem value="1">Low To High</MenuItem>
+          <MenuItem value="-1">High To Low</MenuItem>
         </Select>
       </FormControl>
       <Grid container spacing={2}>
-        {rows}
+        {resultItems}
       </Grid>
     </Container>
   );

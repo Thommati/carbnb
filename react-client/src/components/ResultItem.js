@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -23,6 +25,15 @@ const useStyles = makeStyles((theme) => ({
 
 function ResultItem(props) {
   const classes = useStyles();
+
+  const handleClickSetSelected = (event) => {
+    props.setSelected(props.car.id);
+  };
+
+  // const handleclearSelected = () => {
+  //   clearSelected();
+  // };
+
   return (
     <Grid item xs={4}>
       <Paper className={classes.paper}>
@@ -31,10 +42,13 @@ function ResultItem(props) {
           className={classes.img}
           src={props.car.image}
           alt={props.car.make + " " + props.car.model}
+          onClick={handleClickSetSelected}
         />
         <span className={classes.h}>
           {props.car.make} {props.car.model}
         </span>
+        <br />
+        <span>${props.car.price}/day</span>
         <br />
         <span>4.9 stars</span>
       </Paper>
