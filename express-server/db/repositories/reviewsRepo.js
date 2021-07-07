@@ -2,7 +2,7 @@ const db = require('../index');
 
 exports.getReviewsAsync = filters => {
   let queryText = `
-    SELECT reviews.*, reviewer.name as reviewer_name, reviewed.name as reviewed_name
+    SELECT reviews.*, reviewer.name as reviewer_name, reviewer.image as reviewer_image, reviewed.name as reviewed_name
     FROM reviews
     JOIN users reviewer ON reviewer_id = reviewer.id
     JOIN users reviewed ON reviewed_user_id = reviewed.id
