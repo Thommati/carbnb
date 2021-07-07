@@ -2,6 +2,7 @@ const express = require('express');
 const {
   getFavouritesForUserIdAsync,
   createNewFavouriteAsync,
+  deleteFavouriteAsync,
 } = require ('../db/repositories/favouritesRepo');
 
 const router = express.Router();
@@ -27,6 +28,19 @@ router.post('/', async (req, res) => {
     return res.status(201).json(rows[0]);
   } catch (err) {
     console.log('Error createing favourite', err);
+    return res.status(500).json({error: 'Internal server error'});
+  }
+});
+
+// DELETE /api/:userId/:carId
+// Deletes the favourite entry with given ids for user and car
+router.delete('/:userId/:carId', async (req, res) => {
+  const { userId, carId } = req.params;
+  try {
+    _ = await deleteFavouriteAsync(userId, carId);
+    return res.status(204).json();
+  } catch (err) {
+    console.log('Error deleting favourite', err);
     return res.status(500).json({error: 'Internal server error'});
   }
 });

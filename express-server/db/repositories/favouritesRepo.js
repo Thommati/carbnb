@@ -18,3 +18,12 @@ exports.createNewFavouriteAsync = (userId, carId) => {
   const queryParams = [userId, carId];
   return db.query(queryText, queryParams);
 };
+
+exports.deleteFavouriteAsync = (userId, carId) => {
+  const queryText = `
+    DELETE FROM favourites
+    WHERE user_id = $1 AND car_id = $2;
+  `;
+  const queryParams = [userId, carId];
+  return db.query(queryText, queryParams);
+};
