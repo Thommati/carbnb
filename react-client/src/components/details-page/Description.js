@@ -1,6 +1,5 @@
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import CheckCircle from '@material-ui/icons/CheckCircle';
-import Sports from '@material-ui/icons/Sports';
 
 import ReviewContainer from './ReviewContainer';
 

@@ -23,11 +23,18 @@ const CarDetails = (props) => {
   const { id } = useParams();
   const [car, setCar] = useState({});
   const [reviews, setReviews] = useState([]);
+  const [owner, setOwner] = useState({});
 
   useEffect(() => {
     const getCarData = async () => {
-      const response = await axios.get(`/api/cars/${id}`);
-      setCar(response.data);
+      const carResponse = await axios.get(`/api/cars/${id}`);
+
+      // Not doing API calls in parallel because I need the user_id from carResponse
+      // to be able to make the call to /api/users/:id
+      const ownerResponse = await axios.get(`/api/users/${carResponse.data.user_id}`);
+
+      setCar(carResponse.data);
+      setOwner(ownerResponse.data);
     };
     getCarData();
   }, [id]);
@@ -44,7 +51,7 @@ const CarDetails = (props) => {
     <section className="car-details">
       <Description reviews={reviews} car={car} />
       <aside className="car-details__aside">
-        <HostDetails image={tempHost.image} details={tempHost.details} reviews={tempHost.reviews} />
+        <HostDetails owner={owner} />
         <ReservationContainer startDate={new Date('2021-08-12T18:00:00')} endDate={new Date('2021-08-18T18:00:00')}/>
       </aside>
     </section>
