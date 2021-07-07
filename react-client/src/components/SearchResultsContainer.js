@@ -39,9 +39,22 @@ function SearchResultsContainer(props) {
 
   const sortedCarsRows = useMemo(() => {
     let carRows = [...props.cars.rows];
-    carRows.sort((a, b) => (a.price - b.price) * sortBy);
+    carRows = carRows
+      .filter((car) => {
+        if (props.filters.pets && !car.pet_friendly) {
+          return false;
+        }
+        if (props.filters.rv && !car.rv) {
+          return false;
+        }
+        if (props.filters.sport && !car.sport) {
+          return false;
+        }
+        return true;
+      })
+      .sort((a, b) => (a.price - b.price) * sortBy);
     return carRows;
-  }, [sortBy, props.cars.rows]);
+  }, [sortBy, props.cars.rows, props.filters]);
 
   const resultItems = sortedCarsRows.map((car) => {
     return (

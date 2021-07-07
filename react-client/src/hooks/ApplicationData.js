@@ -31,6 +31,32 @@ export default function useApplicationData(initial) {
     });
   };
 
+  ////////////////// Filters state //////////////////
+
+  const [filters, setFilters] = useState({
+    pets: false,
+    rv: false,
+    sport: false,
+  });
+
+  const setPets = function (pets) {
+    setFilters((prev) => {
+      return { ...prev, pets };
+    });
+  };
+
+  const setRv = function (rv) {
+    setFilters((prev) => {
+      return { ...prev, rv };
+    });
+  };
+
+  const setSport = function (sport) {
+    setFilters((prev) => {
+      return { ...prev, sport };
+    });
+  };
+
   ////////////////// Cars state ///////////////////////
 
   const [cars, setCars] = useState({
@@ -94,6 +120,11 @@ export default function useApplicationData(initial) {
     setLocation,
     setFromDate,
     setToDate,
+    filters,
+    setFilters,
+    setPets,
+    setRv,
+    setSport,
     cars,
     setSelected,
     clearSelected,

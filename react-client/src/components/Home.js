@@ -12,6 +12,11 @@ function Home(props) {
         setLocation={props.setLocation}
         setFromDate={props.setFromDate}
         setToDate={props.setToDate}
+        filters={props.filters}
+        setFilters={props.setFilters}
+        setPets={props.setPets}
+        setRv={props.setRv}
+        setSport={props.setSport}
       />
       <p></p>
       {props.search.location === "" && (
@@ -26,6 +31,7 @@ function Home(props) {
             cars={props.cars}
             setSelected={props.setSelected}
             clearSelected={props.clearSelected}
+            filters={props.filters}
           />
         </div>
       )}

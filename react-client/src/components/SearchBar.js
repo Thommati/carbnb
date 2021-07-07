@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -13,6 +13,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -120,6 +122,50 @@ function SearchBar(props) {
               Search
             </Button>
           </Grid>
+
+          {props.search.location !== "" && (
+            <Fragment>
+              <Grid item xs={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={props.filters.pets}
+                      onChange={() => props.setPets(!props.filters.pets)}
+                      name="petCb"
+                      color="primary"
+                    />
+                  }
+                  label="Pet Friendly"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={props.filters.rv}
+                      onChange={() => props.setRv(!props.filters.rv)}
+                      name="rvCb"
+                      color="primary"
+                    />
+                  }
+                  label="RV's Only"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={props.filters.sport}
+                      onChange={() => props.setSport(!props.filters.sport)}
+                      name="sportCb"
+                      color="primary"
+                    />
+                  }
+                  label="Sport"
+                />
+              </Grid>
+            </Fragment>
+          )}
         </Grid>
       </MuiPickersUtilsProvider>
     </Container>
