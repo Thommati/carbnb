@@ -83,8 +83,19 @@ const TopNav = props => {
   // Registration state and methods
   //
 
-  const registerSubmit = async () => {
+  const [registerOpen, setRegisterOpen] = useState(false);
+  const [registerEmail, setRegisterEmail] =useState('');
 
+  const handleRegisterClose = () => {
+    setRegisterOpen(false);
+  };
+
+  const handleRegisterEmailChange = event => {
+    setRegisterEmail(event.target.value);
+  };
+
+  const registerSubmit = async () => {
+    console.log('Submit registration clicked');
   };
 
   return (
@@ -136,8 +147,28 @@ const TopNav = props => {
         </DialogActions>
       </Dialog>
 
-      <Dialog>
+      <Dialog open={registerOpen} onClose={handleRegisterClose} aria-labelledby="register-dialog">
+        <DialogTitle id="register-dialog">Register</DialogTitle>
+        <DialogContent>
 
+          <TextField
+            margin="dense"
+            id="register-email"
+            type="email"
+            label="Email Address"
+            fullWidth
+            value={registerEmail}
+            onChange={handleRegisterEmailChange}
+            required
+          />
+          <TextField
+            margin="dense"
+
+          />
+          <TextField
+            margin="dense"
+          />
+        </DialogContent>
       </Dialog>
     </nav>
   );
