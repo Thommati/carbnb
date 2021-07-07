@@ -7,6 +7,7 @@ import CarDetails from "./details-page/CarDetails";
 import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
 import UserDashboard from "./user-dashboard/UserDashboard";
+import TopNav from './TopNav';
 
 function App() {
   const {
@@ -28,6 +29,7 @@ function App() {
   return (
     <CarTheme>
       <Router>
+        <TopNav/>
         <div>
           {/* <nav>
           <ul>

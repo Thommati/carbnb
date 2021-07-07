@@ -1,0 +1,11 @@
+.topnav {
+  &__toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__cancel-button {
+    background-color: red;
+    color: white;
+  }
+}
