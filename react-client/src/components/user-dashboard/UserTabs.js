@@ -6,6 +6,8 @@ import {
 } from '@material-ui/core'
 import MainContainer from "./MainContainer";
 import Favourites from "./Favourites";
+import PastBookings from "./PastBookings";
+import UserReview from "./UserReview";
 
 export default function UserTabs () {
   const [value,setValue]=React.useState(0);
@@ -18,18 +20,24 @@ export default function UserTabs () {
         <Tabs value={value} onChange={handleTabs}>
           <Tab label="New Bookings" />
           <Tab label="Past Bookings" />
-          <Tab label="Favorites" />
+          <Tab label="Favourites" />
+          <Tab label="Reviews" />
+
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <MainContainer />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <MainContainer />
+        <PastBookings />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Favourites />
       </TabPanel>
+      <TabPanel value={value} index={3}>
+        <UserReview />
+      </TabPanel>
+
     </div>
   );
 };

@@ -8,9 +8,9 @@ function UserDashboard() {
     <div>
       <UserTabs />
     </div>
-    <div>
+    {/* <div>
       <AdminTabs />
-    </div>
+    </div> */}
   </div>
   );
 };
