@@ -1,4 +1,4 @@
-const db = require('../index');
+const db = require("../index");
 
 // Get all cars / get all cars for province + city
 // Param: filters = { province: string, city: string }
@@ -10,21 +10,21 @@ exports.getAllCarsAsync = (filters) => {
   `;
   const queryParams = [];
 
-  const { province, city } = filters;
-  if (province && city) {
+  const { city } = filters;
+  if (city) {
     queryText += `
-      WHERE LOWER(locations.province) = LOWER($1) AND LOWER(locations.city) = LOWER($2)
+      WHERE LOWER(locations.city) = LOWER($1)
     `;
-    queryParams.push(province, city);
+    queryParams.push(city);
   }
 
-  queryText += ';';
+  queryText += ";";
 
   return db.query(queryText, queryParams);
 };
 
 // Add a new car to the database
-exports.createNewCarAsync = data => {
+exports.createNewCarAsync = (data) => {
   const queryText = `
     INSERT INTO cars (
       user_id,
@@ -47,9 +47,11 @@ exports.createNewCarAsync = data => {
       rv,
       suv,
       convertible,
-      economy
+      economy,
+      price,
+      model_year
     )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
     RETURNING *;
   `;
 
@@ -74,14 +76,16 @@ exports.createNewCarAsync = data => {
     data.rv,
     data.suv,
     data.convertible,
-    data.economy
-  ]
+    data.economy,
+    data.price,
+    data.modelYear,
+  ];
 
   return db.query(queryText, queryParams);
 };
 
 // Return a car and some user / location info by car id
-exports.getCarByIdAsync = id => {
+exports.getCarByIdAsync = (id) => {
   const queryText = `
     SELECT cars.*, name, email, phone, city, province, country FROM cars
     JOIN users ON cars.user_id = users.id
@@ -93,8 +97,8 @@ exports.getCarByIdAsync = id => {
 };
 
 // Delete car with the givin id
-exports.deleteCarWithIdAsync = id => {
-  const queryText = 'DELETE FROM cars WHERE id = $1';
+exports.deleteCarWithIdAsync = (id) => {
+  const queryText = "DELETE FROM cars WHERE id = $1";
   const queryParams = [id];
   return db.query(queryText, queryParams);
 };
@@ -102,32 +106,32 @@ exports.deleteCarWithIdAsync = id => {
 exports.updateCarAsync = (id, data) => {
   const queryParams = [];
 
-  let setItems = '';
-  let values = '';
+  let setItems = "";
+  let values = "";
   for (const key of Object.keys(data)) {
-    if (key === 'id') {
+    if (key === "id") {
       continue;
     }
 
     // Account for camelCase input and snake_case db columns
     switch (key) {
-      case 'userId':
-        setItems += 'user_id, ';
+      case "userId":
+        setItems += "user_id, ";
         queryParams.push(data[key]);
         values += `$${queryParams.length}, `;
         break;
-      case 'locationId':
-        setItems += 'location_id, ';
+      case "locationId":
+        setItems += "location_id, ";
         queryParams.push(data[key]);
         values += `$${queryParams.length}, `;
         break;
-      case 'petFriendly':
-        setItems += 'pet_friendly, ';
+      case "petFriendly":
+        setItems += "pet_friendly, ";
         queryParams.push(data[key]);
         values += `$${queryParams.length}, `;
         break;
-      case 'miniVan':
-        setItems += 'mini_van, ';
+      case "miniVan":
+        setItems += "mini_van, ";
         queryParams.push(data[key]);
         values += `$${queryParams.length}, `;
         break;
