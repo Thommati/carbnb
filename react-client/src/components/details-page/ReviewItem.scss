@@ -1,6 +1,5 @@
 .review-item {
   display: flex;
-  flex-basis: 50%;
 
   &__img {
     height: 7rem;
@@ -13,5 +12,19 @@
     margin-left: 1rem;
     display: flex;
     flex-direction: column;
+
+    small {
+      font-style: italic;
+    }
+  }
+
+  &__title-block {
+    display: flex;
+    justify-content: space-between;
+
+    h5 {
+      margin: 0;
+      font-size: 1rem;
+    }
   }
 }

@@ -17,6 +17,7 @@ const ReviewContainer = props => {
           <span>REVIEWS</span>
           <span>{avgRating || ''}</span>
         </header>
+        <hr/>
         <List className="review-container--list">
           {reviewItems}
         </List>
