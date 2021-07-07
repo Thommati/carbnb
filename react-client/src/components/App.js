@@ -9,8 +9,16 @@ import useApplicationData from "../hooks/ApplicationData";
 import UserDashboard from "./user-dashboard/UserDashboard";
 
 function App() {
-  const { search, setSearch, setLocation, setFromDate, setToDate, cars } =
-    useApplicationData();
+  const {
+    search,
+    setSearch,
+    setLocation,
+    setFromDate,
+    setToDate,
+    cars,
+    setSelected,
+    clearSelected,
+  } = useApplicationData();
 
   return (
     <CarTheme>
@@ -47,6 +55,8 @@ function App() {
                 setFromDate={setFromDate}
                 setToDate={setToDate}
                 cars={cars}
+                setSelected={setSelected}
+                clearSelected={clearSelected}
               />
             </Route>
           </Switch>

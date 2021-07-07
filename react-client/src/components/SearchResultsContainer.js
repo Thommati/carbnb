@@ -31,14 +31,22 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchResultsContainer(props) {
   const classes = useStyles();
-  // const [sortBy, setSortBy] = useState("Low To High");
+  const [sortBy, setSortBy] = useState("LowToHigh");
 
-  // const handleSortBy = (event) => {
-  //   setSortBy(event.target.value);
-  // };
+  const handleOnChangeSortBy = (event) => {
+    setSortBy(event.target.value);
+    // if (event.target.value === "LowToHigh") {
+    //   rows.sort();
+  };
 
   const rows = props.cars.rows.map((car) => {
-    return <ResultItem key={car.id} car={car}></ResultItem>;
+    return (
+      <ResultItem
+        key={car.id}
+        car={car}
+        setSelected={props.setSelected}
+      ></ResultItem>
+    );
   });
 
   return (
@@ -48,15 +56,15 @@ function SearchResultsContainer(props) {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          // value={sortBy}
-          // onChange={handleSortBy}
           label="Sort By"
+          onChange={handleOnChangeSortBy}
+          value={sortBy}
         >
-          <MenuItem>Low To High</MenuItem>
-          <MenuItem>High To Low</MenuItem>
+          <MenuItem value="LowToHigh">Low To High</MenuItem>
+          <MenuItem value="HighToLow">High To Low</MenuItem>
         </Select>
       </FormControl>
-      <FormControl variant="outlined" className={classes.formControlRight}>
+      {/* <FormControl variant="outlined" className={classes.formControlRight}>
         <InputLabel id="demo-simple-select-outlined-label">Filters</InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
@@ -69,7 +77,7 @@ function SearchResultsContainer(props) {
           <MenuItem>Model</MenuItem>
           <MenuItem>Doors</MenuItem>
         </Select>
-      </FormControl>
+      </FormControl> */}
       <Grid container spacing={2}>
         {rows}
       </Grid>

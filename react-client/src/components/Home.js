@@ -22,7 +22,11 @@ function Home(props) {
       )}
       {props.search.location !== "" && (
         <div>
-          <SearchResultsContainer cars={props.cars} />
+          <SearchResultsContainer
+            cars={props.cars}
+            setSelected={props.setSelected}
+            clearSelected={props.clearSelected}
+          />
         </div>
       )}
     </div>
