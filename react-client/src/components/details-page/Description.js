@@ -24,7 +24,7 @@ const Description = props => {
   features = features.filter(f => f);
 
   const featureListItems = features.map(feature => (
-    <ListItem className="Details__features--item">
+    <ListItem className="Details__features--item" key={feature}>
       <ListItemIcon>
         <CheckCircle />
       </ListItemIcon>
@@ -39,8 +39,9 @@ const Description = props => {
         alt={`${car.make} ${car.model}`}
         className="Details__vehicle-image"
       />
-      <div className="Details__content Details__content--description">
-        {car.description}
+      <div className="Details__content">
+        <h2>{car.model_year} {car.make} {car.model}</h2>
+        <p>{car.description}</p>
       </div>
       <div className="Details__content">
         <List className="Details__features">
