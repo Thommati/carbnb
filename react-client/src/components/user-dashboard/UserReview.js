@@ -21,7 +21,7 @@ const labels = {
 
 const useStyles = makeStyles({
   root: {
-    width: 200,
+    width: 500,
     display: 'flex',
     alignItems: 'center',
   },

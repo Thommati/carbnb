@@ -7,7 +7,6 @@ import {
 import MainContainer from "./MainContainer";
 import Favourites from "./Favourites";
 import PastBookings from "./PastBookings";
-import UserReview from "./UserReview";
 
 export default function UserTabs () {
   const [value,setValue]=React.useState(0);
@@ -21,7 +20,6 @@ export default function UserTabs () {
           <Tab label="New Bookings" />
           <Tab label="Past Bookings" />
           <Tab label="Favourites" />
-          <Tab label="Reviews" />
 
         </Tabs>
       </AppBar>
@@ -34,10 +32,6 @@ export default function UserTabs () {
       <TabPanel value={value} index={2}>
         <Favourites />
       </TabPanel>
-      <TabPanel value={value} index={3}>
-        <UserReview />
-      </TabPanel>
-
     </div>
   );
 };
