@@ -137,7 +137,8 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <RateReviewIcon className={classes.Review} onClick={UserReview} />
+                  {/* <RateReviewIcon className={classes.Review}/> */}
+                  <UserReview />
                 </TableCell>
               </TableRow>
             ))}
