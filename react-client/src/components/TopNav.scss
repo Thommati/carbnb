@@ -8,4 +8,10 @@
     background-color: red;
     color: white;
   }
+
+  &__login {
+    &--error  p {
+      color: #f50057;
+    }
+  }
 }

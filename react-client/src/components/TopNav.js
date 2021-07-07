@@ -1,3 +1,4 @@
+import axios from 'axios';
 // import jwtDecode from 'jwt-decode';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -15,21 +16,26 @@ import './TopNav.scss';
 import { useState } from 'react';
 
 const TopNav = props => {
-  // State for log-in dialog
+  // State for login dialog
   const [open, setOpen] = useState(false);
 
   // Login form state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [loginConfirmPassword, setLoginConfirmPassword] = useState('');
+
+  // Error messages for failed login
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
 
   // Open login dialog
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  // Close login dialog
+  // Close login dialog and clear form
   const handleClose = () => {
+    setLoginEmail('');
+    setLoginPassword('');
+    setLoginErrorMessage('');
     setOpen(false);
   };
 
@@ -43,13 +49,28 @@ const TopNav = props => {
     setLoginPassword(event.target.value);
   };
 
-  const handleLoginConfirmPasswordChange = event => {
-    setLoginConfirmPassword(event.target.value);
-  };
-
   // Submit the login form
-  const loginSubmit = () => {
-    console.log('Submit clicked');
+  const loginSubmit = async () => {
+    try {
+      const response = await axios.post('/api/auth/login', {
+        email: loginEmail,
+        password: loginPassword
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data);
+        // TODO: Call method that decodes token and sets global user object.
+        handleClose();
+      } else {
+        console.log(response.status);
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        setLoginErrorMessage(err.response.data.error);
+      } else {
+        setLoginErrorMessage('Login server error.');
+      }
+    }
   };
 
   return (
@@ -68,7 +89,8 @@ const TopNav = props => {
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="login-dialog">
         <DialogTitle id="login-dialog">Login</DialogTitle>
-        <DialogContent>
+        <DialogContent  className="topnav__login--error">
+          {loginErrorMessage && <DialogContentText>{loginErrorMessage}</DialogContentText>}
           <TextField
             margin="dense"
             id="login-email"
@@ -77,6 +99,7 @@ const TopNav = props => {
             fullWidth
             value={loginEmail}
             onChange={handleLoginEmailChange}
+            required
           />
           <TextField
             margin="dense"
@@ -86,14 +109,7 @@ const TopNav = props => {
             fullWidth
             value={loginPassword}
             onChange={handleLoginPasswordChange}
-          />
-          <TextField
-            margin="dense"
-            id="login-confirm-password"
-            label="Confirm Password"
-            fullWidth
-            value={loginConfirmPassword}
-            onChange={handleLoginConfirmPasswordChange}
+            required
           />
         </DialogContent>
         <DialogActions>
