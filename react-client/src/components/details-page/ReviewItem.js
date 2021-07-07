@@ -3,7 +3,7 @@ import { ListItem } from '@material-ui/core';
 import './ReviewItem.scss';
 
 const ReviewItem = props => {
-  const { image, dateReviewed, rating, review } = props.data;
+  const { image, date_reviewed, rating, comments } = props.data;
 
   // TODO: Need a five-star rating component to display rating
   return (
@@ -15,8 +15,8 @@ const ReviewItem = props => {
       />
       <div className="review-item__review-container">
         {rating}
-        <small>Reviewed: {dateReviewed}</small>
-        <p>{review}</p>
+        <small>Reviewed: {date_reviewed}</small>
+        <p>{comments}</p>
       </div>
     </ListItem>
   );

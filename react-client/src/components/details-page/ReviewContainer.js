@@ -10,17 +10,21 @@ const ReviewContainer = props => {
   const avgRating = reviews.reduce((acc, curr) => curr.rating + acc, 0) / reviews.length;
 
   // TODO: Need a five-star rating component to display rating
-  return (
-    <article className="review-container">
-      <header>
-        <span>REVIEWS</span>
-        <span>{avgRating}</span>
-      </header>
-      <List className="review-container--list">
-        {reviewItems}
-      </List>
-    </article>
-  );
+  if (reviews.length > 0) {
+    return (
+      <article className="review-container">
+        <header>
+          <span>REVIEWS</span>
+          <span>{avgRating || ''}</span>
+        </header>
+        <List className="review-container--list">
+          {reviewItems}
+        </List>
+      </article>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default ReviewContainer;
