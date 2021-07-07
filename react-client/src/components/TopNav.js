@@ -16,8 +16,12 @@ import './TopNav.scss';
 import { useState } from 'react';
 
 const TopNav = props => {
+  //
+  // Login state and methods
+  //
+
   // State for login dialog
-  const [open, setOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   // Login form state
   const [loginEmail, setLoginEmail] = useState('');
@@ -27,16 +31,16 @@ const TopNav = props => {
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
 
   // Open login dialog
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickLoginOpen = () => {
+    setLoginOpen(true);
   };
 
   // Close login dialog and clear form
-  const handleClose = () => {
+  const handleLoginClose = () => {
     setLoginEmail('');
     setLoginPassword('');
     setLoginErrorMessage('');
-    setOpen(false);
+    setLoginOpen(false);
   };
 
   // Login dialog - handle email input
@@ -57,20 +61,30 @@ const TopNav = props => {
         password: loginPassword
       });
 
+      // Handle successful login
       if (response.status === 200) {
         localStorage.setItem('token', response.data);
         // TODO: Call method that decodes token and sets global user object.
-        handleClose();
+        handleLoginClose();
       } else {
         console.log(response.status);
       }
     } catch (err) {
+      // Handle failed login.
       if (err.response.status === 401) {
         setLoginErrorMessage(err.response.data.error);
       } else {
         setLoginErrorMessage('Login server error.');
       }
     }
+  };
+
+  //
+  // Registration state and methods
+  //
+
+  const registerSubmit = async () => {
+
   };
 
   return (
@@ -81,13 +95,13 @@ const TopNav = props => {
             Carbnb
           </Typography>
           <div>
-            <Button color="inherit" onClick={handleClickOpen}>Login</Button>
+            <Button color="inherit" onClick={handleClickLoginOpen}>Login</Button>
             <Button color="inherit">Register</Button>
           </div>
         </ToolBar>
       </AppBar>
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="login-dialog">
+      <Dialog open={loginOpen} onClose={handleLoginClose} aria-labelledby="login-dialog">
         <DialogTitle id="login-dialog">Login</DialogTitle>
         <DialogContent  className="topnav__login--error">
           {loginErrorMessage && <DialogContentText>{loginErrorMessage}</DialogContentText>}
@@ -113,13 +127,17 @@ const TopNav = props => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} variant="contained">
+          <Button onClick={handleLoginClose} variant="contained">
             Cancel
           </Button>
           <Button onClick={loginSubmit} variant="contained" color="secondary">
             Submit
           </Button>
         </DialogActions>
+      </Dialog>
+
+      <Dialog>
+
       </Dialog>
     </nav>
   );
