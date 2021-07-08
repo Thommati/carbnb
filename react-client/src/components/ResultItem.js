@@ -7,8 +7,10 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    backgroundColor: "#ddd",
+    height: "280px",
+    backgroundColor: "#eeeef5",
     padding: theme.spacing(1),
+    boxShadow: theme.shadows[5],
     // textAlign: "center",
     color: theme.palette.text.secondary,
     textDecoration: "none",
@@ -19,11 +21,18 @@ const useStyles = makeStyles((theme) => ({
   img: {
     width: "100%",
   },
+  imageWrapper: {
+    height: "160px",
+    overflow: "hidden",
+  },
   h: {
     fontWeight: "bold",
   },
   fav: {
     alignContent: "",
+  },
+  clear: {
+    clear: "both",
   },
 }));
 
@@ -36,15 +45,18 @@ function ResultItem(props) {
 
   return (
     <Grid item xs={4}>
-      <Link to={`/cars/${props.car.id}`}>
-        <Paper className={classes.paper}>
-          <FavoriteBorderIcon className={classes.fav} />
-          <img
-            className={classes.img}
-            src={props.car.image}
-            alt={props.car.make + " " + props.car.model}
-            onClick={handleClickSetSelected}
-          />
+      <Paper className={classes.paper}>
+        <FavoriteBorderIcon className={classes.fav} />
+        <Link to={`/cars/${props.car.id}`}>
+          <div className={classes.imageWrapper}>
+            <img
+              className={classes.img}
+              src={props.car.image}
+              alt={props.car.make + " " + props.car.model}
+              onClick={handleClickSetSelected}
+            />
+            <div className={classes.clear}></div>
+          </div>
           <span className={classes.h}>
             {props.car.make} {props.car.model}
           </span>
@@ -52,8 +64,8 @@ function ResultItem(props) {
           <span>${props.car.price}/day</span>
           <br />
           <span>4.9 stars</span>
-        </Paper>
-      </Link>
+        </Link>
+      </Paper>
     </Grid>
   );
 }
