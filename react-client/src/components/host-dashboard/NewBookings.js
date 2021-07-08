@@ -101,6 +101,10 @@ export default function MainContainer() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const today = new Date();
+  const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  const dateTime = date+' '+time;
 
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
@@ -120,6 +124,7 @@ export default function MainContainer() {
         </TableHead>
         <TableBody>
           {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+          row.end_date < dateTime && (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.id}
@@ -170,6 +175,7 @@ export default function MainContainer() {
                   <DeleteForeverIcon className={classes.Delete}/>
                 </TableCell>
               </TableRow>
+            )
             ))}
           </TableBody>
         </Table>

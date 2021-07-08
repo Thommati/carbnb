@@ -88,10 +88,10 @@ export default function MainContainer() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  var today = new Date();
-var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-var dateTime = date+' '+time;
+  const today = new Date();
+  const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  const dateTime = date+' '+time;
 
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
@@ -110,9 +110,7 @@ var dateTime = date+' '+time;
         </TableHead>
         <TableBody>
           {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-
             row.end_date > dateTime && (
-
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.id}
@@ -142,7 +140,6 @@ var dateTime = date+' '+time;
                     <Typography className={classes.name}>{row.renter_id}</Typography>
                     </Grid>
                 </Grid>
-
               </TableCell>
                 <TableCell>
                   <UserReview />
