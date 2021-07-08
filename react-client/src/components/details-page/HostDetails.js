@@ -1,23 +1,33 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import ReactStars from 'react-rating-stars-component';
 
 import './HostDetails.scss';
 
 const HostDetails = props => {
   const { email, id, image, name } = props.owner;
-  const [reviews, setReview] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
 
   useEffect(() => {
     const getHostReviews = async () => {
       if (id) {
-        const response = await axios.get(`/api/reviews?hostId=${id}`);
-        setReview(response.data);
+        try {
+          const response = await axios.get(`/api/reviews?hostId=${id}`);
+          if (response.status === 200) {
+            const rating = Math.floor(response.data.reduce((acc, curr) => curr.rating + acc, 0) / response.data.length);
+            setAvgRating(rating);
+          }
+        } catch (err) {
+          console.error(err);
+        }
       }
     };
     getHostReviews();
   }, [id]);
 
-  const avgRating = Math.floor(reviews.reduce((acc, curr) => curr.rating + acc, 0) / reviews.length);
+  // useEffect(() => {
+  //   const avgRating = Math.floor(reviews.reduce((acc, curr) => curr.rating + acc, 0) / reviews.length);
+  // })
 
   // TODO: reviews need to be a five-star component
   return (
@@ -32,7 +42,13 @@ const HostDetails = props => {
         <div><a href={`mailto:${email}`}>Email Owner</a></div>
       </div>
       <div className="host-details__reviews">
-        {avgRating || 'Not Rated'}
+        {avgRating && <ReactStars
+            count={5}
+            size={36}
+            activeColor="#ffd700"
+            value={avgRating}
+            edit={false}
+          />}
       </div>
     </div>
   );
