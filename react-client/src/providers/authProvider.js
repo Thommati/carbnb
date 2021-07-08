@@ -1,11 +1,21 @@
 
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
 export default function AuthProvider(props) {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState({ email: "", name: "", id: "" });
+
+  useEffect(() => {
+    console.log('This should only be called the first time the app loads...');
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      authenticateFromToken(token);
+    }
+  }, []);
 
   // Perform login process for the user & save authID, etc
   const login = async (email, password) => {
@@ -57,13 +67,6 @@ export default function AuthProvider(props) {
     localStorage.removeItem('token');
   };
 
-  const checkForAuthToken = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      authenticateFromToken(token);
-    }
-  };
-
   // Helper function to set auth and user state on login / register
   const authenticateFromToken = jwtToken => {
     const token = jwtDecode(jwtToken);
@@ -77,7 +80,7 @@ export default function AuthProvider(props) {
   };
 
   // authContext will expose these items
-  const userData = { auth, user, login, register, logout, checkForAuthToken };
+  const userData = { auth, user, login, register, logout };
 
   // We can use this component to wrap any content we want to share this context
   return (

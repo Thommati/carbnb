@@ -1,8 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useEffect, useContext } from 'react';
-
-import { authContext } from '../providers/authProvider';
 
 import Home from "./Home";
 import Footer from "./Footer";
@@ -15,8 +12,6 @@ import UserDashboard from "./user-dashboard/UserDashboard";
 import TopNav from './TopNav';
 
 function App() {
-  const { checkForAuthToken } = useContext(authContext);
-
   const {
     search,
     setSearch,
@@ -32,11 +27,6 @@ function App() {
     setSelected,
     clearSelected,
   } = useApplicationData();
-
-  useEffect(() => {
-    console.log('This should only be called the first time the app loads...');
-    checkForAuthToken();
-  }, []);
 
   return (
     <CarTheme>
