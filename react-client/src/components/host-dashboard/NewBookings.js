@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 //   createData(6, 'https://images.caricos.com/m/mercedes-benz/2021_mercedes-benz_s-class/images/1024x768/2021_mercedes-benz_s-class_162_1024x768.jpg', '2021-07-10', '2021-07-14', 'Mercedes', 'S Class', '4 Door', 3000, 'Trent Alexander-Arnold', 1655, 'Apt', 'Powick Rd', 'Kelowna', 'British Columbia', 'Canada', 'V1X 4L1', 'cancelled'),
 // ];
 
-const tempUser = 3;
+const tempHost = 2;
 
 export default function MainContainer() {
   const classes = useStyles();
@@ -79,7 +79,7 @@ export default function MainContainer() {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await axios.get(`/api/orders/user/${tempUser}`);
+        const response = await axios.get(`/api/orders/user/${tempHost}`);
         if (response.status === 200) {
           setOrders(response.data);
           console.log(response.data);
@@ -113,7 +113,7 @@ export default function MainContainer() {
             <TableCell className={classes.TableHeaderCell} >DATE FROM</TableCell>
             <TableCell className={classes.TableHeaderCell} >DATE TO</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE</TableCell>
-            <TableCell className={classes.TableHeaderCell} >HOST DETAILS</TableCell>
+            <TableCell className={classes.TableHeaderCell} >RENTER NAME</TableCell>
             <TableCell className={classes.TableHeaderCell} >STATUS</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
           </TableRow>
@@ -147,11 +147,11 @@ export default function MainContainer() {
               <TableCell>
                 <Grid Container>
                   <Grid item>
-                    <Typography className={classes.name}>{row.owners_name}</Typography>
-                    <Typography color="textSecondary" variant="body2">{row.street_number} {row.street},</Typography>
+                    <Typography className={classes.name}>{row.renter_id}</Typography>
+                    {/* <Typography color="textSecondary" variant="body2">{row.street_number} {row.street},</Typography>
                     <Typography color="textSecondary" variant="body2">{row.city},</Typography>
                     <Typography color="textSecondary" variant="body2">{row.province},</Typography>
-                    <Typography color="textSecondary" variant="body2">{row.postal_code}</Typography>
+                    <Typography color="textSecondary" variant="body2">{row.postal_code}</Typography> */}
                   </Grid>
                 </Grid>
               </TableCell>
