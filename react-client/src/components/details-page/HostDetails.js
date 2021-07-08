@@ -15,7 +15,11 @@ const HostDetails = props => {
           const response = await axios.get(`/api/reviews?hostId=${id}`);
           if (response.status === 200) {
             const rating = Math.floor(response.data.reduce((acc, curr) => curr.rating + acc, 0) / response.data.length);
-            setAvgRating(rating);
+            if (isNaN(rating)) {
+              setAvgRating(0);
+            } else {
+              setAvgRating(rating);
+            }
           }
         } catch (err) {
           console.error(err);
@@ -41,15 +45,15 @@ const HostDetails = props => {
         <div>{name}</div>
         <div><a href={`mailto:${email}`}>Email Owner</a></div>
       </div>
-      <div className="host-details__reviews">
-        {avgRating && <ReactStars
-            count={5}
-            size={36}
-            activeColor="#ffd700"
-            value={avgRating}
-            edit={false}
-          />}
-      </div>
+      {(avgRating !== 0) && (<div className="host-details__reviews">
+        <ReactStars
+          count={5}
+          size={36}
+          activeColor="#ffd700"
+          value={avgRating}
+          edit={false}
+        />
+      </div>)}
     </div>
   );
 };
