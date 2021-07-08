@@ -150,7 +150,7 @@ const TopNav = props => {
             )}
             {auth && (
               <>
-                <Button color="inherit" onClick={() => history.push('/user-dashboard')}>Dashboard</Button>
+                <Button color="inherit" onClick={() => history.push('/user-dashboard')}>{user.name}'s Dashboard</Button>
                 <Button color="inherit" onClick={logout}>Log Out</Button>
               </>
             )}
