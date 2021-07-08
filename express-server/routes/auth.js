@@ -13,7 +13,7 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   if (!(email && password)) {
     // Return unauthorized if either email or password are undefined, null, or empty
-    return res.status(401).json({error: 'Authorization failed.  Invalid username or password'});
+    return res.status(401).json({error: 'Invalid email or password'});
   }
 
   // Retrieve user from database
@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
     return res.json(token);
   } else {
     // Return unauthorized if match is false
-    return res.status(401).json({error: 'Authorization failed.  Invalid username or password'});
+    return res.status(401).json({error: 'Invalid email or password'});
   }
 });
 
