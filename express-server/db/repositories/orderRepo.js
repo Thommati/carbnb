@@ -2,7 +2,15 @@ const db = require('../index');
 
 exports.getOrdersForRenterWithIdAsync = id => {
   const queryText = `
-    SELECT * FROM orders
+    SELECT
+      orders.id, orders.start_date, orders.end_date, orders.price,
+      cars.image, make, model, users.id as owners_id, users.name as owners_name,
+      street_number, street, city, province, country, postal_code
+    FROM orders
+    JOIN availability ON availability_id = availability.id
+    JOIN users ON availability.owner_id = users.id
+    JOIN cars on car_id = cars.id
+    JOIN locations ON cars.location_id = locations.id
     WHERE renter_id = $1;
   `;
   const queryParams = [id];
