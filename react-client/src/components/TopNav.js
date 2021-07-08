@@ -16,7 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import './TopNav.scss';
 
 const TopNav = props => {
-  const { login, register } = useContext(authContext);
+  const { login, register, logout, auth, user } = useContext(authContext);
   const history = useHistory();
 
   //
@@ -132,11 +132,6 @@ const TopNav = props => {
     }
   };
 
-  const handleLogOut= () => {
-    localStorage.removeItem('token');
-    // TODO:  clear user object
-  };
-
   return (
     <nav>
       <AppBar position="static">
@@ -147,10 +142,18 @@ const TopNav = props => {
             </Typography>
           </div>
           <div>
-          <Button color="inherit" onClick={() => history.push('/user-dashboard')}>Dashboard</Button>
-            <Button color="inherit" onClick={handleClickLoginOpen}>Login</Button>
-            <Button color="inherit" onClick={handleClickRegisterOpen}>Register</Button>
-            <Button color="inherit" onClick={handleLogOut}>Log Out</Button>
+            {!auth && (
+              <>
+                <Button color="inherit" onClick={handleClickLoginOpen}>Login</Button>
+                <Button color="inherit" onClick={handleClickRegisterOpen}>Register</Button>
+              </>
+            )}
+            {auth && (
+              <>
+                <Button color="inherit" onClick={() => history.push('/user-dashboard')}>Dashboard</Button>
+                <Button color="inherit" onClick={logout}>Log Out</Button>
+              </>
+            )}
           </div>
         </ToolBar>
       </AppBar>

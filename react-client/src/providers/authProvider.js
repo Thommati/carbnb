@@ -59,6 +59,14 @@ export default function AuthProvider(props) {
     localStorage.removeItem('token');
   };
 
+  const checkForAuthToken = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      authenticateFromToken(decodedToken);
+    }
+  };
+
   // Helper function to set auth and user state on login / register
   const authenticateFromToken = token => {
     setAuth(true);
@@ -71,7 +79,7 @@ export default function AuthProvider(props) {
   };
 
   // authContext will expose these items
-  const userData = { auth, user, login, register, logout };
+  const userData = { auth, user, login, register, logout, checkForAuthToken };
 
   // We can use this component to wrap any content we want to share this context
   return (
