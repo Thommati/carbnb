@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import DateFnsUtils from '@date-io/date-fns';
 
 import ReservationDetail from './ReservationDetail';
+import pricingInfo from '../../helpers/pricing';
 
 import './ReservationContainer.scss';
 
@@ -11,6 +12,7 @@ import './ReservationContainer.scss';
 // TODO: Write a helper function to get a tax rate based off of location's province
 // TODO: Remove hard-coded values from ReservationDetails and load from Container's props
 const ReservationContainer = props => {
+  const { price, province } = props;
   const [startDate, setStartDate] = useState(props.startDate);
   const [endDate, setEndDate] = useState(props.endDate);
   const [numDays, setNumDays] = useState((props.endDate - props.startDate) / (24 * 60 * 60 * 1000) + 1);
@@ -62,7 +64,7 @@ const ReservationContainer = props => {
       <Button variant="contained" color="primary" onClick={() => { alert('handle click not implemented') }}>
         Reserve
       </Button>
-      <ReservationDetail price={props.price} days={numDays} serviceFees={20} taxRate={5} />
+      <ReservationDetail price={price} days={numDays} serviceFees={pricingInfo.serviceFeesPerDay} taxRate={pricingInfo.tax[province]} />
     </div>
   );
 };
