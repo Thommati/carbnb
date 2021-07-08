@@ -61,18 +61,7 @@ export default function useApplicationData(initial) {
 
   const [cars, setCars] = useState({
     rows: [],
-    selected: null,
   });
-
-  const setSelected = function (selected) {
-    setCars((prev) => {
-      return { ...prev, selected };
-    });
-  };
-
-  const clearSelected = function () {
-    setSelected(null);
-  };
 
   // get all the cars for the search results
   useEffect(() => {
@@ -96,24 +85,6 @@ export default function useApplicationData(initial) {
     }
   }, [search]);
 
-  // get a selected car for details page
-  useEffect(() => {
-    if (cars.selected !== null) {
-      axios
-        .get("/api/cars/{car.id}")
-        .then(function (response) {
-          // handle success
-          setCars((prev) => {
-            return { ...prev, rows: response.data };
-          });
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        });
-    }
-  }, [cars.selected]);
-
   return {
     search,
     setSearch,
@@ -126,7 +97,5 @@ export default function useApplicationData(initial) {
     setRv,
     setSport,
     cars,
-    setSelected,
-    clearSelected,
   };
 }

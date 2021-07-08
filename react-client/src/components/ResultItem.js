@@ -47,10 +47,6 @@ const useStyles = makeStyles((theme) => ({
 function ResultItem(props) {
   const classes = useStyles();
 
-  const handleClickSetSelected = (event) => {
-    props.setSelected(props.car.id);
-  };
-
   return (
     <Grid item xs={4}>
       <Paper className={classes.paper}>
@@ -69,7 +65,6 @@ function ResultItem(props) {
               className={classes.img}
               src={props.car.image}
               alt={props.car.make + " " + props.car.model}
-              onClick={handleClickSetSelected}
             />
             <div className={classes.clear}></div>
           </div>

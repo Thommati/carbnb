@@ -8,7 +8,7 @@ import CarDetails from "./details-page/CarDetails";
 import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
 import UserDashboard from "./user-dashboard/UserDashboard";
-import TopNav from './TopNav';
+import TopNav from "./TopNav";
 
 function App() {
   const {
@@ -23,16 +23,13 @@ function App() {
     setRv,
     setSport,
     cars,
-    setSelected,
-    clearSelected,
   } = useApplicationData();
 
   return (
     <CarTheme>
       <Router>
-        <TopNav/>
+        <TopNav />
         <div>
-
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
@@ -50,8 +47,6 @@ function App() {
                 setFromDate={setFromDate}
                 setToDate={setToDate}
                 cars={cars}
-                setSelected={setSelected}
-                clearSelected={clearSelected}
                 filters={filters}
                 setFilters={setFilters}
                 setPets={setPets}
