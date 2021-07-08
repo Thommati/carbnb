@@ -20,23 +20,12 @@ const TopNav = props => {
   const history = useHistory();
 
   //
-  // Login state and methods
+  // Loing Form state and methods
   //
-
-  // State for login dialog
   const [loginOpen, setLoginOpen] = useState(false);
-
-  // Login form state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-
-  // Error messages for failed login
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
-
-  // Open login dialog
-  const handleClickLoginOpen = () => {
-    setLoginOpen(true);
-  };
 
   // Close login dialog and clear form
   const handleLoginClose = () => {
@@ -44,16 +33,6 @@ const TopNav = props => {
     setLoginPassword('');
     setLoginErrorMessage('');
     setLoginOpen(false);
-  };
-
-  // Login dialog - handle email input
-  const handleLoginEmailChange = event => {
-    setLoginEmail(event.target.value);
-  };
-
-  // Login dialog - handle password input
-  const handleLoginPasswordChange = event => {
-    setLoginPassword(event.target.value);
   };
 
   // Submit the login form
@@ -81,10 +60,6 @@ const TopNav = props => {
   const [registerImage, setRegisterImage] = useState('');
   const [registerErrorMessage, setRegisterErrorMessage] = useState('');
 
-  const handleClickRegisterOpen = () => {
-    setRegisterOpen(true);
-  };
-
   const handleRegisterClose = () => {
     setRegisterEmail('');
     setRegisterPassword('');
@@ -94,18 +69,6 @@ const TopNav = props => {
     setRegisterImage('');
     setRegisterErrorMessage('');
     setRegisterOpen(false);
-  };
-
-  const handleRegisterEmailChange = event => {
-    setRegisterEmail(event.target.value);
-  };
-
-  const handleRegisterPasswordChange = event => {
-    setRegisterPassword(event.target.value);
-  }
-
-  const handleRegisterPasswordConfirmationChange = event => {
-    setRegisterPasswordConfirmation(event.target.value);
   };
 
   const registerSubmit = async () => {
@@ -144,8 +107,8 @@ const TopNav = props => {
           <div>
             {!auth && (
               <>
-                <Button color="inherit" onClick={handleClickLoginOpen}>Login</Button>
-                <Button color="inherit" onClick={handleClickRegisterOpen}>Register</Button>
+                <Button color="inherit" onClick={() => setLoginOpen(true)}>Login</Button>
+                <Button color="inherit" onClick={() => setRegisterOpen(true)}>Register</Button>
               </>
             )}
             {auth && (
@@ -169,7 +132,7 @@ const TopNav = props => {
             label="Email Address"
             fullWidth
             value={loginEmail}
-            onChange={handleLoginEmailChange}
+            onChange={event => setLoginEmail(event.target.value)}
             required
           />
           <TextField
@@ -179,7 +142,7 @@ const TopNav = props => {
             label="Password"
             fullWidth
             value={loginPassword}
-            onChange={handleLoginPasswordChange}
+            onChange={event => setLoginPassword(event.target.value)}
             required
           />
         </DialogContent>
@@ -204,7 +167,7 @@ const TopNav = props => {
             label="Email Address"
             fullWidth
             value={registerEmail}
-            onChange={handleRegisterEmailChange}
+            onChange={event => setRegisterEmail(event.target.value)}
             required
           />
           <TextField
@@ -243,7 +206,7 @@ const TopNav = props => {
             type="password"
             label="Password"
             value={registerPassword}
-            onChange={handleRegisterPasswordChange}
+            onChange={event => setRegisterPassword(event.target.value)}
             fullWidth
             required
           />
@@ -253,7 +216,7 @@ const TopNav = props => {
             type="password"
             label="Confirm Password"
             value={registerPasswordConfirmation}
-            onChange={handleRegisterPasswordConfirmationChange}
+            onChange={event => setRegisterPasswordConfirmation(event.target.value)}
             fullWidth
             required
           />
