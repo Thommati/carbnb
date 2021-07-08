@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home";
+import Footer from "./Footer";
 
 import CarDetails from "./details-page/CarDetails";
 
@@ -61,6 +62,9 @@ function App() {
           </Switch>
         </div>
       </Router>
+      <div>
+        <Footer></Footer>
+      </div>
     </CarTheme>
   );
 }

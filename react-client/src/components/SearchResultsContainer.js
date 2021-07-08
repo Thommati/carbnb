@@ -77,8 +77,8 @@ function SearchResultsContainer(props) {
           onChange={handleOnChangeSortBy}
           value={sortBy}
         >
-          <MenuItem value="1">Low To High</MenuItem>
-          <MenuItem value="-1">High To Low</MenuItem>
+          <MenuItem value="1">Price: Low To High</MenuItem>
+          <MenuItem value="-1">Price: High To Low</MenuItem>
         </Select>
       </FormControl>
       <Grid container spacing={2}>
