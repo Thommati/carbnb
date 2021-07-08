@@ -8,8 +8,6 @@ export default function AuthProvider(props) {
   const [user, setUser] = useState({ email: "", name: "", id: "" });
 
   useEffect(() => {
-    console.log('This should only be called the first time the app loads...');
-
     const token = localStorage.getItem('token');
 
     if (token) {
