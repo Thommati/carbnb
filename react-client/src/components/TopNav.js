@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
-// import jwtDecode from 'jwt-decode';
+import { authContext } from '../providers/authProvider';
 
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
@@ -17,26 +16,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import './TopNav.scss';
 
 const TopNav = props => {
+  const { login, register, logout, auth, user } = useContext(authContext);
   const history = useHistory();
 
   //
-  // Login state and methods
+  // Loing Form state and methods
   //
-
-  // State for login dialog
   const [loginOpen, setLoginOpen] = useState(false);
-
-  // Login form state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-
-  // Error messages for failed login
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
-
-  // Open login dialog
-  const handleClickLoginOpen = () => {
-    setLoginOpen(true);
-  };
 
   // Close login dialog and clear form
   const handleLoginClose = () => {
@@ -46,41 +35,17 @@ const TopNav = props => {
     setLoginOpen(false);
   };
 
-  // Login dialog - handle email input
-  const handleLoginEmailChange = event => {
-    setLoginEmail(event.target.value);
-  };
-
-  // Login dialog - handle password input
-  const handleLoginPasswordChange = event => {
-    setLoginPassword(event.target.value);
-  };
-
   // Submit the login form
   const loginSubmit = async () => {
-    try {
-      const response = await axios.post('/api/auth/login', {
-        email: loginEmail,
-        password: loginPassword
-      });
-
-      // Handle successful login
-      if (response.status === 200) {
-        localStorage.setItem('token', response.data);
-        // TODO: Call method that decodes token and sets global user object.
-        handleLoginClose();
-      } else {
-        console.log(response.status);
-      }
-    } catch (err) {
-      // Handle failed login.
-      if (err.response.status === 401) {
-        setLoginErrorMessage(err.response.data.error);
-      } else {
-        setLoginErrorMessage('Login server error.');
-      }
+    const { result, error } = await login(loginEmail, loginPassword);
+    if (result === 'success') {
+      // TODO: Add toast to show successful login.
+      handleLoginClose();
+    } else {
+      setLoginErrorMessage(error.response.data.error);
     }
   };
+
 
   //
   // Registration state and methods
@@ -95,10 +60,6 @@ const TopNav = props => {
   const [registerImage, setRegisterImage] = useState('');
   const [registerErrorMessage, setRegisterErrorMessage] = useState('');
 
-  const handleClickRegisterOpen = () => {
-    setRegisterOpen(true);
-  };
-
   const handleRegisterClose = () => {
     setRegisterEmail('');
     setRegisterPassword('');
@@ -110,47 +71,28 @@ const TopNav = props => {
     setRegisterOpen(false);
   };
 
-  const handleRegisterEmailChange = event => {
-    setRegisterEmail(event.target.value);
-  };
-
-  const handleRegisterPasswordChange = event => {
-    setRegisterPassword(event.target.value);
-  }
-
-  const handleRegisterPasswordConfirmationChange = event => {
-    setRegisterPasswordConfirmation(event.target.value);
-  };
-
   const registerSubmit = async () => {
+    // Make sure password and confirmation match.
     if (registerPassword !== registerPasswordConfirmation) {
       return setRegisterErrorMessage('Passwords must match');
     }
 
-    try {
-      const response = await axios.post('/api/users', {
-        name: registerName,
-        email: registerEmail,
-        image: registerImage,
-        password: registerPassword,
-        phone: registerPhone
-      });
+    const formData = {
+      name: registerName,
+      email: registerEmail,
+      image: registerImage,
+      password: registerPassword,
+      phone: registerPhone
+    };
+    const { result, error } = await register(formData);
 
-      if (response.status === 201) {
-        localStorage.setItem('token', response.data);
-        // TODO: Handle token
-        handleRegisterClose();
-      } else {
-        setRegisterErrorMessage('There was an error creating your account');
-      }
-    } catch (err) {
+    if (result === 'success') {
+      // TODO: add a toast notification to show success.
+      handleRegisterClose()
+    } else {
+      console.log(error.response);
       setRegisterErrorMessage('There was an error creating your account');
     }
-  };
-
-  const handleLogOut= () => {
-    localStorage.removeItem('token');
-    // TODO:  clear user object
   };
 
   return (
@@ -163,10 +105,18 @@ const TopNav = props => {
             </Typography>
           </div>
           <div>
-          <Button color="inherit" onClick={() => history.push('/user-dashboard')}>Dashboard</Button>
-            <Button color="inherit" onClick={handleClickLoginOpen}>Login</Button>
-            <Button color="inherit" onClick={handleClickRegisterOpen}>Register</Button>
-            <Button color="inherit" onClick={handleLogOut}>Log Out</Button>
+            {!auth && (
+              <>
+                <Button color="inherit" onClick={() => setLoginOpen(true)}>Login</Button>
+                <Button color="inherit" onClick={() => setRegisterOpen(true)}>Register</Button>
+              </>
+            )}
+            {auth && (
+              <>
+                <Button color="inherit" onClick={() => history.push('/user-dashboard')}>{user.name}'s Dashboard</Button>
+                <Button color="inherit" onClick={logout}>Log Out</Button>
+              </>
+            )}
           </div>
         </ToolBar>
       </AppBar>
@@ -182,7 +132,7 @@ const TopNav = props => {
             label="Email Address"
             fullWidth
             value={loginEmail}
-            onChange={handleLoginEmailChange}
+            onChange={event => setLoginEmail(event.target.value)}
             required
           />
           <TextField
@@ -192,7 +142,7 @@ const TopNav = props => {
             label="Password"
             fullWidth
             value={loginPassword}
-            onChange={handleLoginPasswordChange}
+            onChange={event => setLoginPassword(event.target.value)}
             required
           />
         </DialogContent>
@@ -217,7 +167,7 @@ const TopNav = props => {
             label="Email Address"
             fullWidth
             value={registerEmail}
-            onChange={handleRegisterEmailChange}
+            onChange={event => setRegisterEmail(event.target.value)}
             required
           />
           <TextField
@@ -256,7 +206,7 @@ const TopNav = props => {
             type="password"
             label="Password"
             value={registerPassword}
-            onChange={handleRegisterPasswordChange}
+            onChange={event => setRegisterPassword(event.target.value)}
             fullWidth
             required
           />
@@ -266,7 +216,7 @@ const TopNav = props => {
             type="password"
             label="Confirm Password"
             value={registerPasswordConfirmation}
-            onChange={handleRegisterPasswordConfirmationChange}
+            onChange={event => setRegisterPasswordConfirmation(event.target.value)}
             fullWidth
             required
           />
