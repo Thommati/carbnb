@@ -4,9 +4,11 @@ import {
   Tab,
   AppBar
 } from '@material-ui/core'
-import MainContainer from "./MainContainer";
+import NewBookings from "./NewBookings";
+import PastBookings from "./PastBookings";
+import VehicleAvailability from "./VehicleAvailability";
 
-export default function AdminTabs () {
+export default function UserTabs () {
   const [value,setValue]=React.useState(0);
   const handleTabs=(e, value) => {
   setValue(value);
@@ -19,21 +21,21 @@ export default function AdminTabs () {
           <Tab label="Past Bookings" />
           <Tab label="Vehicle Availability" />
           <Tab label="Register Vehicle" />
+
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Bookings
+        <NewBookings />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Past Bookings
+        <PastBookings />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Favourites
+        <VehicleAvailability />
       </TabPanel>
-      <TabPanel value={value} index={3}>
-        Register Vehicle
+      <TabPanel value={value} index={2}>
+        {/* <RegisterVehicle /> */}
       </TabPanel>
-
     </div>
   );
 };
