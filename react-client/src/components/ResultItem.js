@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-
+import Favorite from "@material-ui/icons/Favorite";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import { purple } from "@material-ui/core/colors";
 const useStyles = makeStyles((theme) => ({
   paper: {
     height: "280px",
@@ -29,10 +32,14 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   fav: {
-    alignContent: "",
+    color: purple[600],
   },
   clear: {
     clear: "both",
+  },
+  link: {
+    textDecoration: "none",
+    color: "inherit",
   },
 }));
 
@@ -46,8 +53,16 @@ function ResultItem(props) {
   return (
     <Grid item xs={4}>
       <Paper className={classes.paper}>
-        <FavoriteBorderIcon className={classes.fav} />
-        <Link to={`/cars/${props.car.id}`}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={<FavoriteBorder />}
+              checkedIcon={<Favorite className={classes.fav} />}
+              name="checkedH"
+            />
+          }
+        />
+        <Link to={`/cars/${props.car.id}`} className={classes.link}>
           <div className={classes.imageWrapper}>
             <img
               className={classes.img}
