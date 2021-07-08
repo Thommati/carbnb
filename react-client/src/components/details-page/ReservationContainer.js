@@ -62,7 +62,7 @@ const ReservationContainer = props => {
       <Button variant="contained" color="primary" onClick={() => { alert('handle click not implemented') }}>
         Reserve
       </Button>
-      <ReservationDetail price={180} days={numDays} serviceFees={20} taxRate={5} />
+      <ReservationDetail price={props.price} days={numDays} serviceFees={20} taxRate={5} />
     </div>
   );
 };
