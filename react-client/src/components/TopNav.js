@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-// import jwtDecode from 'jwt-decode';
+import { authContext } from '../providers/authProvider';
 
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
@@ -17,6 +17,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import './TopNav.scss';
 
 const TopNav = props => {
+  const { login } = useContext(authContext);
   const history = useHistory();
 
   //
@@ -58,29 +59,15 @@ const TopNav = props => {
 
   // Submit the login form
   const loginSubmit = async () => {
-    try {
-      const response = await axios.post('/api/auth/login', {
-        email: loginEmail,
-        password: loginPassword
-      });
-
-      // Handle successful login
-      if (response.status === 200) {
-        localStorage.setItem('token', response.data);
-        // TODO: Call method that decodes token and sets global user object.
-        handleLoginClose();
-      } else {
-        console.log(response.status);
-      }
-    } catch (err) {
-      // Handle failed login.
-      if (err.response.status === 401) {
-        setLoginErrorMessage(err.response.data.error);
-      } else {
-        setLoginErrorMessage('Login server error.');
-      }
+    const { loginResult, error } = await login(loginEmail, loginPassword);
+    if (loginResult === 'success') {
+      // TODO: Add toast to show successful login.
+      handleLoginClose();
+    } else {
+      setLoginErrorMessage(error.response.data.error);
     }
   };
+
 
   //
   // Registration state and methods
