@@ -8,6 +8,7 @@ import CarDetails from "./details-page/CarDetails";
 import CarTheme from "./CarTheme";
 import useApplicationData from "../hooks/ApplicationData";
 import UserDashboard from "./user-dashboard/UserDashboard";
+import HostDashboard from "./host-dashboard/HostDashboard";
 import TopNav from './TopNav';
 
 function App() {
@@ -41,6 +42,9 @@ function App() {
             </Route>
             <Route path="/user-dashboard">
               <UserDashboard />
+            </Route>
+            <Route path="/host-dashboard">
+              <HostDashboard />
             </Route>
             <Route path="/">
               <Home
