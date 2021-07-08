@@ -13,8 +13,8 @@ const Description = props => {
   let features = [
     `${car.doors} Doors`,
     car.colour,
-    car.transmission ? 'Manual Trasmission' : 'false',
-    car.pet_friendly,
+    car.transmission ? 'Manual Trasmission' : false,
+    car.pet_friendly ? 'Pet Friendly' : false,
     `${car.fuel} Engine`,
     `${car.seats} seats`,
     car.convertible ? 'Convertible' : false
