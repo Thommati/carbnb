@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import { authContext } from '../providers/authProvider';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -17,7 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import './TopNav.scss';
 
 const TopNav = props => {
-  const { login } = useContext(authContext);
+  const { login, register } = useContext(authContext);
   const history = useHistory();
 
   //
@@ -59,8 +58,8 @@ const TopNav = props => {
 
   // Submit the login form
   const loginSubmit = async () => {
-    const { loginResult, error } = await login(loginEmail, loginPassword);
-    if (loginResult === 'success') {
+    const { result, error } = await login(loginEmail, loginPassword);
+    if (result === 'success') {
       // TODO: Add toast to show successful login.
       handleLoginClose();
     } else {
@@ -110,27 +109,25 @@ const TopNav = props => {
   };
 
   const registerSubmit = async () => {
+    // Make sure password and confirmation match.
     if (registerPassword !== registerPasswordConfirmation) {
       return setRegisterErrorMessage('Passwords must match');
     }
 
-    try {
-      const response = await axios.post('/api/users', {
-        name: registerName,
-        email: registerEmail,
-        image: registerImage,
-        password: registerPassword,
-        phone: registerPhone
-      });
+    const formData = {
+      name: registerName,
+      email: registerEmail,
+      image: registerImage,
+      password: registerPassword,
+      phone: registerPhone
+    };
+    const { result, error } = await register(formData);
 
-      if (response.status === 201) {
-        localStorage.setItem('token', response.data);
-        // TODO: Handle token
-        handleRegisterClose();
-      } else {
-        setRegisterErrorMessage('There was an error creating your account');
-      }
-    } catch (err) {
+    if (result === 'success') {
+      // TODO: add a toast notification to show success.
+      handleRegisterClose()
+    } else {
+      console.log(error.response);
       setRegisterErrorMessage('There was an error creating your account');
     }
   };

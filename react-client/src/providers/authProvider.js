@@ -9,7 +9,6 @@ export default function AuthProvider(props) {
 
   // Perform login process for the user & save authID, etc
   const login = async (email, password) => {
-
     try {
       const response = await axios.post('/api/auth/login', {
         email: email,
@@ -22,17 +21,35 @@ export default function AuthProvider(props) {
       const decodedToken = jwtDecode(response.data);
 
       // Set auth and user states
-      setAuth(true);
-      setUser({
-        is: decodedToken.sub,
-        email: decodedToken.email,
-        image: decodedToken.image,
-        name: decodedToken.name
+      authenticateFromToken(decodedToken);
+
+      return { result: 'success', error: null };
+    } catch (err) {
+      return { result: 'failed', error: err };
+    }
+  };
+
+  const register = async formData => {
+    try {
+      const response = await axios.post('/api/users', {
+        name: formData.name,
+        email: formData.email,
+        image: formData.image,
+        password: formData.password,
+        phone: formData.phone
       });
 
-      return { loginResult: 'success', error: null };
+      // Handle successful retigstration (and simultaneous login)
+      // Set token on local storage - this will be used once the server is set up to require tokens
+      localStorage.setItem('token', response.data);
+      const decodedToken = jwtDecode(response.data);
+
+      // set auth and user state from token
+      authenticateFromToken(decodedToken);
+
+      return { result: 'success', error: null };
     } catch (err) {
-      return { loginResult: 'failed', error: err };
+      return { result: 'failed', error: err }
     }
   };
 
@@ -42,8 +59,19 @@ export default function AuthProvider(props) {
     localStorage.removeItem('token');
   };
 
+  // Helper function to set auth and user state on login / register
+  const authenticateFromToken = token => {
+    setAuth(true);
+    setUser({
+      is: token.sub,
+      email: token.email,
+      image: token.image,
+      name: token.name
+    });
+  };
+
   // authContext will expose these items
-  const userData = { auth, user, login, logout };
+  const userData = { auth, user, login, register, logout };
 
   // We can use this component to wrap any content we want to share this context
   return (
