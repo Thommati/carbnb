@@ -14,7 +14,7 @@ const ReservationDetail = props => {
       <List>
         <ListItem>
           <div className="reservation-details__list-item">
-            <span>{price} x {days}</span>
+            <span>${price} x {days} {days === 1 ? 'day' : 'days'}</span>
             <span>${price * days}</span>
           </div>
         </ListItem>
