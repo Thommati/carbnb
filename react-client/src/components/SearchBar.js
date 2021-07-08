@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "30px",
     borderRadius: "4px",
     boxShadow: theme.shadows[5],
+    marginTop: "32px",
     // maxWidth: "800px",
   },
 }));

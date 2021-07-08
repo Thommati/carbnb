@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   imageWrapper: {
     height: "160px",
     overflow: "hidden",
+    marginBottom: "4px",
   },
   h: {
     fontWeight: "bold",

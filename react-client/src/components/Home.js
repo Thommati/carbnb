@@ -17,7 +17,6 @@ function Home(props) {
   const classes = useStyles();
   return (
     <div>
-      Home
       <SearchBar
         search={props.search}
         setSearch={props.setSearch}
