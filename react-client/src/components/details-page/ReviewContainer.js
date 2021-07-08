@@ -16,7 +16,6 @@ const ReviewContainer = props => {
       <article className="review-container">
         <header>
           <span>REVIEWS</span>
-          {/* <span>{avgRating || ''}</span> */}
           <ReactStars
             count={5}
             size={24}
