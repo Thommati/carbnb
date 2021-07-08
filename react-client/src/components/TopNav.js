@@ -84,9 +84,26 @@ const TopNav = props => {
   //
 
   const [registerOpen, setRegisterOpen] = useState(false);
-  const [registerEmail, setRegisterEmail] =useState('');
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
+  const [registerPasswordConfirmation, setRegisterPasswordConfirmation] = useState('');
+  const [registerName, setRegisterName] = useState('');
+  const [registerPhone, setRegisterPhone] = useState('');
+  const [registerImage, setRegisterImage] = useState('');
+  const [registerErrorMessage, setRegisterErrorMessage] = useState('');
+
+  const handleClickRegisterOpen = () => {
+    setRegisterOpen(true);
+  };
 
   const handleRegisterClose = () => {
+    setRegisterEmail('');
+    setRegisterPassword('');
+    setRegisterPasswordConfirmation('');
+    setRegisterName('');
+    setRegisterPhone('');
+    setRegisterImage('');
+    setRegisterErrorMessage('');
     setRegisterOpen(false);
   };
 
@@ -94,8 +111,38 @@ const TopNav = props => {
     setRegisterEmail(event.target.value);
   };
 
+  const handleRegisterPasswordChange = event => {
+    setRegisterPassword(event.target.value);
+  }
+
+  const handleRegisterPasswordConfirmationChange = event => {
+    setRegisterPasswordConfirmation(event.target.value);
+  };
+
   const registerSubmit = async () => {
-    console.log('Submit registration clicked');
+    if (registerPassword !== registerPasswordConfirmation) {
+      return setRegisterErrorMessage('Passwords must match');
+    }
+
+    try {
+      const response = await axios.post('/api/users', {
+        name: registerName,
+        email: registerEmail,
+        image: registerImage,
+        password: registerPassword,
+        phone: registerPhone
+      });
+
+      if (response.status === 201) {
+        localStorage.setItem('token', response.data);
+        // TODO: Handle token
+        handleRegisterClose();
+      } else {
+        setRegisterErrorMessage('There was an error creating your account');
+      }
+    } catch (err) {
+      setRegisterErrorMessage('There was an error creating your account');
+    }
   };
 
   return (
@@ -107,7 +154,7 @@ const TopNav = props => {
           </Typography>
           <div>
             <Button color="inherit" onClick={handleClickLoginOpen}>Login</Button>
-            <Button color="inherit">Register</Button>
+            <Button color="inherit" onClick={handleClickRegisterOpen}>Register</Button>
           </div>
         </ToolBar>
       </AppBar>
@@ -149,8 +196,8 @@ const TopNav = props => {
 
       <Dialog open={registerOpen} onClose={handleRegisterClose} aria-labelledby="register-dialog">
         <DialogTitle id="register-dialog">Register</DialogTitle>
-        <DialogContent>
-
+        <DialogContent className="topnav__login--error">
+          {registerErrorMessage && <DialogContentText>{registerErrorMessage}</DialogContentText>}
           <TextField
             margin="dense"
             id="register-email"
@@ -163,12 +210,63 @@ const TopNav = props => {
           />
           <TextField
             margin="dense"
-
+            id="register-name"
+            type="input"
+            label="Full Name"
+            fullWidth
+            value={registerName}
+            onChange={(event) => setRegisterName(event.target.value)}
+            required
           />
           <TextField
             margin="dense"
+            id="register-phone"
+            type="input"
+            label="Phone Number"
+            fullWidth
+            value={registerPhone}
+            onChange={(event) => setRegisterPhone(event.target.value)}
+            required
+          />
+          <TextField
+            margin="dense"
+            id="register-image"
+            type="input"
+            label="Avatar Image"
+            fullWidth
+            value={registerImage}
+            onChange={(event) => setRegisterImage(event.target.value)}
+            required
+          />
+          <TextField
+            margin="dense"
+            id="register-password"
+            type="password"
+            label="Password"
+            value={registerPassword}
+            onChange={handleRegisterPasswordChange}
+            fullWidth
+            required
+          />
+          <TextField
+            margin="dense"
+            id="register-password-confirm"
+            type="password"
+            label="Confirm Password"
+            value={registerPasswordConfirmation}
+            onChange={handleRegisterPasswordConfirmationChange}
+            fullWidth
+            required
           />
         </DialogContent>
+        <DialogActions>
+        <Button onClick={handleRegisterClose} variant="contained">
+            Cancel
+          </Button>
+          <Button onClick={registerSubmit} variant="contained" color="secondary">
+            Submit
+          </Button>
+        </DialogActions>
       </Dialog>
     </nav>
   );
