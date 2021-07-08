@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 // import jwtDecode from 'jwt-decode';
 
@@ -13,9 +15,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import './TopNav.scss';
-import { useState } from 'react';
 
 const TopNav = props => {
+  const history = useHistory();
+
   //
   // Login state and methods
   //
@@ -145,16 +148,25 @@ const TopNav = props => {
     }
   };
 
+  const handleLogOut= () => {
+    localStorage.removeItem('token');
+    // TODO:  clear user object
+  };
+
   return (
     <nav>
       <AppBar position="static">
         <ToolBar className="topnav__toolbar">
-          <Typography variant="h5">
-            Carbnb
-          </Typography>
+          <div className="topnav__toolbar--left">
+            <Typography variant="h5" onClick={() => history.push('/')} className="topnav__logo">
+              Carbnb
+            </Typography>
+          </div>
           <div>
+          <Button color="inherit" onClick={() => history.push('/user-dashboard')}>Dashboard</Button>
             <Button color="inherit" onClick={handleClickLoginOpen}>Login</Button>
             <Button color="inherit" onClick={handleClickRegisterOpen}>Register</Button>
+            <Button color="inherit" onClick={handleLogOut}>Log Out</Button>
           </div>
         </ToolBar>
       </AppBar>
