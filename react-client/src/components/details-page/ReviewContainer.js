@@ -1,4 +1,5 @@
 import { List } from '@material-ui/core';
+import ReactStars from 'react-rating-stars-component';
 import ReviewItem from './ReviewItem';
 
 import "./ReviewContainer.scss";
@@ -15,7 +16,13 @@ const ReviewContainer = props => {
       <article className="review-container">
         <header>
           <span>REVIEWS</span>
-          <span>{avgRating || ''}</span>
+          <ReactStars
+            count={5}
+            size={24}
+            activeColor="#ffd700"
+            value={avgRating}
+            edit={false}
+          />
         </header>
         <hr/>
         <List className="review-container--list">

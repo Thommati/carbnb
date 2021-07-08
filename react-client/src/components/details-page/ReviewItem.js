@@ -1,4 +1,5 @@
 import { ListItem } from '@material-ui/core';
+import ReactStars from 'react-rating-stars-component';
 
 import './ReviewItem.scss';
 
@@ -22,7 +23,14 @@ const ReviewItem = props => {
       />
       <div className="review-item__review-container">
         <div className="review-item__title-block">
-          <h5>{reviewer_name}</h5>{rating}
+          <h5>{reviewer_name}</h5>
+          <ReactStars
+            count={5}
+            size={16}
+            activeColor="#ffd700"
+            value={rating}
+            edit={false}
+          />
         </div>
         <small>Reviewed on: {date_reviewed}</small>
         <p>{comments}</p>

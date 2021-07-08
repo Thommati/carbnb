@@ -8,10 +8,26 @@
     object-fit: cover;
   }
 
-  &__details,
-  &__reviews {
-    border: 1px solid black;
+  &__details {
     margin-top: .6rem;
     padding: .4rem .6rem;
+    display: flex;
+  }
+
+  &__details {
+    border: 1px solid black;
+    border-radius: 4px;
+    justify-content: space-between;
+  }
+
+  &__reviews {
+    margin-top: .6rem;
+    display: flex;
+    justify-content: center;
+    padding-left: .4rem;
+
+    span {
+      margin-right: .4rem;
+    }
   }
 }
