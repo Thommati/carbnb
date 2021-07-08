@@ -43,6 +43,7 @@ const Description = props => {
         <p>{car.description}</p>
       </div>
       <div className="Details__content">
+        <h3 className="Details__features-title">Features</h3>
         <List className="Details__features">
           {featureListItems}
         </List>
