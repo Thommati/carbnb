@@ -18,10 +18,9 @@ export default function AuthProvider(props) {
       // Handle successful login
       // Set token on local storage - this will be used once the server is set up to require tokens
       localStorage.setItem('token', response.data);
-      const decodedToken = jwtDecode(response.data);
 
       // Set auth and user states
-      authenticateFromToken(decodedToken);
+      authenticateFromToken(response.data);
 
       return { result: 'success', error: null };
     } catch (err) {
@@ -42,10 +41,9 @@ export default function AuthProvider(props) {
       // Handle successful retigstration (and simultaneous login)
       // Set token on local storage - this will be used once the server is set up to require tokens
       localStorage.setItem('token', response.data);
-      const decodedToken = jwtDecode(response.data);
 
       // set auth and user state from token
-      authenticateFromToken(decodedToken);
+      authenticateFromToken(response.data);
 
       return { result: 'success', error: null };
     } catch (err) {
@@ -62,13 +60,13 @@ export default function AuthProvider(props) {
   const checkForAuthToken = () => {
     const token = localStorage.getItem('token');
     if (token) {
-      const decodedToken = jwtDecode(token);
-      authenticateFromToken(decodedToken);
+      authenticateFromToken(token);
     }
   };
 
   // Helper function to set auth and user state on login / register
-  const authenticateFromToken = token => {
+  const authenticateFromToken = jwtToken => {
+    const token = jwtDecode(jwtToken);
     setAuth(true);
     setUser({
       is: token.sub,
