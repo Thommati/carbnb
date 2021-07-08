@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -15,6 +15,7 @@ import {
   TableFooter
 } from '@material-ui/core';
 import UserReview from "./UserReview";
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -52,8 +53,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function createData(id, image, from, to, make, model, description, price, host, street_number, apartment_number, street, city, province, country, postal_code, status) {
-  return { id, image, from, to, make, model, description, price, host, street_number, apartment_number, street, city, province, country, postal_code, status };
+function createData(id, image, from, to, make, model, price, host, street_number, street, city, province, country, postal_code, status) {
+  return { id, image, from, to, make, model, price, host, street_number, street, city, province, country, postal_code, status };
 }
 
 const rows = [
@@ -65,9 +66,12 @@ const rows = [
   createData(6, 'https://images.caricos.com/m/mercedes-benz/2021_mercedes-benz_s-class/images/1024x768/2021_mercedes-benz_s-class_162_1024x768.jpg', '2021-07-10', '2021-07-14', 'Mercedes', 'S Class', '4 Door', 3000, 'Trent Alexander-Arnold', 1655, 'Apt', 'Powick Rd', 'Kelowna', 'British Columbia', 'Canada', 'V1X 4L1', 'cancelled'),
 ];
 
-export default function PastBookings() {
+export default function PastBookings(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
+  useEffect(() => {
+
+  })
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleChangePage = (event, newPage) => {

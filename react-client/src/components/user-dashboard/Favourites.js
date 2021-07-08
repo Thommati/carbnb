@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -75,6 +76,9 @@ const rows = [
 export default function Favourites() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
+  useEffect(() => {
+
+  });
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleChangePage = (event, newPage) => {
