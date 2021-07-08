@@ -27,13 +27,13 @@ const ReservationDetail = props => {
         <ListItem>
           <div className="reservation-details__list-item">
             <span>Taxes @ {taxRate}%</span>
-            <span>${taxAmount()}</span>
+            <span>${(Math.round(taxAmount() * 100) / 100).toFixed(2)}</span>
           </div>
         </ListItem>
         <ListItem>
           <div className="reservation-details__list-item reservation-details__list-item--total">
             <span>Total</span>
-            <span>${totalPrice()}</span>
+            <span>${(Math.round(totalPrice() * 100) / 100).toFixed(2)}</span>
           </div>
         </ListItem>
       </List>
