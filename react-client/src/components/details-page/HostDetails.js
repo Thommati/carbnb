@@ -9,7 +9,6 @@ const HostDetails = props => {
 
   useEffect(() => {
     const getHostReviews = async () => {
-      console.log('hostId', id);
       if (id) {
         const response = await axios.get(`/api/reviews?hostId=${id}`);
         setReview(response.data);
