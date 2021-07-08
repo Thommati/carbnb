@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 
 import CarDetails from "./details-page/CarDetails";
@@ -31,19 +31,6 @@ function App() {
       <Router>
         <TopNav/>
         <div>
-          {/* <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/search-results">Search</Link>
-            </li>
-            <li>
-              <Link to="/deatils-page">Car Details</Link>
-            </li>
-          </ul>
-        </nav> */}
 
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
