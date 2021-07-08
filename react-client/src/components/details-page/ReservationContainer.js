@@ -26,7 +26,7 @@ const ReservationContainer = props => {
   };
 
   useEffect(() => {
-    setNumDays((endDate - startDate) / (24 * 60 * 60 * 1000) + 1);
+    setNumDays(Math.ceil((endDate - startDate) / (24 * 60 * 60 * 1000) + 1));
   }, [startDate, endDate]);
 
   return (
@@ -64,7 +64,12 @@ const ReservationContainer = props => {
       <Button variant="contained" color="primary" onClick={() => { alert('handle click not implemented') }}>
         Reserve
       </Button>
-      <ReservationDetail price={price} days={numDays} serviceFees={pricingInfo.serviceFeesPerDay} taxRate={pricingInfo.tax[province]} />
+      <ReservationDetail
+        price={price}
+        days={numDays}
+        serviceFees={pricingInfo.serviceFeesPerDay}
+        taxRate={pricingInfo.tax[province]}
+      />
     </div>
   );
 };
