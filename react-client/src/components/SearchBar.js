@@ -25,9 +25,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   searchBox: {
-    backgroundColor: "#ddd",
+    backgroundColor: "#eeeef5",
     padding: "30px",
-    borderRadius: "8px",
+    borderRadius: "4px",
+    boxShadow: theme.shadows[5],
     // maxWidth: "800px",
   },
 }));

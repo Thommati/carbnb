@@ -9,19 +9,21 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import TwitterIcon from "@material-ui/icons/Twitter";
 
 const useStyles = makeStyles((theme) => ({
-  footer: {
-    // backgroundColor: "#ddd",
-    padding: "0",
-    // borderRadius: "8px",
-  },
   root: {
     display: "flex",
     "& > *": {
       margin: theme.spacing(1),
     },
   },
+  footer: {
+    padding: "0px",
+    marginTop: "32px",
+    fontSize: "12px",
+    color: "#9999bb",
+  },
   h: {
     fontWeight: "bold",
+    marginBottom: "12px",
   },
   item: {
     maxWidth: "100%",
@@ -29,77 +31,72 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: "20px",
   },
+  divStyle: {
+    borderTop: "2px solid #eeeef5",
+    marginBottom: "32px",
+  },
+  fixSpans: {
+    marginBottom: "3px",
+    "& > span": {
+      top: "-12px",
+      position: "relative",
+      marginLeft: "5px",
+    },
+    "& > svg": {
+      top: "-2px",
+      position: "relative",
+      marginBottom: "3px",
+    },
+  },
+  column: {
+    "& > div": {
+      height: "26px",
+      marginBotom: "5px",
+    },
+  },
 }));
-
-const divStyle = {
-  borderTop: "2px solid #ddd",
-  maxWidth: "100%",
-};
 
 function Footer() {
   const classes = useStyles();
   return (
-    <Container className={classes.root.footer} maxWidth="sm">
-      <div style={divStyle}>
-        <Grid container spacing={3}>
-          <div className={classes.root}></div>
-          <Grid item xs={12}></Grid>
-          <Grid item xs={4} align="center">
-            <div className={classes.h}>Contact Us</div>
-            <br />
-            <Grid item xs={4} className={classes.item}>
-              <LocationOnIcon></LocationOnIcon>
-              <div>Vancouver</div>
-              <br />
-            </Grid>
-            <Grid item xs={4} className={classes.item}>
-              <EmailIcon></EmailIcon>
-              <div>Contact@carbnb.ca</div>
-              <br />
-            </Grid>
-            <Grid item xs={4} className={classes.item}>
-              <PhoneIcon></PhoneIcon>
-              <div>+1 604 000 car</div>
-              <br />
-            </Grid>
-          </Grid>
-          <Grid item xs={4} align="center">
-            <div className={classes.h}>About Us</div>
-            <br />
-            <Grid item xs={4} className={classes.item}>
-              <div>How Carbnb works</div>
-              <br />
-            </Grid>
-            <Grid item xs={4} className={classes.item}>
-              <div>Careers</div>
-              <br />
-            </Grid>
-            <Grid item xs={4} className={classes.item}>
-              <div>Investors</div>
-              <br />
-            </Grid>
-          </Grid>
-          <Grid item xs={4} align="center">
-            <div className={classes.h}>Support</div>
-            <br />
-            <Grid item xs={4} className={classes.item}>
-              <div>Our Covid-19 response</div>
-              <br />
-            </Grid>
-            <Grid item xs={4} className={classes.item}>
-              <div>FAQ's</div>
-              <br />
-            </Grid>
-            <Grid item xs={4} className={classes.item}>
-              <div>Cancellation Policy</div>
-              <br />
-            </Grid>
-          </Grid>
+    <Container className={classes.footer} maxWidth="sm">
+      <div className={classes.divStyle}></div>
+      <Grid container spacing={3}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={4} className={classes.column}>
+          <div className={classes.h}>Contact Us</div>
+          <div className={classes.fixSpans}>
+            <LocationOnIcon fontSize="small"></LocationOnIcon>
+            <span> Vancouver</span>
+          </div>
+          <div className={classes.fixSpans}>
+            <EmailIcon fontSize="small"></EmailIcon>
+            <span> Contact@carbnb.ca</span>
+          </div>
+          <div className={classes.fixSpans}>
+            <PhoneIcon fontSize="small"></PhoneIcon>
+            <span> +1 604 000 car</span>
+          </div>
+        </Grid>
+        <Grid item xs={4} className={classes.column}>
+          <div className={classes.h}>About Us</div>
+          <div>How Carbnb works</div>
+          <div>Careers</div>
+          <div>Investors</div>
+        </Grid>
+        <Grid item xs={3} className={classes.column}>
+          <div className={classes.h}>Support</div>
+          <div>Our Covid-19 response</div>
+          <div>FAQ's</div>
+          <div>Cancellation Policy</div>
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={3}>
           <FacebookIcon className={classes.icon}></FacebookIcon>
           <InstagramIcon className={classes.icon}></InstagramIcon>
           <TwitterIcon className={classes.icon}></TwitterIcon>
         </Grid>
-      </div>
+      </Grid>
     </Container>
   );
 }

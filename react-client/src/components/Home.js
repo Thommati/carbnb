@@ -2,8 +2,20 @@ import SearchBar from "./SearchBar";
 import PopularLocations from "./PopularLocations";
 import SearchResultsContainer from "./SearchResultsContainer";
 import Footer from "./footer";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+
+const useStyles = makeStyles((theme) => ({
+  h: {
+    borderTop: "2px solid #eeeef5",
+    marginTop: "80px",
+    textAlign: "center",
+    paddingTop: "32px",
+  },
+}));
 
 function Home(props) {
+  const classes = useStyles();
   return (
     <div>
       Home
@@ -22,7 +34,9 @@ function Home(props) {
       <p></p>
       {props.search.location === "" && (
         <div>
-          <div>The Airbnb of the automotive world. bla bla</div>
+          <Container className={classes.h} maxWidth="sm">
+            The Airbnb of the automotive world. bla bla
+          </Container>
           <PopularLocations setLocation={props.setLocation} />
         </div>
       )}
