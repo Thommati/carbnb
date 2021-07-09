@@ -14,6 +14,7 @@ import {
   TablePagination,
   TableFooter
 } from '@material-ui/core';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
 
@@ -46,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
   },
   TableFooter: {
     justifyContent: 'right'
+  },
+  Mail: {
+  color: '#1e88e5',
+  fontSize: 30
   },
   Delete: {
     color: '#c62828',
@@ -143,15 +148,7 @@ export default function MainContainer() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <Typography
-                    className={classes.status}
-                    style={{
-                      backgroundColor:
-                      ((row.status === 'upcoming' && '#1e88e5') ||
-                      (row.status === 'in progress' && '#9ccc65') ||
-                      (row.status === 'cancelled' && 'red'))
-                    }}
-                  >{row.status}</Typography>
+                  <a href="mailto:{row.email}"><MailOutlineIcon className={classes.Mail}/></a>
                 </TableCell>
                 <TableCell>
                   <DeleteForeverIcon className={classes.Delete}/>
