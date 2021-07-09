@@ -17,7 +17,6 @@ function Home(props) {
   const classes = useStyles();
   return (
     <div>
-      Home
       <SearchBar
         search={props.search}
         setSearch={props.setSearch}
@@ -41,12 +40,7 @@ function Home(props) {
       )}
       {props.search.location !== "" && (
         <div>
-          <SearchResultsContainer
-            cars={props.cars}
-            setSelected={props.setSelected}
-            clearSelected={props.clearSelected}
-            filters={props.filters}
-          />
+          <SearchResultsContainer cars={props.cars} filters={props.filters} />
         </div>
       )}
       <br />

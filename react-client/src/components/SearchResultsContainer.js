@@ -57,13 +57,7 @@ function SearchResultsContainer(props) {
   }, [sortBy, props.cars.rows, props.filters]);
 
   const resultItems = sortedCarsRows.map((car) => {
-    return (
-      <ResultItem
-        key={car.id}
-        car={car}
-        setSelected={props.setSelected}
-      ></ResultItem>
-    );
+    return <ResultItem key={car.id} car={car}></ResultItem>;
   });
 
   return (
