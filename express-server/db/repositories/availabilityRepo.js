@@ -3,15 +3,15 @@ const db = require('../index');
 // Retrieve all availabilities, or all availabilities for a specific owner
 exports.getAllAvailabilitiesAsync = (ownerId) => {
   let queryText = `
-    SELECT availability.*, name, email, phone, make, model
+    SELECT availability.*, name, email, phone, make, model, user_id as owner_id
     FROM availability
-    JOIN users ON owner_id = users.id
     JOIN cars ON car_id = cars.id
+    JOIN users ON user_id = users.id
   `;
   const queryParams = [];
 
   if (ownerId) {
-    queryText += 'WHERE owner_id = $1';
+    queryText += 'WHERE user_id = $1';
     queryParams.push(ownerId);
   }
 
