@@ -29,6 +29,19 @@ exports.getOrdersForHostWithIdAsync = id => {
   return db.query(queryText, queryParams);
 };
 
+// Retrieves all orders for a specific car.
+exports.getOrdersForCarWithIdAsync = id => {
+  const queryText = `
+    SELECT orders.id, orders.start_date, orders.end_date FROM orders
+    JOIN availability ON availability_id = availability.id
+    JOIN cars ON car_id = cars.id
+    And cars.id = $1
+    WHERE orders.end_date > CURRENT_DATE;
+  `;
+  const queryParams = [id];
+  return db.query(queryText, queryParams);
+};
+
 exports.deleteOrderWithIdAsync = id => {
   const queryText = 'DELETE FROM orders WHERE id = $1';
   const queryParams = [id];

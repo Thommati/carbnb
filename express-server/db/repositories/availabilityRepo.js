@@ -3,15 +3,15 @@ const db = require('../index');
 // Retrieve all availabilities, or all availabilities for a specific owner
 exports.getAllAvailabilitiesAsync = (ownerId) => {
   let queryText = `
-    SELECT availability.*, name, email, phone, make, model
+    SELECT availability.*, name, email, phone, make, model, user_id as owner_id
     FROM availability
-    JOIN users ON owner_id = users.id
     JOIN cars ON car_id = cars.id
+    JOIN users ON user_id = users.id
   `;
   const queryParams = [];
 
   if (ownerId) {
-    queryText += 'WHERE owner_id = $1';
+    queryText += 'WHERE user_id = $1';
     queryParams.push(ownerId);
   }
 
@@ -20,24 +20,34 @@ exports.getAllAvailabilitiesAsync = (ownerId) => {
   return db.query(queryText, queryParams);
 };
 
+// Retrieves all availabilities for the car with the given id.
+exports.getAvailabilityForCarByIdAsync = id => {
+  const queryText =`
+    SELECT * from availability
+    WHERE car_id = $1
+    AND end_date >= CURRENT_DATE
+    ORDER BY start_date;
+  `;
+  const queryParams = [id];
+  return db.query(queryText, queryParams);
+};
+
 // Create a new availability.  Pass in availability column data except id.
 exports.createAvailabilityAsync = data => {
   const queryText = `
     INSERT INTO availability (
       location_id,
-      owner_id,
       start_date,
       end_date,
       delivery,
       car_id,
       price
     )
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `;
   const queryParams = [
     data.locationId,
-    data.ownerId,
     data.startDate,
     data.endDate,
     data.delivery,

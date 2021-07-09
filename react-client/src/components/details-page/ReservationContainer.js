@@ -1,108 +1,144 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+// Material UI imports
 import Button from '@material-ui/core/Button';
-import DateFnsUtils from '@date-io/date-fns';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+// Imports for date range picker
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import { DateRange } from 'react-date-range';
+import { addYears } from 'date-fns';
+
+// Components and other project files
 import ReservationDetail from './ReservationDetail';
 import pricingInfo from '../../helpers/pricing';
+import { authContext } from '../../providers/authProvider';
+import { getMinAndMaxDates, getListingIdForOrder } from '../../helpers/listing-helpers';
 
 import './ReservationContainer.scss';
 
 // TODO: Add submit reservation button logic
-// TODO: Write a helper function to get a tax rate based off of location's province
-// TODO: Remove hard-coded values from ReservationDetails and load from Container's props
+// TODO: Remove hard-coded values from ReservationDetails
 const ReservationContainer = props => {
-  const { price, province } = props;
-  const [startDate, setStartDate] = useState(props.startDate);
-  const [endDate, setEndDate] = useState(props.endDate);
+  const { auth, user } = useContext(authContext);
+  const { carId, price, province } = props;
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [numDays, setNumDays] = useState((props.endDate - props.startDate) / (24 * 60 * 60 * 1000) + 1);
+  const [minAvailableDate, setMinAvailableDate] = useState(new Date());
+  const [maxAvailableDate, setMaxAvailableDate] = useState(addYears(new Date(), 1));
+  const [disabledDates, setDisabledDates] = useState([]);
+  const [listingsAndOrders, setListingsAndOrders] = useState({});
 
   // for snackbars
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openFail, setOpenFail] = useState(false);
 
-  const handleSelectStartDate = date => {
-    setStartDate(date);
-  };
-
-  const handleSelectEndDate = date => {
-    setEndDate(date);
+  const handleRangeSelection = range => {
+    setStartDate(range.selection.startDate);
+    setEndDate(range.selection.endDate);
   };
 
   useEffect(() => {
     setNumDays(Math.ceil((endDate - startDate) / (24 * 60 * 60 * 1000) + 1));
   }, [startDate, endDate]);
 
+  useEffect(() => {
+    const fetchAvailabilitiesAndOrders = async () => {
+      try {
+        const responses = await Promise.all([
+          axios.get(`/api/availability/cars/${carId}`),
+          axios.get(`/api/orders/cars/${carId}`)
+        ]);
+
+        setListingsAndOrders({
+          listings: responses[0].data,
+          orders: responses[1].data
+        });
+
+      } catch (err) {
+        console.log('Error fetching availability for listings');
+      }
+    };
+    if (carId) {
+      fetchAvailabilitiesAndOrders();
+    }
+  }, [carId]);
+
+  // Set min and max available dates whenever listings change.
+  useEffect(() => {
+    let minDate = null;
+    let maxDate= null;
+    let disabledDates = null;
+
+    const { listings, orders } = listingsAndOrders;
+    if (listingsAndOrders.listings) {
+      ({ minDate, maxDate, disabledDates } = getMinAndMaxDates(listings, orders));
+    }
+
+    if (minDate && maxDate) {
+      setMinAvailableDate(minDate);
+      setMaxAvailableDate(maxDate);
+      setStartDate(minDate);
+      setEndDate(minDate);
+      setDisabledDates(disabledDates);
+    }
+  }, [listingsAndOrders]);
+
   const handleSubmitReservation = async () => {
     try {
-      // TODO: availability needs to be set properly
-      // TODO: need to pull user data from authContext after it is written
-      const response = await axios.post('/api/orders', {
-        availabilityId: 1, // a proper id is required
-        renterId: 2, // need to use the current user
+      const { listingId, listingPrice } = getListingIdForOrder(listingsAndOrders.listings, { startDate, endDate });
+      const order = {
+        renterId: user.id,
         startDate,
         endDate,
-        price // Needs to come from availability
-      });
+        availabilityId: listingId,
+        price: listingPrice
+      };
 
-      if (response.status === 201) {
-        setOpenSuccess(true);
-      } else {
-        setOpenFail(true);
-      }
+      console.log(order);
+
+      // const response = await axios.post('/api/orders', order);
+
+      // if (response.status === 201) {
+      //   setOpenSuccess(true);
+      // } else {
+      //   setOpenFail(true);
+      // }
     } catch (err) {
       console.error(err);
       setOpenFail(true);
     }
-  };
+  }
 
   // Snackbar close handler
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpenSuccess(false);
-    setOpenFail(false);
+    openSuccess && setOpenSuccess(false);
+    openFail && setOpenFail(false);
   };
 
+  // TODO:  user correct price below
   return (
     <div className="reservation-container">
       <div>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            margin="normal"
-            id="start-date-picker"
-            label="Start Date"
-            format="dd/MM/yyyy"
-            value={startDate}
-            onChange={handleSelectStartDate}
-            KeyboardButtonProps={{
-              'aria-label': 'change start date',
-            }}
-            className="reservation-container__date-picker"
-            disablePast
-          />
-          <KeyboardDatePicker
-            margin="normal"
-            id="end-date-picker"
-            label="End Date"
-            format="dd/MM/yyyy"
-            value={endDate}
-            onChange={handleSelectEndDate}
-            KeyboardButtonProps={{
-              'aria-label': 'change end date',
-            }}
-            className="reservation-container__date-picker"
-            disablePast
-          />
-        </MuiPickersUtilsProvider>
+        <DateRange
+          ranges={[{ startDate, endDate, key: 'selection' }]}
+          onChange={handleRangeSelection}
+          scroll={{enabled: true}}
+          minDate={minAvailableDate || new Date()}
+          maxDate={maxAvailableDate}
+          disabledDates={disabledDates}
+        />
       </div>
-      <Button variant="contained" color="primary" onClick={handleSubmitReservation}>
-        Reserve
+      <Button variant="contained" color="primary" onClick={handleSubmitReservation} disabled={!auth}>
+        {auth && 'Reserve'}
+        {!auth && 'Login to Book'}
       </Button>
       <ReservationDetail
         price={price}

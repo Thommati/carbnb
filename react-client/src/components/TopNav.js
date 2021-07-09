@@ -12,6 +12,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import './TopNav.scss';
 
@@ -39,8 +41,8 @@ const TopNav = props => {
   const loginSubmit = async () => {
     const { result, error } = await login(loginEmail, loginPassword);
     if (result === 'success') {
-      // TODO: Add toast to show successful login.
       handleLoginClose();
+      setSnackOpen(true);
     } else {
       setLoginErrorMessage(error.response.data.error);
     }
@@ -95,6 +97,23 @@ const TopNav = props => {
     }
   };
 
+  // Snackbars: state and methods
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [loggedOutOpen, setLoggedOutOpen] = useState(false);
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    snackOpen && setSnackOpen(false);
+    loggedOutOpen && setLoggedOutOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setLoggedOutOpen(true);
+  };
+
   return (
     <nav>
       <AppBar position="static">
@@ -114,7 +133,7 @@ const TopNav = props => {
             {auth && (
               <>
                 <Button color="inherit" onClick={() => history.push('/user-dashboard')}>{user.name}'s Dashboard</Button>
-                <Button color="inherit" onClick={logout}>Log Out</Button>
+                <Button color="inherit" onClick={handleLogout}>Log Out</Button>
               </>
             )}
           </div>
@@ -230,6 +249,18 @@ const TopNav = props => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
+        <MuiAlert onClose={handleCloseSnack} severity="success" elevation={6} variant="filled">
+          Successfully logged in as {user.name}
+        </MuiAlert>
+      </Snackbar>
+
+      <Snackbar open={loggedOutOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
+        <MuiAlert onClose={handleCloseSnack} severity="info" elevation={6} variant="filled">
+          Logged out
+        </MuiAlert>
+      </Snackbar>
     </nav>
   );
 };

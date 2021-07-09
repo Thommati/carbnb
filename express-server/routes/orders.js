@@ -2,6 +2,7 @@ const express = require('express');
 const {
   getOrdersForRenterWithIdAsync,
   getOrdersForHostWithIdAsync,
+  getOrdersForCarWithIdAsync,
   deleteOrderWithIdAsync,
   createNewOrderAsync,
   UpdateOrderWithIdAsync,
@@ -29,7 +30,19 @@ router.get('/host/:id', async (req, res) => {
     return res.json(rows);
   } catch (err) {
     console.log('Error retrieving orders for host', err);
-    res.status(500).json({error: 'Internal server error'});
+    return res.status(500).json({error: 'Internal server error'});
+  }
+});
+
+// GET /api/orders/cars/:id
+// Retrieve all orders for the car with the given id
+router.get('/cars/:id', async (req, res) => {
+  try {
+    const { rows } = await getOrdersForCarWithIdAsync(req.params.id);
+    return res.json(rows);
+  } catch (err) {
+    console.log('Error retrieving orders by car id', err);
+    return res.status(500).json({ error: 'Internal server error '});
   }
 });
 
@@ -52,7 +65,7 @@ router.post ('/', async (req, res) => {
     const { rows } = await createNewOrderAsync(req.body);
     return res.status(201).json(rows[0]);
   } catch (err) {
-    console.log('Error creating / saving new order');
+    console.log('Error creating / saving new order', err);
     return res.status(500).json({error: 'Internal server error'});
   }
 });
