@@ -15,7 +15,7 @@ import {
   TableFooter
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import PageviewIcon from '@material-ui/icons/Pageview';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -144,7 +144,7 @@ export default function Favourites() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <VisibilityIcon className={classes.View}/>
+                  <PageviewIcon className={classes.View}/>
                 </TableCell>
                 <TableCell>
                   <DeleteForeverIcon className={classes.Delete} />

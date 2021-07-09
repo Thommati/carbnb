@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Rating } from '@material-ui/lab';
 import Box from '@material-ui/core/Box';
 import RateReviewIcon from '@material-ui/icons/RateReview';
+import { TableRow } from '@material-ui/core';
 
 const labels = {
   1: 'Very Poor',
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
   },
   Review: {
     color: '#9ccc65',
-    fontSize: 30
+    fontSize: 30,
   }
 });
 
@@ -68,9 +69,9 @@ export default function UserReview() {
 
   return (
     <div>
-      <RateReviewIcon className={classes.Review} onClick={handleClickOpen}/>
+      <RateReviewIcon className={classes.Review} onClick={handleClickOpen} style={{cursor: 'pointer'}}/>
       <Dialog open={open} onClose={handleClose} aria-labelledby="review-rating">
-        <DialogTitle id="review-rating">Review</DialogTitle>
+        <DialogTitle id="review-rating">Review Vehicle - </DialogTitle>
         <DialogContent>
           <DialogContentText>
             <FormReview />

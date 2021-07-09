@@ -53,19 +53,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// function createData(id, image, from, to, make, model, price, host, street_number, street, city, province, country, postal_code, status) {
-//   return { id, image, from, to, make, model, price, host, street_number, street, city, province, country, postal_code, status };
-// }
-
-// const rows = [
-//   createData(1, 'https://www.thetruthaboutcars.com/wp-content/uploads/2019/11/DSC0778-610x405-1.jpg', '2021-07-06', '2021-07-10', 'Honda', 'Civic', '4 Door', 480, 'Steven Gerrard', 1655, 'Apt', 'Powick Rd', 'Kelowna', 'British Columbia', 'Canada', 'V1X 4L1', 'in progress'),
-//   createData(2, 'https://press.porsche.com/download/prod/presse_pag/PressBasicData.nsf/Download?OpenAgent&attachmentid=1495263&show=1', '2021-07-17', '2021-07-18', 'Porsche', '911s', '2 Door', 500, 'Dominic Crisp', 999, 'Apt', 'Canada Place', 'Vancouver', 'British Columbia', 'Canada', 'V6C 3B5', 'upcoming'),
-//   createData(3, 'https://s1.1zoom.me/big0/719/Ferrari_488_Spider_Red_Cabriolet_528366_1280x853.jpg', '2021-08-01', '2021-08-03', 'Ferrari', 'Spyder', '2 Door', 2000, 'Hervinder Bhandal', 1125, 401, '12th Avenue', 'Vancouver', 'British Columbia', 'Canada', 'V6H 3Z3', 'upcoming'),
-//   createData(4, 'https://dealerimages.dealereprocess.com/image/upload/1746586.jpg', '2021-09-12', '2021-09-15', 'Ford', 'F150', '4 Door', 900, 'Avivit Weissman', 999, 'Apt', 'Canada Place', 'Vancouver', 'British Columbia', 'Canada', 'V6C 3B5', 'upcoming'),
-//   createData(5, 'https://i.ytimg.com/vi/X0wOU0F22yE/maxresdefault.jpg', '2021-10-21', '2021-07-22', 'Dodge', 'RAM 1500', '4 Door', 500, 'Matthew Thompson', 110, 'Apt', '9th Avenue SE', 'Calgary', 'Alberta', 'Canada', 'T2G 5A6', 'upcoming'),
-//   createData(6, 'https://images.caricos.com/m/mercedes-benz/2021_mercedes-benz_s-class/images/1024x768/2021_mercedes-benz_s-class_162_1024x768.jpg', '2021-07-10', '2021-07-14', 'Mercedes', 'S Class', '4 Door', 3000, 'Trent Alexander-Arnold', 1655, 'Apt', 'Powick Rd', 'Kelowna', 'British Columbia', 'Canada', 'V1X 4L1', 'cancelled'),
-// ];
-
 const tempUser = 3;
 
 export default function PastBookings() {
@@ -98,6 +85,9 @@ export default function PastBookings() {
     setPage(0);
   };
 
+  let today = new Date().toLocaleDateString("en-ca");
+  today = new Date(today);
+
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
       <Table className={classes.table} aria-label="user-dashboard">
@@ -106,8 +96,8 @@ export default function PastBookings() {
             <TableCell className={classes.TableHeaderCell} align="center">BOOKING ID</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} >VEHICLE INFO</TableCell>
-            <TableCell className={classes.TableHeaderCell} >DATE FROM</TableCell>
-            <TableCell className={classes.TableHeaderCell} >DATE TO</TableCell>
+            <TableCell className={classes.TableHeaderCell} >PICKUP DATE</TableCell>
+            <TableCell className={classes.TableHeaderCell} >RETURN DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE</TableCell>
             <TableCell className={classes.TableHeaderCell} >HOST DETAILS</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
@@ -115,6 +105,7 @@ export default function PastBookings() {
         </TableHead>
         <TableBody>
           {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+          new Date(new Date(row.end_date).toLocaleDateString("en-ca")) < today && (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.id}
@@ -130,10 +121,10 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
               <TableCell>
-              <Typography color="textSecondary" variant="body2">{row.start_date}</Typography>
+              <Typography color="textSecondary" variant="body2">{new Date(row.start_date).toLocaleDateString("en-ca")}</Typography>
               </TableCell>
               <TableCell>
-              <Typography color="textSecondary" variant="body2">{row.end_date}</Typography>
+              <Typography color="textSecondary" variant="body2">{new Date(row.end_date).toLocaleDateString("en-ca")}</Typography>
               </TableCell>
               <TableCell>
                 <Typography color="textSecondary" variant="body2">{row.price}</Typography>
@@ -150,9 +141,10 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <UserReview />
+                  <UserReview/>
                 </TableCell>
               </TableRow>
+          )
             ))}
           </TableBody>
         </Table>
