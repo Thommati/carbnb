@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const tempHost = 2;
+const tempHost = 3;
 
 export default function MainContainer() {
   const classes = useStyles();
@@ -88,10 +88,9 @@ export default function MainContainer() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const today = new Date();
-  const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  const dateTime = date+' '+time;
+
+  let today = new Date().toLocaleDateString("en-ca");
+  today = new Date(today);
 
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
@@ -101,8 +100,8 @@ export default function MainContainer() {
             <TableCell className={classes.TableHeaderCell} align="center">BOOKING ID</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} >VEHICLE INFO</TableCell>
-            <TableCell className={classes.TableHeaderCell} >DATE FROM</TableCell>
-            <TableCell className={classes.TableHeaderCell} >DATE TO</TableCell>
+            <TableCell className={classes.TableHeaderCell} >PICKUP DATE</TableCell>
+            <TableCell className={classes.TableHeaderCell} >RETURN DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE</TableCell>
             <TableCell className={classes.TableHeaderCell} >RENTER NAME</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
@@ -110,7 +109,7 @@ export default function MainContainer() {
         </TableHead>
         <TableBody>
           {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-            row.end_date > dateTime && (
+          new Date(new Date(row.end_date).toLocaleDateString("en-ca")) < today && (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.id}
@@ -126,10 +125,10 @@ export default function MainContainer() {
                 </Grid>
               </TableCell>
               <TableCell>
-              <Typography color="textSecondary" variant="body2">{row.start_date}</Typography>
+              <Typography color="textSecondary" variant="body2">{new Date(row.start_date).toLocaleDateString("en-ca")}</Typography>
               </TableCell>
               <TableCell>
-              <Typography color="textSecondary" variant="body2">{row.end_date}</Typography>
+              <Typography color="textSecondary" variant="body2">{new Date(row.end_date).toLocaleDateString("en-ca")}</Typography>
               </TableCell>
               <TableCell>
                 <Typography color="textSecondary" variant="body2">{row.price}</Typography>
