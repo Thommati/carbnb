@@ -1,14 +1,13 @@
-
-import { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { createContext, useState, useEffect } from "react";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 export default function AuthProvider(props) {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState({ email: "", name: "", id: "" });
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (token) {
       authenticateFromToken(token);
@@ -18,62 +17,62 @@ export default function AuthProvider(props) {
   // Perform login process for the user & save authID, etc
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post("/api/auth/login", {
         email: email,
-        password: password
+        password: password,
       });
 
       // Handle successful login
       // Set token on local storage - this will be used once the server is set up to require tokens
-      localStorage.setItem('token', response.data);
+      localStorage.setItem("token", response.data);
 
       // Set auth and user states
       authenticateFromToken(response.data);
 
-      return { result: 'success', error: null };
+      return { result: "success", error: null };
     } catch (err) {
-      return { result: 'failed', error: err };
+      return { result: "failed", error: err };
     }
   };
 
-  const register = async formData => {
+  const register = async (formData) => {
     try {
-      const response = await axios.post('/api/users', {
+      const response = await axios.post("/api/users", {
         name: formData.name,
         email: formData.email,
         image: formData.image,
         password: formData.password,
-        phone: formData.phone
+        phone: formData.phone,
       });
 
       // Handle successful retigstration (and simultaneous login)
       // Set token on local storage - this will be used once the server is set up to require tokens
-      localStorage.setItem('token', response.data);
+      localStorage.setItem("token", response.data);
 
       // set auth and user state from token
       authenticateFromToken(response.data);
 
-      return { result: 'success', error: null };
+      return { result: "success", error: null };
     } catch (err) {
-      return { result: 'failed', error: err }
+      return { result: "failed", error: err };
     }
   };
 
   const logout = () => {
     setUser({});
     setAuth(false);
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   };
 
   // Helper function to set auth and user state on login / register
-  const authenticateFromToken = jwtToken => {
+  const authenticateFromToken = (jwtToken) => {
     const token = jwtDecode(jwtToken);
     setAuth(true);
     setUser({
-      is: token.sub,
+      id: token.sub,
       email: token.email,
       image: token.image,
-      name: token.name
+      name: token.name,
     });
   };
 
@@ -86,6 +85,6 @@ export default function AuthProvider(props) {
       {props.children}
     </authContext.Provider>
   );
-};
+}
 
 export const authContext = createContext();
