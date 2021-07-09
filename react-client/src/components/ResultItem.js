@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+
+import { searchContext } from "../providers/SearchProvider";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -45,7 +48,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResultItem(props) {
+  const { addFavourite, removeFavourite } = useContext(searchContext);
+
   const classes = useStyles();
+
+  const handleFavoriteChange = (event) => {
+    if (event.target.checked) {
+      addFavourite(props.car.id);
+    } else {
+      removeFavourite(props.car.id);
+    }
+  };
 
   return (
     <Grid item xs={4}>
@@ -56,6 +69,8 @@ function ResultItem(props) {
               icon={<FavoriteBorder />}
               checkedIcon={<Favorite className={classes.fav} />}
               name="checkedH"
+              checked={props.fav}
+              onChange={handleFavoriteChange}
             />
           }
         />

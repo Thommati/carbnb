@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function SearchResultsContainer(props) {
   const classes = useStyles();
 
-  const { filters, cars } = useContext(searchContext);
+  const { filters, cars, favourites } = useContext(searchContext);
 
   const [sortBy, setSortBy] = useState("1");
 
@@ -61,7 +61,13 @@ function SearchResultsContainer(props) {
   }, [sortBy, cars.rows, filters]);
 
   const resultItems = sortedCarsRows.map((car) => {
-    return <ResultItem key={car.id} car={car}></ResultItem>;
+    return (
+      <ResultItem
+        key={car.id}
+        car={car}
+        fav={!!favourites.find((fav) => fav.car_id === car.id)}
+      ></ResultItem>
+    );
   });
 
   return (
