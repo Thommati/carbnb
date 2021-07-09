@@ -21,15 +21,13 @@ import { getMinAndMaxDates } from '../../helpers/listing-helpers';
 import './ReservationContainer.scss';
 
 // TODO: Add submit reservation button logic
-// TODO: Write a helper function to get a tax rate based off of location's province
-// TODO: Remove hard-coded values from ReservationDetails and load from Container's props
+// TODO: Remove hard-coded values from ReservationDetails
 const ReservationContainer = props => {
   const { auth, user } = useContext(authContext);
   const { carId, price, province } = props;
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [numDays, setNumDays] = useState((props.endDate - props.startDate) / (24 * 60 * 60 * 1000) + 1);
-  // const [listings, setListings] = useState([]);
   const [minAvailableDate, setMinAvailableDate] = useState(new Date());
   const [maxAvailableDate, setMaxAvailableDate] = useState(addYears(new Date(), 1));
   const [disabledDates, setDisabledDates] = useState([]);
@@ -49,7 +47,7 @@ const ReservationContainer = props => {
   }, [startDate, endDate]);
 
   useEffect(() => {
-    const fetchAvailabilities = async () => {
+    const fetchAvailabilitiesAndOrders = async () => {
       try {
         const responses = await Promise.all([
           axios.get(`/api/availability/cars/${carId}`),
@@ -61,14 +59,12 @@ const ReservationContainer = props => {
           orders: responses[1].data
         });
 
-        // const response = await axios.get(`/api/availability/cars/${carId}`);
-        // setListings(responses[0].data);
       } catch (err) {
         console.log('Error fetching availability for listings');
       }
     };
     if (carId) {
-      fetchAvailabilities();
+      fetchAvailabilitiesAndOrders();
     }
   }, [carId]);
 
