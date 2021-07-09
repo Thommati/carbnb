@@ -1,4 +1,5 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useContext } from "react";
+import { searchContext } from "../providers/SearchProvider";
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -36,15 +37,17 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchBar(props) {
   const classes = useStyles();
+  const { search, filters, setSearch, setPets, setRv, setSport } =
+    useContext(searchContext);
 
-  const [location, setLocation] = useState(props.search.location);
-  const [fromDate, setFromDate] = useState(props.search.fromDate);
-  const [toDate, setToDate] = useState(props.search.toDate);
+  const [location, setLocation] = useState(search.location);
+  const [fromDate, setFromDate] = useState(search.fromDate);
+  const [toDate, setToDate] = useState(search.toDate);
 
   // when the global location changed (e.g PopularLocations clicked) it will update the internal search
   useEffect(() => {
-    setLocation(props.search.location);
-  }, [props.search.location]);
+    setLocation(search.location);
+  }, [search.location]);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
@@ -59,7 +62,7 @@ function SearchBar(props) {
   };
 
   const handleSearchClick = () => {
-    props.setSearch((prev) => {
+    setSearch((prev) => {
       return { ...prev, location, fromDate, toDate };
     });
   };
@@ -126,14 +129,14 @@ function SearchBar(props) {
             </Button>
           </Grid>
 
-          {props.search.location !== "" && (
+          {search.location !== "" && (
             <Fragment>
               <Grid item xs={4}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={props.filters.pets}
-                      onChange={() => props.setPets(!props.filters.pets)}
+                      checked={filters.pets}
+                      onChange={() => setPets(!filters.pets)}
                       name="petCb"
                       color="primary"
                     />
@@ -145,8 +148,8 @@ function SearchBar(props) {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={props.filters.rv}
-                      onChange={() => props.setRv(!props.filters.rv)}
+                      checked={filters.rv}
+                      onChange={() => setRv(!filters.rv)}
                       name="rvCb"
                       color="primary"
                     />
@@ -158,8 +161,8 @@ function SearchBar(props) {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={props.filters.sport}
-                      onChange={() => props.setSport(!props.filters.sport)}
+                      checked={filters.sport}
+                      onChange={() => setSport(!filters.sport)}
                       name="sportCb"
                       color="primary"
                     />

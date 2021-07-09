@@ -1,8 +1,12 @@
+import { useContext } from "react";
+import { searchContext } from "../providers/SearchProvider";
+
 import SearchBar from "./SearchBar";
 import PopularLocations from "./PopularLocations";
 import SearchResultsContainer from "./SearchResultsContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import SearchProvider from "../providers/SearchProvider";
 
 const useStyles = makeStyles((theme) => ({
   h: {
@@ -13,34 +17,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//created the internalHome component to be able to wrap the useContext with a search provider
 function Home(props) {
+  return (
+    <SearchProvider>
+      <InternalHome />
+    </SearchProvider>
+  );
+}
+
+function InternalHome(props) {
   const classes = useStyles();
+  const { search } = useContext(searchContext);
+
   return (
     <div>
-      <SearchBar
-        search={props.search}
-        setSearch={props.setSearch}
-        setLocation={props.setLocation}
-        setFromDate={props.setFromDate}
-        setToDate={props.setToDate}
-        filters={props.filters}
-        setFilters={props.setFilters}
-        setPets={props.setPets}
-        setRv={props.setRv}
-        setSport={props.setSport}
-      />
+      <SearchBar />
       <p></p>
-      {props.search.location === "" && (
+      {search.location === "" && (
         <div>
           <Container className={classes.h} maxWidth="sm">
             The Airbnb of the automotive world. bla bla
           </Container>
-          <PopularLocations setLocation={props.setLocation} />
+          <PopularLocations />
         </div>
       )}
-      {props.search.location !== "" && (
+      {search.location !== "" && (
         <div>
-          <SearchResultsContainer cars={props.cars} filters={props.filters} />
+          <SearchResultsContainer />
         </div>
       )}
       <br />

@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 const axios = require("axios");
 
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
-export default function useApplicationData(initial) {
+export default function SearchProvider(props) {
   ////////////////// Search state ///////////////////////
 
   const [search, setSearch] = useState({
@@ -85,7 +85,7 @@ export default function useApplicationData(initial) {
     }
   }, [search]);
 
-  return {
+  const searchData = {
     search,
     setSearch,
     setLocation,
@@ -98,4 +98,13 @@ export default function useApplicationData(initial) {
     setSport,
     cars,
   };
+
+  // We can use this component to wrap any content we want to share this context
+  return (
+    <searchContext.Provider value={searchData}>
+      {props.children}
+    </searchContext.Provider>
+  );
 }
+
+export const searchContext = createContext();

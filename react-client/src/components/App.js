@@ -7,27 +7,12 @@ import Footer from "./Footer";
 import CarDetails from "./details-page/CarDetails";
 
 import CarTheme from "./CarTheme";
-import useApplicationData from "../hooks/ApplicationData";
 import UserDashboard from "./user-dashboard/UserDashboard";
 
 import HostDashboard from "./host-dashboard/HostDashboard";
 import TopNav from "./TopNav";
 
 function App() {
-  const {
-    search,
-    setSearch,
-    setLocation,
-    setFromDate,
-    setToDate,
-    filters,
-    setFilters,
-    setPets,
-    setRv,
-    setSport,
-    cars,
-  } = useApplicationData();
-
   return (
     <CarTheme>
       <Router>
@@ -46,19 +31,7 @@ function App() {
               <HostDashboard />
             </Route>
             <Route path="/">
-              <Home
-                search={search}
-                setSearch={setSearch}
-                setLocation={setLocation}
-                setFromDate={setFromDate}
-                setToDate={setToDate}
-                cars={cars}
-                filters={filters}
-                setFilters={setFilters}
-                setPets={setPets}
-                setRv={setRv}
-                setSport={setSport}
-              />
+              <Home />
             </Route>
           </Switch>
         </div>

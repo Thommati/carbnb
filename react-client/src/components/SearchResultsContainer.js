@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
+import { searchContext } from "../providers/SearchProvider";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchResultsContainer(props) {
   const classes = useStyles();
+
+  const { filters, cars } = useContext(searchContext);
+
   const [sortBy, setSortBy] = useState("1");
 
   const handleOnChangeSortBy = (event) => {
@@ -38,23 +42,23 @@ function SearchResultsContainer(props) {
   };
 
   const sortedCarsRows = useMemo(() => {
-    let carRows = [...props.cars.rows];
+    let carRows = [...cars.rows];
     carRows = carRows
       .filter((car) => {
-        if (props.filters.pets && !car.pet_friendly) {
+        if (filters.pets && !car.pet_friendly) {
           return false;
         }
-        if (props.filters.rv && !car.rv) {
+        if (filters.rv && !car.rv) {
           return false;
         }
-        if (props.filters.sport && !car.sport) {
+        if (filters.sport && !car.sport) {
           return false;
         }
         return true;
       })
       .sort((a, b) => (a.price - b.price) * sortBy);
     return carRows;
-  }, [sortBy, props.cars.rows, props.filters]);
+  }, [sortBy, cars.rows, filters]);
 
   const resultItems = sortedCarsRows.map((car) => {
     return <ResultItem key={car.id} car={car}></ResultItem>;
