@@ -10,7 +10,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
-import { addYears, addDays, isBefore, isAfter } from 'date-fns';
+import { addYears, isBefore, isAfter } from 'date-fns';
 
 // Components and other project files
 import ReservationDetail from './ReservationDetail';
@@ -59,7 +59,7 @@ const ReservationContainer = props => {
     }
   }, [carId]);
 
-
+  // Move this logic to helper file
   useEffect(() => {
     const today = new Date();
     let minDate = null;
@@ -123,7 +123,7 @@ const ReservationContainer = props => {
           ranges={[{ startDate, endDate, key: 'selection' }]}
           onChange={handleRangeSelection}
           scroll={{enabled: true}}
-          minDate={minAvailableDate}
+          minDate={minAvailableDate || new Date()}
           maxDate={maxAvailableDate}
         />
       </div>
