@@ -26,12 +26,13 @@ import './ReservationContainer.scss';
 const ReservationContainer = props => {
   const { auth, user } = useContext(authContext);
   const { carId, price, province } = props;
-  const [startDate, setStartDate] = useState(props.startDate);
-  const [endDate, setEndDate] = useState(props.endDate);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [numDays, setNumDays] = useState((props.endDate - props.startDate) / (24 * 60 * 60 * 1000) + 1);
   const [listings, setListings] = useState([]);
   const [minAvailableDate, setMinAvailableDate] = useState(new Date());
   const [maxAvailableDate, setMaxAvailableDate] = useState(addYears(new Date(), 1));
+  const [disabledDates, setDisabledDates] = useState([]);
 
   // for snackbars
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -60,14 +61,17 @@ const ReservationContainer = props => {
     }
   }, [carId]);
 
-  // Move this logic to helper file
+  // Set min and max available dates whenever listings change.
   useEffect(() => {
-    const { minDate, maxDate } = getMinAndMaxDates(listings);
+    const { minDate, maxDate, disabledDates } = getMinAndMaxDates(listings);
 
-
-
-    setMinAvailableDate(minDate);
-    setMaxAvailableDate(maxDate);
+    if (minDate && maxDate) {
+      setMinAvailableDate(minDate);
+      setMaxAvailableDate(maxDate);
+      setStartDate(minDate);
+      setEndDate(minDate);
+      setDisabledDates(disabledDates);
+    }
   }, [listings]);
 
   const handleSubmitReservation = async () => {
@@ -106,17 +110,12 @@ const ReservationContainer = props => {
     <div className="reservation-container">
       <div>
         <DateRange
-          ranges={[
-            {
-              startDate: minAvailableDate || new Date(),
-              endDate: minAvailableDate || new Date(),
-              key: 'selection'
-            }
-          ]}
+          ranges={[{ startDate, endDate, key: 'selection' }]}
           onChange={handleRangeSelection}
           scroll={{enabled: true}}
           minDate={minAvailableDate || new Date()}
           maxDate={maxAvailableDate}
+          disabledDates={disabledDates}
         />
       </div>
       <Button variant="contained" color="primary" onClick={handleSubmitReservation} disabled={!auth}>

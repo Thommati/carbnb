@@ -44,8 +44,6 @@ const CarDetails = (props) => {
       <aside className="car-details__aside">
         <HostDetails owner={owner} />
         <ReservationContainer
-          startDate={new Date()}
-          endDate={new Date()}
           carId={car.id}
           price={car.price}
           province={car.province}
