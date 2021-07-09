@@ -68,7 +68,7 @@ export default function HostReview() {
 
   return (
     <div>
-      <RateReviewIcon className={classes.Review} onClick={handleClickOpen}/>
+      <RateReviewIcon className={classes.Review} onClick={handleClickOpen} style={{cursor: 'pointer'}}/>
       <Dialog open={open} onClose={handleClose} aria-labelledby="review-rating">
         <DialogTitle id="review-rating">Review</DialogTitle>
         <DialogContent>

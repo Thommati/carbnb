@@ -14,7 +14,7 @@ import {
   TablePagination,
   TableFooter
 } from '@material-ui/core';
-import UserReview from "./UserReview";
+import HostReview from "./HostReview";
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -141,7 +141,7 @@ export default function MainContainer() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <UserReview />
+                  <HostReview />
                 </TableCell>
               </TableRow>
             )
