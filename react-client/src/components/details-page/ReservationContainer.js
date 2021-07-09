@@ -10,7 +10,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
-import { addYears, isBefore, isAfter } from 'date-fns';
+import { addYears } from 'date-fns';
 
 // Components and other project files
 import ReservationDetail from './ReservationDetail';
