@@ -48,7 +48,7 @@ const ReservationContainer = props => {
       // TODO: need to pull user data from authContext after it is written
       const response = await axios.post('/api/orders', {
         availabilityId: 1, // a proper id is required
-        renterId: 2, // need to use the current user
+        renterId: user.id, // need to use the current user
         startDate,
         endDate,
         price // Needs to come from availability
