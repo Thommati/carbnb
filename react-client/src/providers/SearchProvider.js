@@ -93,42 +93,40 @@ export default function SearchProvider(props) {
   const [favourites, setFavourites] = useState([]);
   // const TEMP_USER_ID = 1; // TODO: replace to user.id
   useEffect(() => {
-    axios
-      .get(`/api/favourites/${user.id}`)
-      .then(function (response) {
-        // handle success
-        setFavourites(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-  }, [user.id]);
+    if (user && user.id) {
+      axios
+        .get(`/api/favourites/${user.id}`)
+        .then(function (response) {
+          // handle success
+          setFavourites(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    }
+  }, [user]);
 
   const addFavourite = async (carId) => {
-    try {
-      console.log("XXXX", {
-        userId: user.id,
-        carId,
-      });
-      const response = await axios.post("/api/favourites", {
-        userId: user.id,
-        carId,
-      });
-      setFavourites((prev) => {
-        return [...prev, response.data];
-      });
-      return { result: "success", error: null };
-    } catch (err) {
-      return { result: "failed", error: err };
+    if (user && user.id) {
+      try {
+        const response = await axios.post("/api/favourites", {
+          userId: user.id,
+          carId,
+        });
+        setFavourites((prev) => {
+          return [...prev, response.data];
+        });
+        return { result: "success", error: null };
+      } catch (err) {
+        return { result: "failed", error: err };
+      }
     }
   };
 
   const removeFavourite = async (carId) => {
     try {
-      const response = await axios.delete(
-        `/api/favourites/${user.id}/${carId}`
-      );
+      await axios.delete(`/api/favourites/${user.id}/${carId}`);
       setFavourites((prev) => {
         return [...prev].filter((item) => {
           return item.car_id !== carId;
