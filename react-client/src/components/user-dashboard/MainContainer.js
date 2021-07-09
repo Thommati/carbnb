@@ -105,7 +105,7 @@ export default function MainContainer() {
 
   let today = new Date().toLocaleDateString("en-ca");
   today = new Date(today);
-  console.log(today);
+
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
       <Table className={classes.table} aria-label="user-dashboard">
