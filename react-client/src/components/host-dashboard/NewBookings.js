@@ -124,7 +124,7 @@ export default function MainContainer() {
         </TableHead>
         <TableBody>
           {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-          row.end_date < dateTime && (
+          row.end_date < today && (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.id}

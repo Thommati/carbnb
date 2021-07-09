@@ -84,10 +84,9 @@ export default function PastBookings() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const today = new Date();
-  const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  const dateTime = date+' '+time;
+
+  let today = new Date().toLocaleDateString("en-ca");
+  today = new Date(today);
 
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
@@ -106,8 +105,8 @@ export default function PastBookings() {
         </TableHead>
         <TableBody>
           {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-          row.end_date > dateTime && (
-          <TableRow key={row.id}>
+          new Date(new Date(row.end_date).toLocaleDateString("en-ca")) < today && (
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.id}
               </TableCell>
