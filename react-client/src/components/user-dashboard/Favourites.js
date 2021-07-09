@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -62,16 +62,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// function createData(image, make, model, price, host, street_number, apartment_number, street, city, province, country, postal_code) {
-//   return { image, make, model, price, host, street_number, apartment_number, street, city, province, country, postal_code };
-// }
-
-// const rows = [
-//   createData('https://press.porsche.com/download/prod/presse_pag/PressBasicData.nsf/Download?OpenAgent&attachmentid=1495263&show=1', 'Porsche', '911s', 500, 'Dominic Crisp', 999, 'Apt', 'Canada Place', 'Vancouver', 'British Columbia', 'Canada', 'V6C 3B5'),
-//   createData('https://s1.1zoom.me/big0/719/Ferrari_488_Spider_Red_Cabriolet_528366_1280x853.jpg', 'Ferrari', 'Spyder', 1000, 'Hervinder Bhandal', 1125, 401, '12th Avenue', 'Vancouver', 'British Columbia', 'Canada', 'V6H 3Z3'),
-//   createData('https://dealerimages.dealereprocess.com/image/upload/1746586.jpg', 'Ford', 'F150', 200, 'Avivit Weissman', 999, 'Apt', 'Canada Place', 'Vancouver', 'British Columbia', 'Canada', 'V6C 3B5'),
-//   createData('https://i.ytimg.com/vi/X0wOU0F22yE/maxresdefault.jpg', 'Dodge', 'RAM 1500', 250, 'Matthew Thompson', 110, 'Apt', '9th Avenue SE', 'Calgary', 'Alberta', 'Canada', 'T2G 5A6'),
-// ];
 const tempUser = 3;
 
 export default function Favourites() {
@@ -84,7 +74,6 @@ export default function Favourites() {
         const response = await axios.get(`/api/favourites/${tempUser}`);
         if (response.status === 200) {
           setFavourites (response.data);
-          console.log(response.data);
         }
       } catch (error) {
         console.error(error);
@@ -92,6 +81,17 @@ export default function Favourites() {
     }
     getFavourites();
   }, []);
+
+  const deleteFavourites = async (userId, carId) => {
+    try {
+      const response = await axios.delete(`/api/favourites/${userId}/${carId}`);
+      setFavourites(prev => prev.filter(favourite => favourite.userId !== userId));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -119,7 +119,7 @@ export default function Favourites() {
         </TableHead>
         <TableBody>
           {favourites.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-            <TableRow key={row.user_id}>
+            <TableRow key={row.car_id}>
               <TableCell>
                 <Avatar alt={row.image} img src={row.image} className={classes.AvatarLarge} />
               </TableCell>
@@ -144,10 +144,10 @@ export default function Favourites() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <PageviewIcon className={classes.View}/>
+                <a href={`/cars/${row.car_id}`}><PageviewIcon className={classes.View} style={{cursor: 'pointer'}}/></a>
                 </TableCell>
                 <TableCell>
-                  <DeleteForeverIcon className={classes.Delete} />
+                  <DeleteForeverIcon className={classes.Delete} onClick={() => deleteFavourites(row.user_id, row.car_id)} style={{cursor: 'pointer'}} />
                 </TableCell>
               </TableRow>
             ))}
