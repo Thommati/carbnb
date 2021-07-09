@@ -29,10 +29,11 @@ const ReservationContainer = props => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [numDays, setNumDays] = useState((props.endDate - props.startDate) / (24 * 60 * 60 * 1000) + 1);
-  const [listings, setListings] = useState([]);
+  // const [listings, setListings] = useState([]);
   const [minAvailableDate, setMinAvailableDate] = useState(new Date());
   const [maxAvailableDate, setMaxAvailableDate] = useState(addYears(new Date(), 1));
   const [disabledDates, setDisabledDates] = useState([]);
+  const [listingsAndOrders, setListingsAndOrders] = useState({});
 
   // for snackbars
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -50,8 +51,18 @@ const ReservationContainer = props => {
   useEffect(() => {
     const fetchAvailabilities = async () => {
       try {
-        const response = await axios.get(`/api/availability/cars/${carId}`);
-        setListings(response.data);
+        const responses = await Promise.all([
+          axios.get(`/api/availability/cars/${carId}`),
+          axios.get(`/api/orders/cars/${carId}`)
+        ]);
+
+        setListingsAndOrders({
+          listings: responses[0].data,
+          orders: responses[1].data
+        });
+
+        // const response = await axios.get(`/api/availability/cars/${carId}`);
+        // setListings(responses[0].data);
       } catch (err) {
         console.log('Error fetching availability for listings');
       }
@@ -63,7 +74,14 @@ const ReservationContainer = props => {
 
   // Set min and max available dates whenever listings change.
   useEffect(() => {
-    const { minDate, maxDate, disabledDates } = getMinAndMaxDates(listings);
+    let minDate = null;
+    let maxDate= null;
+    let disabledDates = null;
+
+    const { listings, orders } = listingsAndOrders;
+    if (listingsAndOrders.listings) {
+      ({ minDate, maxDate, disabledDates } = getMinAndMaxDates(listings, orders));
+    }
 
     if (minDate && maxDate) {
       setMinAvailableDate(minDate);
@@ -72,7 +90,7 @@ const ReservationContainer = props => {
       setEndDate(minDate);
       setDisabledDates(disabledDates);
     }
-  }, [listings]);
+  }, [listingsAndOrders]);
 
   const handleSubmitReservation = async () => {
     try {
