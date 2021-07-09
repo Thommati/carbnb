@@ -114,8 +114,8 @@ export default function MainContainer() {
             <TableCell className={classes.TableHeaderCell} align="center">BOOKING ID</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} >VEHICLE INFO</TableCell>
-            <TableCell className={classes.TableHeaderCell} >START DATE</TableCell>
-            <TableCell className={classes.TableHeaderCell} >END DATE</TableCell>
+            <TableCell className={classes.TableHeaderCell} >PICKUP DATE</TableCell>
+            <TableCell className={classes.TableHeaderCell} >RETURN DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE</TableCell>
             <TableCell className={classes.TableHeaderCell} >HOST DETAILS</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>

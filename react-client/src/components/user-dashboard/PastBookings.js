@@ -96,8 +96,8 @@ export default function PastBookings() {
             <TableCell className={classes.TableHeaderCell} align="center">BOOKING ID</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} >VEHICLE INFO</TableCell>
-            <TableCell className={classes.TableHeaderCell} >DATE FROM</TableCell>
-            <TableCell className={classes.TableHeaderCell} >DATE TO</TableCell>
+            <TableCell className={classes.TableHeaderCell} >PICKUP DATE</TableCell>
+            <TableCell className={classes.TableHeaderCell} >RETURN DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE</TableCell>
             <TableCell className={classes.TableHeaderCell} >HOST DETAILS</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
@@ -121,10 +121,10 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
               <TableCell>
-              <Typography color="textSecondary" variant="body2">{row.start_date}</Typography>
+              <Typography color="textSecondary" variant="body2">{new Date(row.start_date).toLocaleDateString("en-ca")}</Typography>
               </TableCell>
               <TableCell>
-              <Typography color="textSecondary" variant="body2">{row.end_date}</Typography>
+              <Typography color="textSecondary" variant="body2">{new Date(row.end_date).toLocaleDateString("en-ca")}</Typography>
               </TableCell>
               <TableCell>
                 <Typography color="textSecondary" variant="body2">{row.price}</Typography>
@@ -141,7 +141,7 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <UserReview />
+                  <UserReview/>
                 </TableCell>
               </TableRow>
           )
