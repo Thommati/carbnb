@@ -52,6 +52,21 @@ const disableBookedDays = orders => {
   return bookedDays;
 };
 
+// Determine the availability id for submitting an order
+const getListingIdForOrder = (listings, orderDates) => {
+  const { startDate, endDate } = orderDates;
+
+  for (const listing of listings) {
+    const listingStart = new Date(listing.start_date);
+    const listingEnd = new Date(listing.end_date);
+
+    if (!isBefore(startDate, listingStart) && !isAfter(endDate, listingEnd)) {
+      return { listingId: listing.id, listingPrice: listing.price };
+    }
+  }
+};
+
 export {
-  getMinAndMaxDates
+  getMinAndMaxDates,
+  getListingIdForOrder
 };

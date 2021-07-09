@@ -16,7 +16,7 @@ import { addYears } from 'date-fns';
 import ReservationDetail from './ReservationDetail';
 import pricingInfo from '../../helpers/pricing';
 import { authContext } from '../../providers/authProvider';
-import { getMinAndMaxDates } from '../../helpers/listing-helpers';
+import { getMinAndMaxDates, getListingIdForOrder } from '../../helpers/listing-helpers';
 
 import './ReservationContainer.scss';
 
@@ -90,26 +90,29 @@ const ReservationContainer = props => {
 
   const handleSubmitReservation = async () => {
     try {
-      // TODO: availability needs to be set properly
-      // TODO: need to pull user data from authContext after it is written
-      const response = await axios.post('/api/orders', {
-        availabilityId: 1, // a proper id is required
-        renterId: user.id, // need to use the current user
+      const { listingId, listingPrice } = getListingIdForOrder(listingsAndOrders.listings, { startDate, endDate });
+      const order = {
+        renterId: user.id,
         startDate,
         endDate,
-        price // Needs to come from availability
-      });
+        availabilityId: listingId,
+        price: listingPrice
+      };
 
-      if (response.status === 201) {
-        setOpenSuccess(true);
-      } else {
-        setOpenFail(true);
-      }
+      console.log(order);
+
+      // const response = await axios.post('/api/orders', order);
+
+      // if (response.status === 201) {
+      //   setOpenSuccess(true);
+      // } else {
+      //   setOpenFail(true);
+      // }
     } catch (err) {
       console.error(err);
       setOpenFail(true);
     }
-  };
+  }
 
   // Snackbar close handler
   const handleClose = (event, reason) => {
@@ -119,7 +122,8 @@ const ReservationContainer = props => {
     openSuccess && setOpenSuccess(false);
     openFail && setOpenFail(false);
   };
-// disabledDates = []
+
+  // TODO:  user correct price below
   return (
     <div className="reservation-container">
       <div>
