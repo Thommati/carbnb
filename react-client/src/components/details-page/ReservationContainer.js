@@ -1,24 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 
+// Material UI imports
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+// Imports for date range picker
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
+import { addYears } from 'date-fns';
 
+// Components and other project files
 import ReservationDetail from './ReservationDetail';
 import pricingInfo from '../../helpers/pricing';
+import { authContext } from '../../providers/authProvider';
 
 import './ReservationContainer.scss';
-import { addYears } from 'date-fns';
 
 // TODO: Add submit reservation button logic
 // TODO: Write a helper function to get a tax rate based off of location's province
 // TODO: Remove hard-coded values from ReservationDetails and load from Container's props
 const ReservationContainer = props => {
+  const { auth, user } = useContext(authContext);
   const { price, province } = props;
   const [startDate, setStartDate] = useState(props.startDate);
   const [endDate, setEndDate] = useState(props.endDate);
