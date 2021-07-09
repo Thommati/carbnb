@@ -10,7 +10,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
-import { addYears } from 'date-fns';
+import { addYears, addDays, isBefore, isAfter } from 'date-fns';
 
 // Components and other project files
 import ReservationDetail from './ReservationDetail';
@@ -24,10 +24,13 @@ import './ReservationContainer.scss';
 // TODO: Remove hard-coded values from ReservationDetails and load from Container's props
 const ReservationContainer = props => {
   const { auth, user } = useContext(authContext);
-  const { price, province } = props;
+  const { carId, price, province } = props;
   const [startDate, setStartDate] = useState(props.startDate);
   const [endDate, setEndDate] = useState(props.endDate);
   const [numDays, setNumDays] = useState((props.endDate - props.startDate) / (24 * 60 * 60 * 1000) + 1);
+  const [listings, setListings] = useState([]);
+  const [minAvailableDate, setMinAvailableDate] = useState(new Date());
+  const [maxAvailableDate, setMaxAvailableDate] = useState(addYears(new Date(), 1));
 
   // for snackbars
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -41,6 +44,45 @@ const ReservationContainer = props => {
   useEffect(() => {
     setNumDays(Math.ceil((endDate - startDate) / (24 * 60 * 60 * 1000) + 1));
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    const fetchAvailabilities = async () => {
+      try {
+        const response = await axios.get(`/api/availability/cars/${carId}`);
+        setListings(response.data);
+      } catch (err) {
+        console.log('Error fetching availability for listings');
+      }
+    };
+    if (carId) {
+      fetchAvailabilities();
+    }
+  }, [carId]);
+
+
+  useEffect(() => {
+    const today = new Date();
+    let minDate = null;
+    let maxDate = today;
+
+    for (const listing of listings ){
+      const start = new Date(listing.start_date);
+      const end = new Date(listing.end_date);
+
+      if (!minDate && isBefore(start, today)) {
+        minDate = today;
+      } else if (!minDate || isBefore(start, minDate)) {
+        minDate = start;
+      }
+
+      if (isAfter(end, maxDate)) {
+        maxDate = end;
+      }
+    }
+
+    setMinAvailableDate(minDate);
+    setMaxAvailableDate(maxDate);
+  }, [listings]);
 
   const handleSubmitReservation = async () => {
     try {
@@ -73,7 +115,7 @@ const ReservationContainer = props => {
     openSuccess && setOpenSuccess(false);
     openFail && setOpenFail(false);
   };
-
+// disabledDates = []
   return (
     <div className="reservation-container">
       <div>
@@ -81,8 +123,8 @@ const ReservationContainer = props => {
           ranges={[{ startDate, endDate, key: 'selection' }]}
           onChange={handleRangeSelection}
           scroll={{enabled: true}}
-          minDate={new Date()}
-          maxDate={addYears(new Date(), 1)}
+          minDate={minAvailableDate}
+          maxDate={maxAvailableDate}
         />
       </div>
       <Button variant="contained" color="primary" onClick={handleSubmitReservation} disabled={!auth}>

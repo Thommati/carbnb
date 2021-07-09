@@ -43,7 +43,13 @@ const CarDetails = (props) => {
       <Description reviews={reviews} car={car} />
       <aside className="car-details__aside">
         <HostDetails owner={owner} />
-        <ReservationContainer startDate={new Date()} endDate={new Date()} price={car.price} province={car.province} />
+        <ReservationContainer
+          startDate={new Date()}
+          endDate={new Date()}
+          carId={car.id}
+          price={car.price}
+          province={car.province}
+        />
       </aside>
     </section>
   );
