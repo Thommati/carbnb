@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 
 // GET /api/car/:carId
 // Returns array of availability for the car with carId
-router.get('/car/:carId', async (req, res) => {
+router.get('/cars/:carId', async (req, res) => {
   try {
     const { rows } = await getAvailabilityForCarByIdAsync(req.params.carId);
     return res.json(rows);

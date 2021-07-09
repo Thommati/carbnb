@@ -24,7 +24,8 @@ exports.getAllAvailabilitiesAsync = (ownerId) => {
 exports.getAvailabilityForCarByIdAsync = id => {
   const queryText =`
     SELECT * from availability
-    WHERE car_id = $1;
+    WHERE car_id = $1
+    AND end_date >= CURRENT_DATE;
   `;
   const queryParams = [id];
   return db.query(queryText, queryParams);
