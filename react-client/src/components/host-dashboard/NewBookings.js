@@ -83,6 +83,15 @@ export default function MainContainer() {
     getOrders();
   }, []);
 
+  const deleteOrders = async (id) => {
+    try {
+      const response = await axios.delete(`/api/orders/${id}`);
+      setOrders(prev => prev.filter(order => order.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleChangePage = (event, newPage) => {
@@ -151,7 +160,7 @@ export default function MainContainer() {
                   <a href="mailto:{row.email}"><MailOutlineIcon className={classes.Mail}/></a>
                 </TableCell>
                 <TableCell>
-                  <DeleteForeverIcon className={classes.Delete}/>
+                <DeleteForeverIcon className={classes.Delete} onClick={() => deleteOrders(row.id)} style={{cursor: 'pointer'}}/>
                 </TableCell>
               </TableRow>
             )
