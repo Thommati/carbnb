@@ -25,7 +25,8 @@ exports.getAvailabilityForCarByIdAsync = id => {
   const queryText =`
     SELECT * from availability
     WHERE car_id = $1
-    AND end_date >= CURRENT_DATE;
+    AND end_date >= CURRENT_DATE
+    ORDER BY start_date;
   `;
   const queryParams = [id];
   return db.query(queryText, queryParams);
