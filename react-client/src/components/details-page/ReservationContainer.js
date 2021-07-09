@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
-import DateFnsUtils from '@date-io/date-fns';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import { DateRange } from 'react-date-range';
 
 import ReservationDetail from './ReservationDetail';
 import pricingInfo from '../../helpers/pricing';
 
 import './ReservationContainer.scss';
+import { addYears } from 'date-fns';
 
 // TODO: Add submit reservation button logic
 // TODO: Write a helper function to get a tax rate based off of location's province
@@ -25,12 +28,9 @@ const ReservationContainer = props => {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openFail, setOpenFail] = useState(false);
 
-  const handleSelectStartDate = date => {
-    setStartDate(date);
-  };
-
-  const handleSelectEndDate = date => {
-    setEndDate(date);
+  const handleRangeSelection = range => {
+    setStartDate(range.selection.startDate);
+    setEndDate(range.selection.endDate);
   };
 
   useEffect(() => {
@@ -72,34 +72,16 @@ const ReservationContainer = props => {
   return (
     <div className="reservation-container">
       <div>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            margin="normal"
-            id="start-date-picker"
-            label="Start Date"
-            format="dd/MM/yyyy"
-            value={startDate}
-            onChange={handleSelectStartDate}
-            KeyboardButtonProps={{
-              'aria-label': 'change start date',
-            }}
-            className="reservation-container__date-picker"
-            disablePast
-          />
-          <KeyboardDatePicker
-            margin="normal"
-            id="end-date-picker"
-            label="End Date"
-            format="dd/MM/yyyy"
-            value={endDate}
-            onChange={handleSelectEndDate}
-            KeyboardButtonProps={{
-              'aria-label': 'change end date',
-            }}
-            className="reservation-container__date-picker"
-            disablePast
-          />
-        </MuiPickersUtilsProvider>
+
+        <DateRange
+          ranges={[{ startDate, endDate, key: 'selection' }]}
+          onChange={handleRangeSelection}
+          scroll={{enabled: true}}
+          minDate={new Date()}
+          maxDate={addYears(new Date(), 1)}
+        />
+
+
       </div>
       <Button variant="contained" color="primary" onClick={handleSubmitReservation}>
         Reserve
