@@ -20,6 +20,16 @@ exports.getAllAvailabilitiesAsync = (ownerId) => {
   return db.query(queryText, queryParams);
 };
 
+// Retrieves all availabilities for the car with the given id.
+exports.getAvailabilityForCarByIdAsync = id => {
+  const queryText =`
+    SELECT * from availability
+    WHERE car_id = $1;
+  `;
+  const queryParams = [id];
+  return db.query(queryText, queryParams);
+};
+
 // Create a new availability.  Pass in availability column data except id.
 exports.createAvailabilityAsync = data => {
   const queryText = `

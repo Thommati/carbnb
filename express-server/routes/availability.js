@@ -3,7 +3,8 @@ const {
   getAllAvailabilitiesAsync,
   createAvailabilityAsync,
   deleteAvailabilityAsync,
-  updateAvailabilityWithIdAsync
+  updateAvailabilityWithIdAsync,
+  getAvailabilityForCarByIdAsync,
 } = require('../db/repositories/availabilityRepo');
 
 const router = express.Router();
@@ -17,6 +18,18 @@ router.get('/', async (req, res) => {
     return res.json(rows);
   } catch (err) {
     console.log('Error retrieving availabilities', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /api/car/:carId
+// Returns array of availability for the car with carId
+router.get('/car/:carId', async (req, res) => {
+  try {
+    const { rows } = await getAvailabilityForCarByIdAsync(req.params.carId);
+    return res.json(rows);
+  } catch (err) {
+    console.log('Error retrieving availability for car by id', err);
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
