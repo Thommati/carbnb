@@ -70,14 +70,13 @@ const ReservationContainer = props => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpenSuccess(false);
-    setOpenFail(false);
+    openSuccess && setOpenSuccess(false);
+    openFail && setOpenFail(false);
   };
 
   return (
     <div className="reservation-container">
       <div>
-
         <DateRange
           ranges={[{ startDate, endDate, key: 'selection' }]}
           onChange={handleRangeSelection}
@@ -85,11 +84,10 @@ const ReservationContainer = props => {
           minDate={new Date()}
           maxDate={addYears(new Date(), 1)}
         />
-
-
       </div>
-      <Button variant="contained" color="primary" onClick={handleSubmitReservation}>
-        Reserve
+      <Button variant="contained" color="primary" onClick={handleSubmitReservation} disabled={!auth}>
+        {auth && 'Reserve'}
+        {!auth && 'Login to Book'}
       </Button>
       <ReservationDetail
         price={price}
