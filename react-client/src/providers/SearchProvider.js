@@ -91,10 +91,10 @@ export default function SearchProvider(props) {
 
   //////////////////// Favourites //////////////
   const [favourites, setFavourites] = useState([]);
-  const TEMP_USER_ID = 1; // TODO: replace to user.id
+  // const TEMP_USER_ID = 1; // TODO: replace to user.id
   useEffect(() => {
     axios
-      .get(`/api/favourites/${TEMP_USER_ID}`)
+      .get(`/api/favourites/${user.id}`)
       .then(function (response) {
         // handle success
         setFavourites(response.data);
@@ -108,11 +108,11 @@ export default function SearchProvider(props) {
   const addFavourite = async (carId) => {
     try {
       console.log("XXXX", {
-        userId: TEMP_USER_ID,
+        userId: user.id,
         carId,
       });
       const response = await axios.post("/api/favourites", {
-        userId: TEMP_USER_ID,
+        userId: user.id,
         carId,
       });
       setFavourites((prev) => {
@@ -127,7 +127,7 @@ export default function SearchProvider(props) {
   const removeFavourite = async (carId) => {
     try {
       const response = await axios.delete(
-        `/api/favourites/${TEMP_USER_ID}/${carId}`
+        `/api/favourites/${user.id}/${carId}`
       );
       setFavourites((prev) => {
         return [...prev].filter((item) => {
