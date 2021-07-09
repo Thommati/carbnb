@@ -42,6 +42,11 @@ const ReservationContainer = props => {
     setEndDate(range.selection.endDate);
   };
 
+  // For some reason this is needed so that I can access a fully populated
+  // user object when submitting a booking.
+  useEffect(() => {
+  }, [user, auth]);
+
   useEffect(() => {
     setNumDays(Math.ceil((endDate - startDate) / (24 * 60 * 60 * 1000) + 1));
   }, [startDate, endDate]);
@@ -99,15 +104,20 @@ const ReservationContainer = props => {
         price: listingPrice
       };
 
-      console.log(order);
+      // console.log(order);
 
-      // const response = await axios.post('/api/orders', order);
+      const response = await axios.post('/api/orders', order);
 
-      // if (response.status === 201) {
-      //   setOpenSuccess(true);
-      // } else {
-      //   setOpenFail(true);
-      // }
+      if (response.status === 201) {
+        // Snackbar confirmation
+        setOpenSuccess(true);
+
+        // Add the new order to the list of order to update the date range picker
+        const orders = [...listingsAndOrders.orders, { start_date: order.startDate, end_date: order.endDate }];
+        setListingsAndOrders(prev => ({...prev, orders }));
+      } else {
+        setOpenFail(true);
+      }
     } catch (err) {
       console.error(err);
       setOpenFail(true);
