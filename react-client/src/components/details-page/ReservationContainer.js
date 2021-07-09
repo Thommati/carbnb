@@ -16,6 +16,7 @@ import { addYears, isBefore, isAfter } from 'date-fns';
 import ReservationDetail from './ReservationDetail';
 import pricingInfo from '../../helpers/pricing';
 import { authContext } from '../../providers/authProvider';
+import { getMinAndMaxDates } from '../../helpers/listing-helpers';
 
 import './ReservationContainer.scss';
 
@@ -61,24 +62,9 @@ const ReservationContainer = props => {
 
   // Move this logic to helper file
   useEffect(() => {
-    const today = new Date();
-    let minDate = null;
-    let maxDate = today;
+    const { minDate, maxDate } = getMinAndMaxDates(listings);
 
-    for (const listing of listings ){
-      const start = new Date(listing.start_date);
-      const end = new Date(listing.end_date);
 
-      if (!minDate && isBefore(start, today)) {
-        minDate = today;
-      } else if (!minDate || isBefore(start, minDate)) {
-        minDate = start;
-      }
-
-      if (isAfter(end, maxDate)) {
-        maxDate = end;
-      }
-    }
 
     setMinAvailableDate(minDate);
     setMaxAvailableDate(maxDate);
@@ -120,7 +106,13 @@ const ReservationContainer = props => {
     <div className="reservation-container">
       <div>
         <DateRange
-          ranges={[{ startDate, endDate, key: 'selection' }]}
+          ranges={[
+            {
+              startDate: minAvailableDate || new Date(),
+              endDate: minAvailableDate || new Date(),
+              key: 'selection'
+            }
+          ]}
           onChange={handleRangeSelection}
           scroll={{enabled: true}}
           minDate={minAvailableDate || new Date()}
