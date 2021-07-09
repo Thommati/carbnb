@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { searchContext } from "../providers/SearchProvider";
+
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -36,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 function PopularLocations(props) {
   const classes = useStyles();
 
+  const { setLocation } = useContext(searchContext);
+
   return (
     <div>
       <Container className={classes.popularLocations} maxWidth="sm">
@@ -46,7 +51,7 @@ function PopularLocations(props) {
             xs={2}
             align="center"
             onClick={() => {
-              props.setLocation("Vancouver");
+              setLocation("Vancouver");
             }}
           >
             <Avatar alt="Vancouver" src={vanc} className={classes.large} />
@@ -57,7 +62,7 @@ function PopularLocations(props) {
             xs={2}
             align="center"
             onClick={() => {
-              props.setLocation("Calgary");
+              setLocation("Calgary");
             }}
           >
             <Avatar alt="Calgary" src={cal} className={classes.large} />
@@ -68,7 +73,7 @@ function PopularLocations(props) {
             xs={2}
             align="center"
             onClick={() => {
-              props.setLocation("Toronto");
+              setLocation("Toronto");
             }}
           >
             <Avatar alt="Toronto" src={torn} className={classes.large} />

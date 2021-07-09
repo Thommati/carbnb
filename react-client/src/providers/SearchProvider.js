@@ -1,10 +1,14 @@
-import { useState, useEffect } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
+import { authContext } from "../providers/authProvider";
+
 const axios = require("axios");
 
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
-export default function useApplicationData(initial) {
+export default function SearchProvider(props) {
+  const { user } = useContext(authContext);
+
   ////////////////// Search state ///////////////////////
 
   const [search, setSearch] = useState({
@@ -85,7 +89,58 @@ export default function useApplicationData(initial) {
     }
   }, [search]);
 
-  return {
+  //////////////////// Favourites //////////////
+  const [favourites, setFavourites] = useState([]);
+  const TEMP_USER_ID = 1; // TODO: replace to user.id
+  useEffect(() => {
+    axios
+      .get(`/api/favourites/${TEMP_USER_ID}`)
+      .then(function (response) {
+        // handle success
+        setFavourites(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+  }, [user.id]);
+
+  const addFavourite = async (carId) => {
+    try {
+      console.log("XXXX", {
+        userId: TEMP_USER_ID,
+        carId,
+      });
+      const response = await axios.post("/api/favourites", {
+        userId: TEMP_USER_ID,
+        carId,
+      });
+      setFavourites((prev) => {
+        return [...prev, response.data];
+      });
+      return { result: "success", error: null };
+    } catch (err) {
+      return { result: "failed", error: err };
+    }
+  };
+
+  const removeFavourite = async (carId) => {
+    try {
+      const response = await axios.delete(
+        `/api/favourites/${TEMP_USER_ID}/${carId}`
+      );
+      setFavourites((prev) => {
+        return [...prev].filter((item) => {
+          return item.car_id !== carId;
+        });
+      });
+      return { result: "success", error: null };
+    } catch (err) {
+      return { result: "failed", error: err };
+    }
+  };
+
+  const searchData = {
     search,
     setSearch,
     setLocation,
@@ -97,5 +152,17 @@ export default function useApplicationData(initial) {
     setRv,
     setSport,
     cars,
+    favourites,
+    addFavourite,
+    removeFavourite,
   };
+
+  // We can use this component to wrap any content we want to share this context
+  return (
+    <searchContext.Provider value={searchData}>
+      {props.children}
+    </searchContext.Provider>
+  );
 }
+
+export const searchContext = createContext();
