@@ -1,8 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const {
-  getUserByEmailAsync,
-} = require('../db/repositories/authRepo');
+const { getUserByEmailAsync } = require('../db/repositories/authRepo');
 const { generateJwtToken } = require('../helpers/auth-helpers');
 
 const router = express.Router();
