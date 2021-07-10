@@ -95,18 +95,16 @@ export default function SearchProvider(props) {
   const [favourites, setFavourites] = useState([]);
   // const TEMP_USER_ID = 1; // TODO: replace to user.id
   useEffect(() => {
-    if (user && user.id) {
-      axios
-        .get(`/api/favourites/${user.id}`)
-        .then(function (response) {
-          // handle success
-          setFavourites(response.data);
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        });
-    }
+    axios
+      .get(`/api/favourites/${user.id}`)
+      .then(function (response) {
+        // handle success
+        setFavourites(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
   }, [user]);
 
   const addFavourite = async (carId) => {
