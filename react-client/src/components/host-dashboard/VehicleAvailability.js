@@ -15,7 +15,7 @@ import {
   TableFooter
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import AddAvailability from "./AddAvailability";
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,9 +55,6 @@ const useStyles = makeStyles((theme) => ({
   Delete: {
     color: '#c62828',
     fontSize: 30
-  },
-  Add: {
-    fontsize: 30
   },
   AvatarLarge: {
     width: theme.spacing(10),
@@ -118,7 +115,7 @@ export default function VehicleAvailability() {
             <TableCell className={classes.TableHeaderCell} >AVAILABLE START</TableCell>
             <TableCell className={classes.TableHeaderCell} >AVAILABLE END</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE PER DAY</TableCell>
-            <TableCell className={classes.TableHeaderCell} ><AddCircleOutlineIcon className={classes.Add}/></TableCell>
+            <TableCell className={classes.TableHeaderCell} ><AddAvailability /></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

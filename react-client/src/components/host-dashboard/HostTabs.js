@@ -7,6 +7,7 @@ import {
 import NewBookings from "./NewBookings";
 import PastBookings from "./PastBookings";
 import VehicleAvailability from "./VehicleAvailability";
+import RegisterVehicle from "./RegisterVehicle";
 
 export default function UserTabs () {
   const [value,setValue]=React.useState(0);
@@ -33,8 +34,8 @@ export default function UserTabs () {
       <TabPanel value={value} index={2}>
         <VehicleAvailability />
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        {/* <RegisterVehicle /> */}
+      <TabPanel value={value} index={3}>
+        <RegisterVehicle />
       </TabPanel>
     </div>
   );
