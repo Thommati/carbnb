@@ -24,10 +24,6 @@ const useStyles = makeStyles({
     width: 500,
     display: 'flex',
     alignItems: 'center',
-  },
-  Review: {
-    color: '#9ccc65',
-    fontSize: 30
   }
 });
 
@@ -70,11 +66,12 @@ export default function HostReview() {
     <div>
       <RateReviewIcon className={classes.Review} onClick={handleClickOpen} style={{cursor: 'pointer'}}/>
       <Dialog open={open} onClose={handleClose} aria-labelledby="review-rating">
-        <DialogTitle id="review-rating">Review</DialogTitle>
+        <DialogTitle id="review-rating">Host Review</DialogTitle>
         <DialogContent>
           <DialogContentText>
             <FormReview />
           </DialogContentText>
+          <form id="my-form-id">
           <TextField
             autoFocus
             margin="dense"
@@ -83,12 +80,13 @@ export default function HostReview() {
             type="text"
             fullWidth
           />
+          </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button type="submit" form="my-form-id" onClick={handleClose} color="primary">
             Submit
           </Button>
         </DialogActions>
