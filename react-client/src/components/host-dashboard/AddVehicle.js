@@ -53,7 +53,7 @@ const colours = [
 
 const fuels = ['Petrol', 'Diesel', 'Hybrid', 'Electric', 'Other'];
 
-const RegisterVehicle = ({ open, close }) => {
+const AddVehicle = ({ open, close }) => {
   const classes = useStyles();
   const { auth, user } = useContext(authContext);
 
@@ -404,4 +404,4 @@ const RegisterVehicle = ({ open, close }) => {
   );
 };
 
-export default RegisterVehicle;
+export default AddVehicle;
