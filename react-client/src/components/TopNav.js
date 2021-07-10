@@ -156,6 +156,7 @@ const TopNav = props => {
               value={loginEmail}
               onChange={event => setLoginEmail(event.target.value)}
               required
+              autoFocus
             />
             <TextField
               margin="dense"
