@@ -23,6 +23,46 @@ exports.getAllCarsAsync = (filters) => {
   return db.query(queryText, queryParams);
 };
 
+exports.getAllCarsAsync1 = (filters) => {
+  let queryText = `
+  SELECT cars.id, cars.user_id, cars.location_id, cars.make, cars.model, cars.doors, cars.colour, cars.transmission, cars.description, cars.pet_friendly, cars.fuel, cars.seats, cars.image, cars.sport, cars.truck, cars.van, cars.mini_van, cars.luxury, cars.rv, cars.suv, cars.convertible, cars.economy, cars.model_year, name, email, phone, city, province, country, availability.price FROM cars
+INNER JOIN users ON cars.user_id = users.id
+INNER JOIN locations ON cars.location_id = locations.id
+INNER JOIN availability ON availability.car_id = cars.id
+WHERE
+  availability.start_date < $2
+  AND
+  availability.end_date > $3
+  AND
+  locations.city = $1
+  AND
+  NOT EXISTS(
+    SELECT orders.id
+    FROM orders
+    WHERE
+      orders.availability_id = availability.id
+      AND (
+        (orders.start_date > $2
+        AND
+        orders.start_date < $3)
+        OR
+        (orders.end_date > $2
+        AND
+        orders.end_date < $3)
+      )
+  );`;
+
+  const queryParams = [];
+
+  const { city, fromDate, toDate } = filters;
+
+  queryParams.push(city);
+  queryParams.push(fromDate);
+  queryParams.push(toDate);
+
+  return db.query(queryText, queryParams);
+};
+
 // Add a new car to the database
 exports.createNewCarAsync = (data) => {
   const queryText = `

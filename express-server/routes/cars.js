@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getAllCarsAsync,
+  getAllCarsAsync1,
   getCarByIdAsync,
   createNewCarAsync,
   deleteCarWithIdAsync,
@@ -13,9 +13,9 @@ const router = express.Router();
 // gets all cars in db, or gets all cars for a given province & city
 // if either province or city are null then all cars in db will be returned.
 router.get("/", async (req, res) => {
-  const { city } = req.query;
+  const { city, fromDate, toDate } = req.query;
   try {
-    const { rows } = await getAllCarsAsync({ city });
+    const { rows } = await getAllCarsAsync1({ city, fromDate, toDate });
     return res.json(rows);
   } catch (err) {
     console.log("Error retrieving cars from DB:", err);
