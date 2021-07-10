@@ -24,6 +24,10 @@ const useStyles = makeStyles({
     width: 500,
     display: 'flex',
     alignItems: 'center',
+  },
+  Review: {
+    color: '#9ccc65',
+    fontSize: 30,
   }
 });
 
