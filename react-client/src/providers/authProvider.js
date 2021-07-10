@@ -1,18 +1,24 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 export default function AuthProvider(props) {
-  const [auth, setAuth] = useState(false);
-  const [user, setUser] = useState({ email: "", name: "", id: "" });
+  let token = localStorage.getItem("token");
+  let initialUser = { email: "", name: "", id: "" };
+  let initialAuth = false;
+  if (token) {
+    token = jwtDecode(token);
+    initialAuth = true;
+    initialUser = {
+      id: token.sub,
+      email: token.email,
+      image: token.image,
+      name: token.name,
+    };
+  }
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      authenticateFromToken(token);
-    }
-  }, []);
+  const [auth, setAuth] = useState(initialAuth);
+  const [user, setUser] = useState(initialUser);
 
   // Perform login process for the user & save authID, etc
   const login = async (email, password) => {

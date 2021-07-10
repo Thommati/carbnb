@@ -42,11 +42,6 @@ const ReservationContainer = props => {
     setEndDate(range.selection.endDate);
   };
 
-  // For some reason this is needed so that I can access a fully populated
-  // user object when submitting a booking.
-  useEffect(() => {
-  }, [user, auth]);
-
   useEffect(() => {
     setNumDays(Math.ceil((endDate - startDate) / (24 * 60 * 60 * 1000) + 1));
   }, [startDate, endDate]);
