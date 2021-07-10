@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
+import AddAvailability from './AddAvailability';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -117,7 +118,7 @@ export default function VehicleAvailability() {
             <TableCell className={classes.TableHeaderCell} >AVAILABILITY START DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >AVAILABILITY END DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE PER DAY</TableCell>
-            <TableCell className={classes.TableHeaderCell} ></TableCell>
+            <TableCell className={classes.TableHeaderCell} ><AddAvailability /></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
