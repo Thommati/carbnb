@@ -15,10 +15,6 @@ import {
   TableFooter
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-<<<<<<< HEAD
-=======
-import AddAvailability from "./AddAvailability";
->>>>>>> feature/HostAdmin-Availability
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -107,12 +103,9 @@ export default function VehicleAvailability() {
     setPage(0);
   };
 
-<<<<<<< HEAD
   let today = new Date().toLocaleDateString("en-ca");
   today = new Date(today);
 
-=======
->>>>>>> feature/HostAdmin-Availability
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
       <Table className={classes.table} aria-label="host-availability">
@@ -121,17 +114,10 @@ export default function VehicleAvailability() {
             <TableCell className={classes.TableHeaderCell} align="center">CAR ID</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} >VEHICLE INFO</TableCell>
-<<<<<<< HEAD
             <TableCell className={classes.TableHeaderCell} >AVAILABILITY START DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >AVAILABILITY END DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE PER DAY</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
-=======
-            <TableCell className={classes.TableHeaderCell} >AVAILABLE START</TableCell>
-            <TableCell className={classes.TableHeaderCell} >AVAILABLE END</TableCell>
-            <TableCell className={classes.TableHeaderCell} >PRICE PER DAY</TableCell>
-            <TableCell className={classes.TableHeaderCell} ><AddAvailability /></TableCell>
->>>>>>> feature/HostAdmin-Availability
           </TableRow>
         </TableHead>
         <TableBody>
