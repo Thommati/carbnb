@@ -15,6 +15,7 @@ import {
   TableFooter
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
     color: '#c62828',
     fontSize: 30
   },
+  Add: {
+    fontSize: 30
+  },
   AvatarLarge: {
     width: theme.spacing(10),
     height: theme.spacing(10)
@@ -67,6 +71,7 @@ export default function RegisterVehicle() {
   const classes = useStyles();
   const [availability, setAvailability] = useState([]);
   const [page, setPage] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     const getAvailability = async () => {
@@ -94,6 +99,10 @@ export default function RegisterVehicle() {
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -117,7 +126,7 @@ export default function RegisterVehicle() {
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
-            <TableCell className={classes.TableHeaderCell} ></TableCell>
+            <TableCell className={classes.TableHeaderCell} ><AddCircleOutlineIcon className={classes.Add} onClick={handleClickOpen} style={{cursor: 'pointer'}}/></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
