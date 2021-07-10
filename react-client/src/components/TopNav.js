@@ -38,7 +38,8 @@ const TopNav = props => {
   };
 
   // Submit the login form
-  const loginSubmit = async () => {
+  const loginSubmit = async (event) => {
+    event.preventDefault();
     const { result, error } = await login(loginEmail, loginPassword);
     if (result === 'success') {
       handleLoginClose();
@@ -47,7 +48,6 @@ const TopNav = props => {
       setLoginErrorMessage(error.response.data.error);
     }
   };
-
 
   //
   // Registration state and methods
@@ -73,7 +73,9 @@ const TopNav = props => {
     setRegisterOpen(false);
   };
 
-  const registerSubmit = async () => {
+  const registerSubmit = async (event) => {
+    event.preventDefault();
+    console.log('hello');
     // Make sure password and confirmation match.
     if (registerPassword !== registerPasswordConfirmation) {
       return setRegisterErrorMessage('Passwords must match');
@@ -141,113 +143,117 @@ const TopNav = props => {
       </AppBar>
 
       <Dialog open={loginOpen} onClose={handleLoginClose} aria-labelledby="login-dialog">
-        <DialogTitle id="login-dialog">Login</DialogTitle>
-        <DialogContent  className="topnav__login--error">
-          {loginErrorMessage && <DialogContentText>{loginErrorMessage}</DialogContentText>}
-          <TextField
-            margin="dense"
-            id="login-email"
-            type="email"
-            label="Email Address"
-            fullWidth
-            value={loginEmail}
-            onChange={event => setLoginEmail(event.target.value)}
-            required
-          />
-          <TextField
-            margin="dense"
-            id="login-password"
-            type="password"
-            label="Password"
-            fullWidth
-            value={loginPassword}
-            onChange={event => setLoginPassword(event.target.value)}
-            required
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleLoginClose} variant="contained">
-            Cancel
-          </Button>
-          <Button onClick={loginSubmit} variant="contained" color="secondary">
-            Submit
-          </Button>
-        </DialogActions>
+        <form id="dsub" onSubmit={loginSubmit}>
+          <DialogTitle id="login-dialog">Login</DialogTitle>
+          <DialogContent  className="topnav__login--error">
+            {loginErrorMessage && <DialogContentText>{loginErrorMessage}</DialogContentText>}
+            <TextField
+              margin="dense"
+              id="login-email"
+              type="email"
+              label="Email Address"
+              fullWidth
+              value={loginEmail}
+              onChange={event => setLoginEmail(event.target.value)}
+              required
+            />
+            <TextField
+              margin="dense"
+              id="login-password"
+              type="password"
+              label="Password"
+              fullWidth
+              value={loginPassword}
+              onChange={event => setLoginPassword(event.target.value)}
+              required
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleLoginClose} variant="contained">
+              Cancel
+            </Button>
+            <Button type="submit" form="dsub" variant="contained" color="secondary">
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
 
       <Dialog open={registerOpen} onClose={handleRegisterClose} aria-labelledby="register-dialog">
-        <DialogTitle id="register-dialog">Register</DialogTitle>
-        <DialogContent className="topnav__login--error">
-          {registerErrorMessage && <DialogContentText>{registerErrorMessage}</DialogContentText>}
-          <TextField
-            margin="dense"
-            id="register-email"
-            type="email"
-            label="Email Address"
-            fullWidth
-            value={registerEmail}
-            onChange={event => setRegisterEmail(event.target.value)}
-            required
-          />
-          <TextField
-            margin="dense"
-            id="register-name"
-            type="input"
-            label="Full Name"
-            fullWidth
-            value={registerName}
-            onChange={(event) => setRegisterName(event.target.value)}
-            required
-          />
-          <TextField
-            margin="dense"
-            id="register-phone"
-            type="input"
-            label="Phone Number"
-            fullWidth
-            value={registerPhone}
-            onChange={(event) => setRegisterPhone(event.target.value)}
-            required
-          />
-          <TextField
-            margin="dense"
-            id="register-image"
-            type="input"
-            label="Avatar Image"
-            fullWidth
-            value={registerImage}
-            onChange={(event) => setRegisterImage(event.target.value)}
-            required
-          />
-          <TextField
-            margin="dense"
-            id="register-password"
-            type="password"
-            label="Password"
-            value={registerPassword}
-            onChange={event => setRegisterPassword(event.target.value)}
-            fullWidth
-            required
-          />
-          <TextField
-            margin="dense"
-            id="register-password-confirm"
-            type="password"
-            label="Confirm Password"
-            value={registerPasswordConfirmation}
-            onChange={event => setRegisterPasswordConfirmation(event.target.value)}
-            fullWidth
-            required
-          />
-        </DialogContent>
-        <DialogActions>
-        <Button onClick={handleRegisterClose} variant="contained">
-            Cancel
-          </Button>
-          <Button onClick={registerSubmit} variant="contained" color="secondary">
-            Submit
-          </Button>
-        </DialogActions>
+        <form id="rform" onSubmit={registerSubmit}>
+          <DialogTitle id="register-dialog">Register</DialogTitle>
+          <DialogContent className="topnav__login--error">
+            {registerErrorMessage && <DialogContentText>{registerErrorMessage}</DialogContentText>}
+            <TextField
+              margin="dense"
+              id="register-email"
+              type="email"
+              label="Email Address"
+              fullWidth
+              value={registerEmail}
+              onChange={event => setRegisterEmail(event.target.value)}
+              required
+            />
+            <TextField
+              margin="dense"
+              id="register-name"
+              type="input"
+              label="Full Name"
+              fullWidth
+              value={registerName}
+              onChange={(event) => setRegisterName(event.target.value)}
+              required
+            />
+            <TextField
+              margin="dense"
+              id="register-phone"
+              type="input"
+              label="Phone Number"
+              fullWidth
+              value={registerPhone}
+              onChange={(event) => setRegisterPhone(event.target.value)}
+              required
+            />
+            <TextField
+              margin="dense"
+              id="register-image"
+              type="input"
+              label="Avatar Image"
+              fullWidth
+              value={registerImage}
+              onChange={(event) => setRegisterImage(event.target.value)}
+              required
+            />
+            <TextField
+              margin="dense"
+              id="register-password"
+              type="password"
+              label="Password"
+              value={registerPassword}
+              onChange={event => setRegisterPassword(event.target.value)}
+              fullWidth
+              required
+            />
+            <TextField
+              margin="dense"
+              id="register-password-confirm"
+              type="password"
+              label="Confirm Password"
+              value={registerPasswordConfirmation}
+              onChange={event => setRegisterPasswordConfirmation(event.target.value)}
+              fullWidth
+              required
+            />
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={handleRegisterClose} variant="contained">
+              Cancel
+            </Button>
+            <Button type="submit" form="rform" variant="contained" color="secondary">
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
 
       <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
