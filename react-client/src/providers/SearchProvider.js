@@ -74,6 +74,8 @@ export default function SearchProvider(props) {
         .get("/api/cars", {
           params: {
             city: search.location,
+            fromDate: search.fromDate,
+            toDate: search.toDate,
           },
         })
         .then(function (response) {
