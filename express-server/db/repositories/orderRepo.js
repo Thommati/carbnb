@@ -8,8 +8,8 @@ exports.getOrdersForRenterWithIdAsync = id => {
       street_number, street, city, province, country, postal_code
     FROM orders
     JOIN availability ON availability_id = availability.id
-    JOIN users ON availability.owner_id = users.id
     JOIN cars on car_id = cars.id
+    JOIN users ON user_id = users.id
     JOIN locations ON cars.location_id = locations.id
     WHERE renter_id = $1;
   `;
