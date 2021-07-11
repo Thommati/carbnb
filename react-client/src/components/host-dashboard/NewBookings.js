@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -17,7 +17,6 @@ import {
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
-import { authContext } from '../../providers/authProvider'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -64,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NewContainer({orders}) {
-  const { user } = useContext(authContext);
   const classes = useStyles();
   const [page, setPage] = useState(0);
 

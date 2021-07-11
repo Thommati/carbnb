@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -15,8 +15,6 @@ import {
   TableFooter
 } from '@material-ui/core';
 import HostReview from "./HostReview";
-import axios from 'axios';
-import { authContext } from '../../providers/authProvider'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -59,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MainContainer({orders}) {
-  const { user } = useContext(authContext);
   const classes = useStyles();
   const [page, setPage] = useState(0);
 
