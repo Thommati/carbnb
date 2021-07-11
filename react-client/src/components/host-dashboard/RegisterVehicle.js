@@ -83,7 +83,6 @@ export default function RegisterVehicle() {
       try {
         const response = await axios.get(`/api/cars/users/${user.id}`);
         setCars(response.data);
-        // console.log(response.data);
       } catch (err) {
         console.error('Error loading cars for user from API', err);
       }
