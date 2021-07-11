@@ -65,10 +65,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Favourites() {
-  const {auth, user} = useContext(authContext);
+  const { user } = useContext(authContext);
   const classes = useStyles();
   const [favourites, setFavourites] = useState([]);
   const [page, setPage] = React.useState(0);
+
   useEffect(() => {
     const getFavourites = async () => {
       try {
@@ -82,14 +83,20 @@ export default function Favourites() {
       }
     }
     getFavourites();
-  }, []);
+  }, [user.id]);
 
   const deleteFavourites = async (userId, carId) => {
+    console.log('Deleting favourite with carId', carId);
     try {
       const response = await axios.delete(`/api/favourites/${userId}/${carId}`);
-      setFavourites(prev => prev.filter(favourite => favourite.userId !== userId));
+      setFavourites(prev => {
+        return prev.filter(favourite => {
+          console.log('favourite', favourite);
+          return favourite.car_id !== carId
+        })
+      });
     } catch (error) {
-      console.error(error);
+      console.error('Error deleting favourite from the favourites tab', error);
     }
   }
 
