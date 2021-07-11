@@ -53,7 +53,8 @@ const colours = [
 
 const fuels = ['Petrol', 'Diesel', 'Hybrid', 'Electric', 'Other'];
 
-const AddVehicle = ({ open, close, locations }) => {
+const AddVehicle = (props) => {
+  const { open, close, locations, vehiclesUpdated } = props;
   const classes = useStyles();
   const { auth, user } = useContext(authContext);
 
@@ -94,7 +95,6 @@ const AddVehicle = ({ open, close, locations }) => {
 
     const { petFriendly, sport, truck, van, miniVan, luxury, rv, suv, convertible, economy } = checkState;
 
-    // Remove price after updating schema
     const content = {
       userId: user.id,
       locationId: locationField,
@@ -122,7 +122,11 @@ const AddVehicle = ({ open, close, locations }) => {
 
     try {
       const response = await axios.post('/api/cars', content);
-      // TODO: send the new car back to parent
+
+      // Update car state in parent with newly created car
+      vehiclesUpdated(response.data);
+      // console.log(typeof handleVehiclesUpdated);
+
       setSnackOpen(true);
       handleClose();
     } catch (err) {
