@@ -72,7 +72,7 @@ export default function VehicleAvailability() {
   useEffect(() => {
     const getAvailability = async () => {
       try {
-        const response = await axios.get(`/api/availability?ownerId=${user.id}`);
+        const response = await axios.get(`/api/availability/users/${user.id}`);
         if (response.status === 200) {
           setAvailability(response.data);
           console.log(response.data);
@@ -82,7 +82,6 @@ export default function VehicleAvailability() {
       }
     }
     getAvailability();
-    console.log(user.id)
   }, [user]);
 
   const deleteAvailability = async (id) => {
