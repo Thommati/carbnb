@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, {useEffect, useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -17,6 +17,8 @@ import {
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import axios from 'axios';
+import { authContext } from '../../providers/authProvider'
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -62,18 +64,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const tempUser = 3;
-
 export default function Favourites() {
+  const {auth, user} = useContext(authContext);
   const classes = useStyles();
   const [favourites, setFavourites] = useState([]);
   const [page, setPage] = React.useState(0);
   useEffect(() => {
     const getFavourites = async () => {
       try {
-        const response = await axios.get(`/api/favourites/${tempUser}`);
+        const response = await axios.get(`/api/favourites/${user.id}`);
         if (response.status === 200) {
           setFavourites (response.data);
+          console.log('favourites data', response.data);
         }
       } catch (error) {
         console.error(error);
@@ -111,7 +113,7 @@ export default function Favourites() {
           <TableRow>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} >VEHICLE INFO</TableCell>
-            <TableCell className={classes.TableHeaderCell} >PRICE</TableCell>
+            <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} >HOST DETAILS</TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
@@ -130,7 +132,7 @@ export default function Favourites() {
                 </Grid>
               </TableCell>
               <TableCell>
-                <Typography color="textSecondary" variant="body2">${row.price} /day</Typography>
+                {/* <Typography color="textSecondary" variant="body2">${row.price} /day</Typography> */}
               </TableCell>
               <TableCell>
                 <Grid Container>
