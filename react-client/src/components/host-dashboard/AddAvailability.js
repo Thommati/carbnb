@@ -16,13 +16,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from '@material-ui/core/Checkbox';
-import Paper from '@material-ui/core/Paper';
 
-import Select from "@material-ui/core/Select";
 import axios from "axios";
 import { authContext } from "../../providers/authProvider";
 
