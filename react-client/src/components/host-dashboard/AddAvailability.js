@@ -104,6 +104,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
   }, [user]);
 
   const handleSubmit = async () => {
+    console.log('handle submit called');
     if (!auth && user.id) {
       return;
     }
@@ -124,7 +125,6 @@ export default function AddAvailability({ locations, updateAvailability }) {
     } catch (err) {
       console.log('Error saving availability to database', err);
     }
-
   };
 
   return (
@@ -169,7 +169,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
               onChange={event => setSelectedLocation(event.target.value)}
               variant="filled"
               required
-              full width
+              fullWidth
             >
               {locations.map((loc) => (
                 <MenuItem key={loc.id} value={loc.id}>
