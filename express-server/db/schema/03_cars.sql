@@ -24,6 +24,5 @@ CREATE TABLE cars
   suv BOOLEAN,
   convertible BOOLEAN,
   economy BOOLEAN,
-  price INTEGER NOT NULL,
   model_year INTEGER NOT NULL
 );
