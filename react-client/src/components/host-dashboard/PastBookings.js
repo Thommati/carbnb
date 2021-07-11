@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -58,25 +58,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MainContainer() {
-  const {auth, user} = useContext(authContext);
+export default function MainContainer({orders}) {
+  const { user } = useContext(authContext);
   const classes = useStyles();
-  const [orders, setOrders] = useState([]);
-  const [page, setPage] = React.useState(0);
-  useEffect(() => {
-    const getOrders = async () => {
-      try {
-        const response = await axios.get(`/api/orders/user/${user.id}`);
-        if (response.status === 200) {
-          setOrders(response.data);
-          console.log(response.data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getOrders();
-  }, []);
+  const [page, setPage] = useState(0);
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 

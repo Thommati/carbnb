@@ -63,30 +63,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MainContainer() {
-  const {auth, user} = useContext(authContext);
+export default function NewContainer({orders}) {
+  const { user } = useContext(authContext);
   const classes = useStyles();
-  const [orders, setOrders] = useState([]);
-  const [page, setPage] = React.useState(0);
-  useEffect(() => {
-    const getOrders = async () => {
-      try {
-        const response = await axios.get(`/api/orders/user/${user.id}`);
-        if (response.status === 200) {
-          setOrders(response.data);
-          // console.log(response.data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getOrders();
-  }, []);
+  const [page, setPage] = useState(0);
 
+  // TODO: fix deleteOrders
   const deleteOrders = async (id) => {
     try {
       const response = await axios.delete(`/api/orders/${id}`);
-      setOrders(prev => prev.filter(order => order.id !== id));
+      // setOrders(prev => prev.filter(order => order.id !== id));
     } catch (error) {
       console.error(error);
     }
@@ -152,7 +138,7 @@ export default function MainContainer() {
               <TableCell>
                 <Grid Container>
                   <Grid item>
-                    <Typography className={classes.name}>{row.renter_id}</Typography>
+                    <Typography className={classes.name}>{row.name}</Typography>
                   </Grid>
                 </Grid>
               </TableCell>
