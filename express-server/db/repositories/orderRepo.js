@@ -22,8 +22,9 @@ exports.getOrdersForHostWithIdAsync = id => {
     SELECT orders.*, cars.id as car_id, make, model, name, email, phone FROM orders
     JOIN users ON renter_id = users.id
     JOIN availability ON availability_id = availability.id
+    JOIN locations ON location_id = locations.id
     JOIN cars ON car_id = cars.id
-    WHERE owner_id = $1;
+    WHERE cars.user_id = $1;
   `;
   const queryParams = [id];
   return db.query(queryText, queryParams);
