@@ -1,5 +1,6 @@
 import 'date-fns';
 import React from 'react';
+import { useState, useContext, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -18,7 +19,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
+import axios from 'axios'
+import { authContext } from '../../providers/authProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,10 +42,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MaterialUIPickers() {
+  const { auth, user } = useContext(authContext);
   const [selectedStartDate, setSelectedStartDate] = React.useState(new Date('2021-08-18T21:11:54'));
   const [selectedEndDate, setSelectedEndDate] = React.useState(new Date('2021-08-18T21:11:54'));
-  const [open, setOpen] = React.useState(false);
-  const [car, setCar] = React.useState('');
+  const [open, setOpen] = useState(false);
+  const [car, setCar] = useState('');
   const classes = useStyles();
 
   const handleChange = (event) => {
@@ -68,6 +71,20 @@ export default function MaterialUIPickers() {
   const handleEndDateChange = (date) => {
     setSelectedEndDate(date);
   };
+
+  useEffect(() => {
+    const getAvailability = async () => {
+      try {
+        const response = await axios.get(`/api/availability?ownerId=${user.id}`);
+        console.log(response.data);
+      } catch (err) {
+        console.log('Error', err);
+      }
+    };
+    if (user.id) {
+      getAvailability();
+    }
+  }, [user]);
 
 
   return (
@@ -133,7 +150,8 @@ export default function MaterialUIPickers() {
             margin="dense"
             id="price"
             label="Price / Day"
-            type="text"
+            type="number"
+            inputProps={{ min: 1, step: 1 }}
             placeholder="$"
             fullWidth
           />
