@@ -86,7 +86,7 @@ const AddVehicle = ({ open, close, locations }) => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    // TODO:  Disable the dialog if not logged in.
+    // User should not be able to get to this point
     if (!auth) {
       setErrorMessage('You must be logged in to register a vehicle');
       return;
@@ -130,10 +130,32 @@ const AddVehicle = ({ open, close, locations }) => {
     }
   };
 
-  // TODO: Clear the rest of the fields.
   const handleClose = () => {
+    // Set form fields to default values;
     setMake('');
     setModel('');
+    setModelYear(new Date().getFullYear());
+    setDoors('');
+    setColour('');
+    setFuel('');
+    setSeats('');
+    setTransmission('');
+    setDescription('');
+    setImage('');
+    setCheckState({
+      sport: false,
+      luxury: false,
+      truck: false,
+      van: false,
+      miniVan: false,
+      rv: false,
+      suv: false,
+      convertible: false,
+      economy: false,
+      petFriendly: false
+    });
+
+    // Close the dialog
     close(false);
   };
 

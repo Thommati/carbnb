@@ -17,7 +17,7 @@ import {
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import axios from 'axios';
-import { authContext } from '../../providers/authProvider'
+import { authContext } from '../../providers/authProvider';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -68,15 +68,16 @@ export default function Favourites() {
   const { user } = useContext(authContext);
   const classes = useStyles();
   const [favourites, setFavourites] = useState([]);
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  // Load all of a users' favourites into state, favourites
   useEffect(() => {
     const getFavourites = async () => {
       try {
         const response = await axios.get(`/api/favourites/${user.id}`);
         if (response.status === 200) {
           setFavourites (response.data);
-          console.log('favourites data', response.data);
         }
       } catch (error) {
         console.error(error);
@@ -85,24 +86,15 @@ export default function Favourites() {
     getFavourites();
   }, [user.id]);
 
+  // Delete a favourite from the database and update favourite state
   const deleteFavourites = async (userId, carId) => {
-    console.log('Deleting favourite with carId', carId);
     try {
-      const response = await axios.delete(`/api/favourites/${userId}/${carId}`);
-      setFavourites(prev => {
-        return prev.filter(favourite => {
-          console.log('favourite', favourite);
-          return favourite.car_id !== carId
-        })
-      });
+      await axios.delete(`/api/favourites/${userId}/${carId}`);
+      setFavourites(prev => prev.filter(favourite => favourite.car_id !== carId));
     } catch (error) {
       console.error('Error deleting favourite from the favourites tab', error);
     }
-  }
-
-
-
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
