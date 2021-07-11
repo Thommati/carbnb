@@ -5,17 +5,24 @@ import './ReservationDetail.scss';
 const ReservationDetail = props => {
   const { price, days, serviceFees, taxRate } = props;
 
-  const taxAmount = () => (price + serviceFees) * days * taxRate / 100;
+  const convertPriceToNumber = price => {
+    if (price) {
+      return price.split('$')[1];
+    }
+    return 0;
+  };
 
-  const totalPrice = () => (price + serviceFees) * days + taxAmount();
+  const taxAmount = () => (convertPriceToNumber(price) + serviceFees) * days * taxRate / 100;
+
+  const totalPrice = () => (convertPriceToNumber(price) + serviceFees) * days + taxAmount();
 
   return (
     <div className="reservation-details">
       <List>
         <ListItem>
           <div className="reservation-details__list-item">
-            <span>${price} x {days} {days === 1 ? 'day' : 'days'}</span>
-            <span>${price * days}</span>
+            <span>${convertPriceToNumber(price)} x {days} {days === 1 ? 'day' : 'days'}</span>
+            <span>${convertPriceToNumber(price) * days}</span>
           </div>
         </ListItem>
         <ListItem>
