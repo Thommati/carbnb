@@ -53,7 +53,7 @@ const colours = [
 
 const fuels = ['Petrol', 'Diesel', 'Hybrid', 'Electric', 'Other'];
 
-const AddVehicle = ({ open, close }) => {
+const AddVehicle = ({ open, close, locations }) => {
   const classes = useStyles();
   const { auth, user } = useContext(authContext);
 
@@ -81,23 +81,7 @@ const AddVehicle = ({ open, close }) => {
     petFriendly: false
   });
   const [snackOpen, setSnackOpen] = useState(false);
-  const [locations, setLocations] = useState([]);
   const [locationField, setLocationField] = useState('');
-
-  useEffect(() => {
-    const getLocation = async () => {
-      try {
-        const response = await axios.get(`/api/locations/user/${user.id}`);
-        setLocations(response.data);
-      } catch (err) {
-        console.log('Error retrieving locations', err);
-      }
-    };
-
-    if (auth && user.id) {
-      getLocation();
-    }
-  }, [auth, user.id]);
 
   const handleSubmit = async event => {
     event.preventDefault();

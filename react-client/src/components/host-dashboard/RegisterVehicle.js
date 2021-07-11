@@ -16,6 +16,8 @@ import {
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import AddVehicle from './AddVehicle';
 import { authContext } from '../../providers/authProvider';
 import axios from 'axios';
@@ -68,11 +70,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RegisterVehicle() {
-  const { user } = useContext(authContext);
+  const { auth, user } = useContext(authContext);
   const classes = useStyles();
   const [cars, setCars] = useState([]);
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
+  const [locations, setLocations] = useState([]);
+  const [snackOpen, setSnackOpen] = useState(false);
 
   useEffect(() => {
     const getAvailability = async () => {
@@ -84,8 +88,25 @@ export default function RegisterVehicle() {
         console.error('Error loading cars for user from API', err);
       }
     }
-    getAvailability();
-  }, [user.id]);
+    if (auth && user.id) {
+      getAvailability();
+    }
+  }, [user.id, auth]);
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const response = await axios.get(`/api/locations/user/${user.id}`);
+        setLocations(response.data);
+      } catch (err) {
+        console.log('Error retrieving locations', err);
+      }
+    };
+
+    if (auth && user.id) {
+      getLocation();
+    }
+  }, [auth, user.id]);
 
   const deleteCars= async (id) => {
     try {
@@ -99,7 +120,11 @@ export default function RegisterVehicle() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (auth && locations.length > 0) {
+      setOpen(true);
+    } else {
+      setSnackOpen(true);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -113,7 +138,14 @@ export default function RegisterVehicle() {
 
   const handleAddVehicleClose = () => {
     setOpen(false);
-  }
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackOpen(false);
+  };
 
   return (
     <div>
@@ -174,7 +206,13 @@ export default function RegisterVehicle() {
       </TableFooter>
 
     </TableContainer>
-      <AddVehicle open={open} close={handleAddVehicleClose} />
+      <AddVehicle open={open} close={handleAddVehicleClose} locations={locations} />
+
+      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
+        <MuiAlert onClose={handleCloseSnack} severity="warning" elevation={6} variant="filled">
+          You need to have at least one location on file to register a car
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };

@@ -113,6 +113,7 @@ const TopNav = props => {
   const handleLogout = () => {
     logout();
     setLoggedOutOpen(true);
+    history.push('/');
   };
 
   return (
