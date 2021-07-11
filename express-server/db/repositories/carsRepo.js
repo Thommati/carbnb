@@ -2,26 +2,26 @@ const db = require("../index");
 
 // Get all cars / get all cars for province + city
 // Param: filters = { province: string, city: string }
-exports.getAllCarsAsync = (filters) => {
-  let queryText = `
-  SELECT cars.*, name, email, phone, city, province, country FROM cars
-  JOIN users ON cars.user_id = users.id
-  JOIN locations ON cars.location_id = locations.id
-  `;
-  const queryParams = [];
+// exports.getAllCarsAsync = (filters) => {
+//   let queryText = `
+//   SELECT cars.*, name, email, phone, city, province, country FROM cars
+//   JOIN users ON cars.user_id = users.id
+//   JOIN locations ON cars.location_id = locations.id
+//   `;
+//   const queryParams = [];
 
-  const { city } = filters;
-  if (city) {
-    queryText += `
-      WHERE LOWER(locations.city) = LOWER($1)
-    `;
-    queryParams.push(city);
-  }
+//   const { city } = filters;
+//   if (city) {
+//     queryText += `
+//       WHERE LOWER(locations.city) = LOWER($1)
+//     `;
+//     queryParams.push(city);
+//   }
 
-  queryText += ";";
+//   queryText += ";";
 
-  return db.query(queryText, queryParams);
-};
+//   return db.query(queryText, queryParams);
+// };
 
 exports.getAllCarsAsync1 = (filters) => {
   let queryText = `

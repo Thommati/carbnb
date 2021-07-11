@@ -75,11 +75,10 @@ export default function RegisterVehicle({ locations }) {
   const [cars, setCars] = useState([]);
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
-  // const [locations, setLocations] = useState([]);
   const [snackOpen, setSnackOpen] = useState(false);
 
   useEffect(() => {
-    const getAvailability = async () => {
+    const getUsersCars = async () => {
       try {
         const response = await axios.get(`/api/cars/users/${user.id}`);
         setCars(response.data);
@@ -88,24 +87,9 @@ export default function RegisterVehicle({ locations }) {
       }
     }
     if (auth && user.id) {
-      getAvailability();
+      getUsersCars();
     }
   }, [user.id, auth]);
-
-  // useEffect(() => {
-  //   const getLocation = async () => {
-  //     try {
-  //       const response = await axios.get(`/api/locations/user/${user.id}`);
-  //       setLocations(response.data);
-  //     } catch (err) {
-  //       console.log('Error retrieving locations', err);
-  //     }
-  //   };
-
-  //   if (auth && user.id) {
-  //     getLocation();
-  //   }
-  // }, [auth, user.id]);
 
   const deleteCars= async (id) => {
     try {
@@ -146,6 +130,10 @@ export default function RegisterVehicle({ locations }) {
     setSnackOpen(false);
   };
 
+  const handleVehiclesUpdated = vehicle => {
+    setCars(prev => [...prev, vehicle]);
+  };
+
   return (
     <div>
       <TableContainer component={Paper} className={classes.TableContainer}>
@@ -167,10 +155,10 @@ export default function RegisterVehicle({ locations }) {
           {cars.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
-                {row.car_id}
+                {row.id}
               </TableCell>
               <TableCell>
-                <Avatar alt={row.image} img src={row.image} className={classes.AvatarLarge} />
+                <Avatar alt={`${row.make} ${row.model}`} img src={row.image} className={classes.AvatarLarge} />
               </TableCell>
               <TableCell>
                 <Grid container>
@@ -205,7 +193,12 @@ export default function RegisterVehicle({ locations }) {
       </TableFooter>
 
     </TableContainer>
-      <AddVehicle open={open} close={handleAddVehicleClose} locations={locations} />
+      <AddVehicle
+        open={open}
+        close={handleAddVehicleClose}
+        locations={locations}
+        vehiclesUpdated={handleVehiclesUpdated}
+      />
 
       <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
         <MuiAlert onClose={handleCloseSnack} severity="warning" elevation={6} variant="filled">

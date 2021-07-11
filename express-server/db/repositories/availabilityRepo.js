@@ -28,7 +28,7 @@ exports.getAvailabilitiesForOwnerAsync = (ownerId) => {
 }
 
 // Retrieves all availabilities for the car with the given id.
-exports.getAvailabilityForCarByIdAsync = id => {
+exports.getAvailabilityForCarByIdAsync = (id) => {
   const queryText =`
     SELECT * from availability
     WHERE car_id = $1
@@ -40,7 +40,7 @@ exports.getAvailabilityForCarByIdAsync = id => {
 };
 
 // Create a new availability.  Pass in availability column data except id.
-exports.createAvailabilityAsync = data => {
+exports.createAvailabilityAsync = async (data) => {
   const queryText = `
     INSERT INTO availability (
       location_id,
@@ -61,7 +61,25 @@ exports.createAvailabilityAsync = data => {
     data.carId,
     data.price
   ];
-  return db.query(queryText, queryParams);
+
+  const { rows } = await db.query(queryText, queryParams);
+  const result = { ...rows[0] };
+
+  const query2 = `
+    SELECT image, make, model
+    FROM cars
+    JOIN availability ON availability.car_id = cars.id
+    WHERE cars.id = $1;
+  `;
+
+  // Get some extra car details to return to front end with new availability
+  const carResponse = await db.query(query2, [data.carId]);
+  const carDetails = carResponse.rows[0];
+  result.image = carDetails.image;
+  result.make = carDetails.make;
+  result.model = carDetails.model;
+
+  return result;
 };
 
 // Delete an availability with a given id

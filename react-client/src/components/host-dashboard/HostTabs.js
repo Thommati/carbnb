@@ -16,6 +16,7 @@ export default function UserTabs () {
   const { auth, user } =  useContext(authContext);
   const [value,setValue] = useState(0);
   const [locations, setLocations] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   const handleTabs=(e, value) => {
   setValue(value);
@@ -36,6 +37,18 @@ export default function UserTabs () {
     }
   }, [auth, user.id]);
 
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const response = await axios.get(`/api/orders/host/${user.id}`);
+        setOrders(response.data);
+      } catch (error) {
+        console.error('Error retrieving order by host id', error);
+      }
+    }
+    getOrders();
+  }, [user.id]);
+
   return (
     <div>
       <AppBar position="static" >
@@ -48,10 +61,10 @@ export default function UserTabs () {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <NewBookings />
+        <NewBookings orders={orders} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PastBookings />
+        <PastBookings orders={orders} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <VehicleAvailability locations={locations} />
