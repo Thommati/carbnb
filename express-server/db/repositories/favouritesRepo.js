@@ -2,8 +2,12 @@ const db = require('../index');
 
 exports.getFavouritesForUserIdAsync = id => {
   const queryText = `
-    SELECT * from favourites
-    WHERE user_id = $1;
+    SELECT favourites.*, make, model, cars.image as image, name, city, province, email
+    FROM favourites
+    JOIN users ON favourites.user_id = users.id
+    JOIN cars ON favourites.car_id = cars.id
+    JOIN locations ON locations.user_id = cars.user_id
+    WHERE favourites.user_id = $1;
   `;
   const queryParams = [id];
   return db.query(queryText, queryParams);
