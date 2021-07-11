@@ -5,6 +5,7 @@ const {
   createNewCarAsync,
   deleteCarWithIdAsync,
   updateCarAsync,
+  getCarsByUserId,
 } = require("../db/repositories/carsRepo");
 
 const router = express.Router();
@@ -35,6 +36,8 @@ router.post("/", async (req, res) => {
   }
 });
 
+// GET /api/cars/:id
+// Retrieve all cars for car with id
 router.get("/:id", async (req, res) => {
   try {
     const { rows } = await getCarByIdAsync(req.params.id);
@@ -42,6 +45,18 @@ router.get("/:id", async (req, res) => {
   } catch (err) {
     console.log(`Error retrieving car with id ${req.params.id}`, err);
     return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// GET /api/cars/users/:id
+// Retrieves all cars registered (owned) by a user
+router.get('/users/:id', async (req, res) => {
+  try {
+    const { rows } = await getCarsByUserId(req.params.id);
+    return res.json(rows);
+  } catch (err) {
+    console.log('Error retrieving cars for user by id');
+    return res.status(500).json({error: 'Internal server error'});
   }
 });
 

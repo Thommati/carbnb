@@ -63,6 +63,17 @@ WHERE
   return db.query(queryText, queryParams);
 };
 
+// Get all cars for a user by user's id
+exports.getCarsByUserId = id => {
+  const queryText = `
+    SELECT * from cars
+    JOIN users ON user_id = users.id
+    WHERE user_id = $1;
+  `;
+  const queryParams = [id];
+  return db.query(queryText, queryParams);
+};
+
 // Add a new car to the database
 exports.createNewCarAsync = (data) => {
   const queryText = `
