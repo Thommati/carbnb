@@ -66,7 +66,7 @@ WHERE
 // Get all cars for a user by user's id
 exports.getCarsByUserId = id => {
   const queryText = `
-    SELECT * from cars
+    SELECT cars.* from cars
     JOIN users ON user_id = users.id
     WHERE user_id = $1;
   `;
