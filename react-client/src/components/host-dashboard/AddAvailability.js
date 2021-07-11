@@ -20,27 +20,34 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from '@material-ui/core/Checkbox';
+import Paper from '@material-ui/core/Paper';
+
 import Select from "@material-ui/core/Select";
 import axios from "axios";
 import { authContext } from "../../providers/authProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 800,
-    display: "flex",
-    alignItems: "center",
+    // width: 500,
+    // display: "flex",
+    // alignItems: "center",
+    flexgrow: 1,
   },
   Add: {
     fontSize: 30,
   },
-  button: {
-    display: "block",
-    marginTop: theme.spacing(2),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
+  // button: {
+  //   display: "block",
+  //   marginTop: theme.spacing(2),
+  // },
+  // formControl: {
+  //   margin: theme.spacing(1),
+  //   minWidth: 120,
+  // },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,  }
 }));
 
 export default function AddAvailability({ locations, updateAvailability }) {
@@ -121,7 +128,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
   };
 
   return (
-    <div>
+    <div className = {classes.root}>
       {auth && <AddCircleOutlineIcon
         className={classes.Add}
         onClick={handleClickOpen}
@@ -132,29 +139,46 @@ export default function AddAvailability({ locations, updateAvailability }) {
         onClose={handleClose}
         aria-labelledby="add-availability"
       >
+
         <DialogTitle id="add-availability">
           Add Vehicle Availability
         </DialogTitle>
-          <DialogContent>
+        <DialogContent>
 
           <TextField
-              id="car-select"
+            id="car-select"
+            select
+            label="Select Car"
+            value={selectedCar}
+            onChange={event => setSelectedCar(event.target.value)}
+            variant="filled"
+            required
+            fullWidth
+          >
+            {usersCars.map((c) => (
+              <MenuItem key={c.id} value={c.id}>
+                {`${c.id}: ${c.model_year} ${c.make} ${c.model}`}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+              id="car-locations"
               select
-              label="Select Car"
-              value={selectedCar}
-              onChange={event => setSelectedCar(event.target.value)}
+              label="Select Location"
+              value={selectedLocation}
+              onChange={event => setSelectedLocation(event.target.value)}
               variant="filled"
               required
+              full width
             >
-              {usersCars.map((c) => (
-                <MenuItem key={c.id} value={c.id}>
-                  {`${c.id}: ${c.model_year} ${c.make} ${c.model}`}
+              {locations.map((loc) => (
+                <MenuItem key={loc.id} value={loc.id}>
+                  {`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}
                 </MenuItem>
               ))}
             </TextField>
-
-            <Grid container justifyContent="space-around">
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Grid container justifyContent="space-around">
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
                 variant="inline"
@@ -181,46 +205,32 @@ export default function AddAvailability({ locations, updateAvailability }) {
                   "aria-label": "change date",
                 }}
               />
-              </MuiPickersUtilsProvider>
-            </Grid>
-            <Grid>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="price"
-                label="Price / Day"
-                type="number"
-                inputProps={{ min: 1, step: 1 }}
-                placeholder="$"
-                fullWidth
-                value={price}
-                onChange={event => setPrice(event.target.value)}
-              />
-
-              <TextField
-                id="car-locations"
-                select
-                label="Select Location"
-                value={selectedLocation}
-                onChange={event => setSelectedLocation(event.target.value)}
-                variant="filled"
-                required
-              >
-                {locations.map((loc) => (
-                  <MenuItem key={loc.id} value={loc.id}>
-                    {`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}
-                  </MenuItem>
-                ))}
-              </TextField>
-
-            </Grid>
-          </DialogContent>
-          <FormControl>
-            <FormControlLabel
-              control={<Checkbox checked={deliver} onChange={event => setDeliver(event.target.checked)} name="sport" />}
-              label="Delivery"
+            </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="price"
+              label="Price / Day"
+              type="number"
+              inputProps={{ min: 1, step: 1 }}
+              placeholder="$"
+              fullWidth
+              value={price}
+              onChange={event => setPrice(event.target.value)}
             />
-          </FormControl>
+
+
+
+          </Grid>
+        </DialogContent>
+        <FormControl>
+          <FormControlLabel
+            control={<Checkbox checked={deliver} onChange={event => setDeliver(event.target.checked)} name="sport" />}
+            label="Delivery"
+          />
+        </FormControl>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
