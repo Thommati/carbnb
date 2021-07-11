@@ -6,19 +6,26 @@ exports.getAllAvailabilitiesAsync = (ownerId) => {
     SELECT availability.*, make, model, cars.image as image
     FROM availability
     JOIN cars ON car_id = cars.id
-    JOIN users ON user_id = users.id
+    JOIN users ON user_id = users.id;
   `;
   const queryParams = [];
 
-  if (ownerId) {
-    queryText += 'WHERE user_id = $1';
-    queryParams.push(ownerId);
-  }
-
-  queryText += ';';
-
   return db.query(queryText, queryParams);
 };
+
+
+exports.getAvailabilitiesForOwnerAsync = (ownerId) => {
+  const queryText = `
+  SELECT availability.*, make, model, cars.image as image
+  FROM availability
+  JOIN cars ON car_id = cars.id
+  JOIN users ON user_id = users.id
+  WHERE user_id = $1;
+  `;
+  const queryParams = [ownerId];
+
+  return db.query(queryText, queryParams);
+}
 
 // Retrieves all availabilities for the car with the given id.
 exports.getAvailabilityForCarByIdAsync = id => {

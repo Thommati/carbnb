@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
+import { authContext } from '../../providers/authProvider';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -62,9 +63,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const tempHost = 2;
-
 export default function VehicleAvailability() {
+  const { auth, user } = useContext(authContext);
   const classes = useStyles();
   const [availability, setAvailability] = useState([]);
   const [page, setPage] = React.useState(0);
@@ -72,7 +72,7 @@ export default function VehicleAvailability() {
   useEffect(() => {
     const getAvailability = async () => {
       try {
-        const response = await axios.get(`/api/availability?ownerId=${tempHost}`);
+        const response = await axios.get(`/api/availability?ownerId=${user.id}`);
         if (response.status === 200) {
           setAvailability(response.data);
           console.log(response.data);
@@ -82,7 +82,8 @@ export default function VehicleAvailability() {
       }
     }
     getAvailability();
-  }, []);
+    console.log(user.id)
+  }, [user]);
 
   const deleteAvailability = async (id) => {
     try {

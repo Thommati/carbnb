@@ -5,16 +5,27 @@ const {
   deleteAvailabilityAsync,
   updateAvailabilityWithIdAsync,
   getAvailabilityForCarByIdAsync,
+  getAvailabilitiesForOwnerAsync,
+
 } = require('../db/repositories/availabilityRepo');
 
 const router = express.Router();
 
 // GET /api/availability
-// GET /api/availability?ownerId={id}
-// Retrieves all availabilities, and optionally filters by owner id
+// Retrieves all availabilities
 router.get('/', async (req, res) => {
   try {
-    const { rows } = await getAllAvailabilitiesAsync(req.query.ownerId);
+    const { rows } = await getAllAvailabilitiesAsync();
+    return res.json(rows);
+  } catch (err) {
+    console.log('Error retrieving availabilities', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/users/:ownerId', async (req, res) => {
+  try {
+    const { rows } = await getAvailabilitiesForOwnerAsync(req.params.ownerId);
     return res.json(rows);
   } catch (err) {
     console.log('Error retrieving availabilities', err);
