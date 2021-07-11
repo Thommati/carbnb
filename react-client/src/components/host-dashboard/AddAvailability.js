@@ -76,7 +76,6 @@ export default function MaterialUIPickers() {
     const getAvailability = async () => {
       try {
         const response = await axios.get(`/api/availability?ownerId=${user.id}`);
-        console.log(response.data);
       } catch (err) {
         console.log('Error', err);
       }

@@ -79,7 +79,7 @@ export default function RegisterVehicle() {
         const response = await axios.get(`/api/availability?ownerId=${tempHost}`);
         if (response.status === 200) {
           setAvailability(response.data);
-          console.log(response.data);
+          // console.log(response.data);
         }
       } catch (error) {
         console.error(error);
