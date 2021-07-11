@@ -69,13 +69,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function RegisterVehicle() {
+export default function RegisterVehicle({ locations }) {
   const { auth, user } = useContext(authContext);
   const classes = useStyles();
   const [cars, setCars] = useState([]);
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
-  const [locations, setLocations] = useState([]);
+  // const [locations, setLocations] = useState([]);
   const [snackOpen, setSnackOpen] = useState(false);
 
   useEffect(() => {
@@ -92,20 +92,20 @@ export default function RegisterVehicle() {
     }
   }, [user.id, auth]);
 
-  useEffect(() => {
-    const getLocation = async () => {
-      try {
-        const response = await axios.get(`/api/locations/user/${user.id}`);
-        setLocations(response.data);
-      } catch (err) {
-        console.log('Error retrieving locations', err);
-      }
-    };
+  // useEffect(() => {
+  //   const getLocation = async () => {
+  //     try {
+  //       const response = await axios.get(`/api/locations/user/${user.id}`);
+  //       setLocations(response.data);
+  //     } catch (err) {
+  //       console.log('Error retrieving locations', err);
+  //     }
+  //   };
 
-    if (auth && user.id) {
-      getLocation();
-    }
-  }, [auth, user.id]);
+  //   if (auth && user.id) {
+  //     getLocation();
+  //   }
+  // }, [auth, user.id]);
 
   const deleteCars= async (id) => {
     try {

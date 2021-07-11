@@ -11,6 +11,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TextField from "@material-ui/core/TextField";
@@ -18,6 +19,7 @@ import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import Checkbox from '@material-ui/core/Checkbox';
 import Select from "@material-ui/core/Select";
 import axios from "axios";
 import { authContext } from "../../providers/authProvider";
@@ -41,37 +43,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddAvailability() {
+export default function AddAvailability({ locations, updateAvailability }) {
   const { auth, user } = useContext(authContext);
   const classes = useStyles();
-  const [selectedStartDate, setSelectedStartDate] = React.useState(
-    new Date("2021-08-18T21:11:54")
-  );
-  const [selectedEndDate, setSelectedEndDate] = React.useState(
-    new Date("2021-08-18T21:11:54")
-  );
-  const [open, setOpen] = useState(false);
-  const [car, setCar] = useState("");
-  const [selectedCar, setSelectedCar] = useState('');
-  const [listings, setListings]  = useState([]);
+
   const [usersCars, setUsersCars] = useState([]);
 
-  const handleChange = (event) => {
-    setCar(event.target.value);
-  };
+  const [open, setOpen] = useState(false);
+
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const [selectedCar, setSelectedCar] = useState('');
+  const [deliver, setDeliver] = useState(false);
+  const [price, setPrice] = useState(0);
+  const [selectedLocation, setSelectedLocation] = useState('');
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    setSelectedStartDate(new Date());
+    setSelectedEndDate(new Date());
+    setSelectedCar('');
+    setDeliver(false);
+    setPrice(0);
+    setSelectedLocation('');
     setOpen(false);
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
   const handleStartDateChange = (date) => {
+    console.log('Date is being set', date);
     setSelectedStartDate(date);
   };
 
@@ -84,6 +86,7 @@ export default function AddAvailability() {
       try {
         const response = await axios.get(`/api/cars/users/${user.id}`);
         setUsersCars(response.data);
+        handleClose();
       } catch (err) {
         console.log("Error getting available cars", err);
       }
@@ -93,8 +96,28 @@ export default function AddAvailability() {
     }
   }, [user]);
 
-  const handleSubmit = () => {
-    console.log("handleSubmit called");
+  const handleSubmit = async () => {
+    if (!auth && user.id) {
+      return;
+    }
+
+    const formData = {
+      price,
+      locationId: selectedLocation,
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+      delivery: deliver,
+      carId: selectedCar,
+    };
+
+    try {
+      const response = await axios.post('/api/availability', formData);
+      handleClose();
+      updateAvailability(response.data);
+    } catch (err) {
+      console.log('Error saving availability to database', err);
+    }
+
   };
 
   return (
@@ -112,7 +135,6 @@ export default function AddAvailability() {
         <DialogTitle id="add-availability">
           Add Vehicle Availability
         </DialogTitle>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DialogContent>
 
           <TextField
@@ -132,6 +154,7 @@ export default function AddAvailability() {
             </TextField>
 
             <Grid container justifyContent="space-around">
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
                 variant="inline"
@@ -158,6 +181,7 @@ export default function AddAvailability() {
                   "aria-label": "change date",
                 }}
               />
+              </MuiPickersUtilsProvider>
             </Grid>
             <Grid>
               <TextField
@@ -169,18 +193,34 @@ export default function AddAvailability() {
                 inputProps={{ min: 1, step: 1 }}
                 placeholder="$"
                 fullWidth
+                value={price}
+                onChange={event => setPrice(event.target.value)}
               />
+
               <TextField
-                autoFocus
-                margin="dense"
-                id="location"
-                label="Location"
-                type="text"
-                fullWidth
-              />
+                id="car-locations"
+                select
+                label="Select Location"
+                value={selectedLocation}
+                onChange={event => setSelectedLocation(event.target.value)}
+                variant="filled"
+                required
+              >
+                {locations.map((loc) => (
+                  <MenuItem key={loc.id} value={loc.id}>
+                    {`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}
+                  </MenuItem>
+                ))}
+              </TextField>
+
             </Grid>
           </DialogContent>
-        </MuiPickersUtilsProvider>
+          <FormControl>
+            <FormControlLabel
+              control={<Checkbox checked={deliver} onChange={event => setDeliver(event.target.checked)} name="sport" />}
+              label="Delivery"
+            />
+          </FormControl>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel

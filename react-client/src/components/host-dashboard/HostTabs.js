@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import {
   Tabs,
   Tab,
@@ -9,11 +10,32 @@ import PastBookings from "./PastBookings";
 import VehicleAvailability from "./VehicleAvailability";
 import RegisterVehicle from "./RegisterVehicle";
 
+import { authContext } from '../../providers/authProvider';
+
 export default function UserTabs () {
-  const [value,setValue]=React.useState(0);
+  const { auth, user } =  useContext(authContext);
+  const [value,setValue] = useState(0);
+  const [locations, setLocations] = useState([]);
+
   const handleTabs=(e, value) => {
   setValue(value);
-  }
+  };
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const response = await axios.get(`/api/locations/user/${user.id}`);
+        setLocations(response.data);
+      } catch (err) {
+        console.log('Error retrieving locations', err);
+      }
+    };
+
+    if (auth && user.id) {
+      getLocation();
+    }
+  }, [auth, user.id]);
+
   return (
     <div>
       <AppBar position="static" >
@@ -32,10 +54,10 @@ export default function UserTabs () {
         <PastBookings />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <VehicleAvailability />
+        <VehicleAvailability locations={locations} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <RegisterVehicle />
+        <RegisterVehicle locations={locations} />
       </TabPanel>
     </div>
   );

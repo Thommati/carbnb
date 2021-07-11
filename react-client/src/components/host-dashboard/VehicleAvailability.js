@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function VehicleAvailability() {
+export default function VehicleAvailability({ locations }) {
   const { user } = useContext(authContext);
   const classes = useStyles();
   const [availability, setAvailability] = useState([]);
@@ -101,6 +101,10 @@ export default function VehicleAvailability() {
     setPage(0);
   };
 
+  const updateAvailability = (newAvailability) => {
+    setAvailability(prev => ([...prev, newAvailability]));
+  };
+
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
       <Table className={classes.table} aria-label="host-availability">
@@ -112,7 +116,9 @@ export default function VehicleAvailability() {
             <TableCell className={classes.TableHeaderCell} >AVAILABILITY START DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >AVAILABILITY END DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE PER DAY</TableCell>
-            <TableCell className={classes.TableHeaderCell} ><AddAvailability /></TableCell>
+            <TableCell className={classes.TableHeaderCell} >
+              <AddAvailability locations={locations} updateAvailability={updateAvailability} />
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
