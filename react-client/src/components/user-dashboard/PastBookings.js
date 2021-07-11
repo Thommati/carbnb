@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import UserReview from "./UserReview";
 import axios from 'axios';
+import { authContext } from '../../providers/authProvider'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -56,13 +57,14 @@ const useStyles = makeStyles((theme) => ({
 const tempUser = 3;
 
 export default function PastBookings() {
+  const {auth, user} = useContext(authContext);
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
   const [page, setPage] = React.useState(0);
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await axios.get(`/api/orders/user/${tempUser}`);
+        const response = await axios.get(`/api/orders/user/${user.id}`);
         if (response.status === 200) {
           setOrders(response.data);
           console.log(response.data);
@@ -71,8 +73,12 @@ export default function PastBookings() {
         console.error(error);
       }
     }
-    getOrders();
-  }, []);
+    if (user.id) {
+      console.log('Past container user id', user.id);
+      getOrders();
+    }
+
+  }, [user.id]);
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
