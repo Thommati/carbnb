@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -16,6 +16,10 @@ import {
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import AddVehicle from './AddVehicle';
+import { authContext } from '../../providers/authProvider';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -65,42 +69,61 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const tempHost = 2;
-
-export default function RegisterVehicle() {
+export default function RegisterVehicle({ locations }) {
+  const { auth, user } = useContext(authContext);
   const classes = useStyles();
-  const [availability, setAvailability] = useState([]);
-  const [page, setPage] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
+  const [cars, setCars] = useState([]);
+  const [page, setPage] = useState(0);
+  const [open, setOpen] = useState(false);
+  // const [locations, setLocations] = useState([]);
+  const [snackOpen, setSnackOpen] = useState(false);
 
   useEffect(() => {
     const getAvailability = async () => {
       try {
-        const response = await axios.get(`/api/availability?ownerId=${tempHost}`);
-        if (response.status === 200) {
-          setAvailability(response.data);
-          console.log(response.data);
-        }
-      } catch (error) {
-        console.error(error);
+        const response = await axios.get(`/api/cars/users/${user.id}`);
+        setCars(response.data);
+      } catch (err) {
+        console.error('Error loading cars for user from API', err);
       }
     }
-    getAvailability();
-  }, []);
+    if (auth && user.id) {
+      getAvailability();
+    }
+  }, [user.id, auth]);
 
-  const deleteAvailability = async (id) => {
+  // useEffect(() => {
+  //   const getLocation = async () => {
+  //     try {
+  //       const response = await axios.get(`/api/locations/user/${user.id}`);
+  //       setLocations(response.data);
+  //     } catch (err) {
+  //       console.log('Error retrieving locations', err);
+  //     }
+  //   };
+
+  //   if (auth && user.id) {
+  //     getLocation();
+  //   }
+  // }, [auth, user.id]);
+
+  const deleteCars= async (id) => {
     try {
-      const response = await axios.delete(`/api/availability/${id}`);
-      setAvailability(prev => prev.filter(availability => availability.id !== id));
+      await axios.delete(`/api/cars/${id}`);
+      setCars(prev => prev.filter(car => car.id !== id));
     } catch (error) {
-      console.error(error);
+      console.error('Error deleting car from database', error);
     }
   }
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (auth && locations.length > 0) {
+      setOpen(true);
+    } else {
+      setSnackOpen(true);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -112,11 +135,20 @@ export default function RegisterVehicle() {
     setPage(0);
   };
 
-  let today = new Date().toLocaleDateString("en-ca");
-  today = new Date(today);
+  const handleAddVehicleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackOpen(false);
+  };
 
   return (
-    <TableContainer component={Paper} className={classes.TableContainer}>
+    <div>
+      <TableContainer component={Paper} className={classes.TableContainer}>
       <Table className={classes.table} aria-label="host-availability">
         <TableHead>
           <TableRow>
@@ -126,11 +158,13 @@ export default function RegisterVehicle() {
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
             <TableCell className={classes.TableHeaderCell} ></TableCell>
-            <TableCell className={classes.TableHeaderCell} ><AddCircleOutlineIcon className={classes.Add} onClick={handleClickOpen} style={{cursor: 'pointer'}}/></TableCell>
+            <TableCell className={classes.TableHeaderCell} >
+              <AddCircleOutlineIcon className={classes.Add} onClick={handleClickOpen} style={{cursor: 'pointer'}}/>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {availability.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+          {cars.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.car_id}
@@ -152,7 +186,7 @@ export default function RegisterVehicle() {
               <TableCell>
               </TableCell>
                 <TableCell>
-                <DeleteForeverIcon className={classes.Delete} onClick={() => deleteAvailability(row.id)} style={{cursor: 'pointer'}}/>
+                <DeleteForeverIcon className={classes.Delete} onClick={() => deleteCars(row.id)} style={{cursor: 'pointer'}}/>
                 </TableCell>
               </TableRow>
             ))}
@@ -162,13 +196,22 @@ export default function RegisterVehicle() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
           component="div"
-          count={availability.length}
+          count={cars.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </TableFooter>
+
     </TableContainer>
+      <AddVehicle open={open} close={handleAddVehicleClose} locations={locations} />
+
+      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
+        <MuiAlert onClose={handleCloseSnack} severity="warning" elevation={6} variant="filled">
+          You need to have at least one location on file to register a car
+        </MuiAlert>
+      </Snackbar>
+    </div>
   );
 };

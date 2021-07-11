@@ -63,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function VehicleAvailability() {
-  const { auth, user } = useContext(authContext);
+export default function VehicleAvailability({ locations }) {
+  const { user } = useContext(authContext);
   const classes = useStyles();
   const [availability, setAvailability] = useState([]);
   const [page, setPage] = React.useState(0);
@@ -73,12 +73,9 @@ export default function VehicleAvailability() {
     const getAvailability = async () => {
       try {
         const response = await axios.get(`/api/availability/users/${user.id}`);
-        if (response.status === 200) {
-          setAvailability(response.data);
-          console.log(response.data);
-        }
-      } catch (error) {
-        console.error(error);
+        setAvailability(response.data);
+      } catch (err) {
+        console.error('Error retrieving availabilities', err);
       }
     }
     getAvailability();
@@ -86,10 +83,10 @@ export default function VehicleAvailability() {
 
   const deleteAvailability = async (id) => {
     try {
-      const response = await axios.delete(`/api/availability/${id}`);
+      await axios.delete(`/api/availability/${id}`);
       setAvailability(prev => prev.filter(availability => availability.id !== id));
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -104,8 +101,9 @@ export default function VehicleAvailability() {
     setPage(0);
   };
 
-  let today = new Date().toLocaleDateString("en-ca");
-  today = new Date(today);
+  const updateAvailability = (newAvailability) => {
+    setAvailability(prev => ([...prev, newAvailability]));
+  };
 
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
@@ -118,7 +116,9 @@ export default function VehicleAvailability() {
             <TableCell className={classes.TableHeaderCell} >AVAILABILITY START DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >AVAILABILITY END DATE</TableCell>
             <TableCell className={classes.TableHeaderCell} >PRICE PER DAY</TableCell>
-            <TableCell className={classes.TableHeaderCell} ><AddAvailability /></TableCell>
+            <TableCell className={classes.TableHeaderCell} >
+              <AddAvailability locations={locations} updateAvailability={updateAvailability} />
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

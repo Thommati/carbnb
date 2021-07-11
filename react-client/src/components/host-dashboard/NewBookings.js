@@ -74,7 +74,7 @@ export default function MainContainer() {
         const response = await axios.get(`/api/orders/user/${tempHost}`);
         if (response.status === 200) {
           setOrders(response.data);
-          console.log(response.data);
+          // console.log(response.data);
         }
       } catch (error) {
         console.error(error);

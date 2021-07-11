@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -53,7 +53,7 @@ const colours = [
 
 const fuels = ['Petrol', 'Diesel', 'Hybrid', 'Electric', 'Other'];
 
-const AddVehicle = ({ open, close }) => {
+const AddVehicle = ({ open, close, locations }) => {
   const classes = useStyles();
   const { auth, user } = useContext(authContext);
 
@@ -81,30 +81,7 @@ const AddVehicle = ({ open, close }) => {
     petFriendly: false
   });
   const [snackOpen, setSnackOpen] = useState(false);
-  const [locations, setLocations] = useState([]);
   const [locationField, setLocationField] = useState('');
-  const [shouldOpen, setShouldOpen] = useState(open);
-
-  useEffect(() => {
-    const getLocation = async () => {
-      try {
-        const response = await axios.get(`/api/locations/user/${user.id}`);
-        setLocations(response.data);
-      } catch (err) {
-        console.log('Error retrieving locations', err);
-      }
-    };
-
-    if (auth && user.id) {
-      getLocation();
-    }
-  }, [auth, user.id]);
-
-  useEffect(() => {
-    if (open && locations.length > 0 && auth) {
-      setShouldOpen(true);
-    }
-  }, [open, locations, auth]);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -146,13 +123,16 @@ const AddVehicle = ({ open, close }) => {
 
     try {
       const response = await axios.post('/api/cars', content);
+      console.log('Registration submit response', response);
+      // TODO: send the new car back to parent
       setSnackOpen(true);
-      console.log(response.data);
+      handleClose();
     } catch (err) {
       console.log('Error registering new car', err);
     }
   };
 
+  // TODO: Clear the rest of the fields.
   const handleClose = () => {
     setMake('');
     setModel('');
@@ -173,7 +153,7 @@ const AddVehicle = ({ open, close }) => {
   return (
     <div>
       <Dialog
-        open={shouldOpen}
+        open={open}
         onClose={handleClose}
         aria-labelledby="login-dialog"
         fullWidth
@@ -292,7 +272,7 @@ const AddVehicle = ({ open, close }) => {
             >
               {locations.map((loc) => (
                 <MenuItem key={loc.id} value={loc.id}>
-                  {`${loc.street_number} ${loc.stree_name} ${loc.city}, ${loc.province}`}
+                  {`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}
                 </MenuItem>
               ))}
             </TextField>

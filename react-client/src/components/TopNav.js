@@ -75,7 +75,6 @@ const TopNav = props => {
 
   const registerSubmit = async (event) => {
     event.preventDefault();
-    console.log('hello');
     // Make sure password and confirmation match.
     if (registerPassword !== registerPasswordConfirmation) {
       return setRegisterErrorMessage('Passwords must match');
@@ -114,6 +113,7 @@ const TopNav = props => {
   const handleLogout = () => {
     logout();
     setLoggedOutOpen(true);
+    history.push('/');
   };
 
   return (
