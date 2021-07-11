@@ -19,7 +19,7 @@ exports.getOrdersForRenterWithIdAsync = id => {
 
 exports.getOrdersForHostWithIdAsync = id => {
   const queryText = `
-    SELECT orders.*, cars.id as car_id, make, model, name, email, phone FROM orders
+    SELECT orders.*, cars.id as car_id, cars.image as image, make, model, name, email, phone FROM orders
     JOIN users ON renter_id = users.id
     JOIN availability ON availability_id = availability.id
     JOIN locations ON location_id = locations.id
