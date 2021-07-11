@@ -97,7 +97,7 @@ const AddVehicle = ({ open, close, locations }) => {
     // Remove price after updating schema
     const content = {
       userId: user.id,
-      locationId: 3,
+      locationId: locationField,
       make,
       model,
       doors,
@@ -118,12 +118,10 @@ const AddVehicle = ({ open, close, locations }) => {
       convertible,
       economy,
       modelYear,
-      price: 0
     };
 
     try {
       const response = await axios.post('/api/cars', content);
-      console.log('Registration submit response', response);
       // TODO: send the new car back to parent
       setSnackOpen(true);
       handleClose();
