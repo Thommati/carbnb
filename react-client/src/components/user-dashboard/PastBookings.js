@@ -108,6 +108,15 @@ export default function PastBookings() {
     setPage(0);
   };
 
+  const handleReviewUpdated = review => {
+    setReviews(prev => {
+      return {
+        ...prev,
+        [review.car_id]: { ...review }
+      };
+    });
+  };
+
   let today = new Date().toLocaleDateString("en-ca");
   today = new Date(today);
 
@@ -176,7 +185,7 @@ export default function PastBookings() {
                       <small>{reviews[row.car_id].comments}</small>
                     </div>
                   }
-                  { !reviews[row.car_id] && <UserReview carId={row.car_id} /> }
+                  { !reviews[row.car_id] && <UserReview carId={row.car_id} handleReviewUpdated={handleReviewUpdated} /> }
                 </TableCell>
               </TableRow>
           )
