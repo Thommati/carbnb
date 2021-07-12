@@ -43,11 +43,23 @@ const ReservationContainer = (props) => {
   // to lo listing available for those dates.
   const [disabledDates, setDisabledDates] = useState([]);
 
+  const [selectedPrice, setSelectedPrice] = useState(0);
+
   // for snackbars
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openFail, setOpenFail] = useState(false);
 
   const handleRangeSelection = range => {
+    // Get the price based on which listing the order selection is in
+    const { listingPrice } = getListingIdForOrder(
+      listings,
+      {
+        startDate: range.selection.startDate,
+        endDate: range.selection.endDate
+      }
+    );
+    setSelectedPrice(listingPrice);
+
     setStartDate(range.selection.startDate);
     setEndDate(range.selection.endDate);
   };
@@ -73,6 +85,16 @@ const ReservationContainer = (props) => {
       setEndDate(minDate);
       setDisabledDates(disabledDates);
     }
+
+    // Set the displayed price
+    const { listingPrice } = getListingIdForOrder(
+      listings,
+      {
+        startDate: minDate,
+        endDate: minDate
+      }
+    );
+    setSelectedPrice(listingPrice);
   }, [listings, orders]);
 
   const handleSubmitReservation = async () => {
@@ -131,7 +153,7 @@ const ReservationContainer = (props) => {
         {!auth && 'Login to Book'}
       </Button>
       <ReservationDetail
-        price={0}
+        price={selectedPrice}
         days={numDays}
         serviceFees={pricingInfo.serviceFeesPerDay}
         taxRate={pricingInfo.tax[car.province]}
