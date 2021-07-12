@@ -5,7 +5,7 @@ exports.getOrdersForRenterWithIdAsync = id => {
     SELECT
       orders.id, orders.start_date, orders.end_date, orders.price,
       cars.image, make, model, users.id as owners_id, users.name as owners_name,
-      street_number, street, city, province, country, postal_code
+      street_number, street, city, province, country, postal_code, email
     FROM orders
     JOIN availability ON availability_id = availability.id
     JOIN cars on car_id = cars.id
