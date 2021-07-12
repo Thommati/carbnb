@@ -96,10 +96,11 @@ const ReservationContainer = (props) => {
     const { listingPrice } = getListingIdForOrder(
       listings,
       {
-        startDate: minDate,
-        endDate: minDate
+        startDate: (from || minDate),
+        endDate: (to || minDate)
       }
     );
+
     setSelectedPrice(listingPrice);
   }, [listings, orders, initialDates]);
 
