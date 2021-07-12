@@ -4,7 +4,7 @@ import jwtDecode from "jwt-decode";
 
 export default function AuthProvider(props) {
   let token = localStorage.getItem("token");
-  let initialUser = { email: "", name: "", id: "" };
+  let initialUser = { email: "", name: "", id: "", hosts: false };
   let initialAuth = false;
   if (token) {
     token = jwtDecode(token);
@@ -14,6 +14,7 @@ export default function AuthProvider(props) {
       email: token.email,
       image: token.image,
       name: token.name,
+      hosts: token.hosts,
     };
   }
 
@@ -79,6 +80,7 @@ export default function AuthProvider(props) {
       email: token.email,
       image: token.image,
       name: token.name,
+      hosts: token.hosts,
     });
   };
 
