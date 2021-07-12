@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
 
   if (match) {
     // Return token if match is true.
-    const token = generateJwtToken(user.id, user.name, user.email, user.image);
+    const token = generateJwtToken(user.id, user.name, user.email, user.image, user.hosts);
     return res.json(token);
   } else {
     // Return unauthorized if match is false
