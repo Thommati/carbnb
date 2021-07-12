@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+import { authContext } from '../../providers/authProvider';
 import Description from './Description';
 import HostDetails from './HostDetails';
 import ReservationContainer from './ReservationContainer';
@@ -13,48 +14,51 @@ import LoadingSpinner from '../LoadingSpinner';
 
 // Main component that is rendered when the details page is loaded.
 // Coordinates all details page sub components.
-const CarDetails = (props) => {
+const CarDetails = () => {
+  const { user } = useContext(authContext);
   const { id } = useParams();
-  const [car, setCar] = useState({});
-  const [reviews, setReviews] = useState([]);
-  const [owner, setOwner] = useState({});
+  const [carData, setCarData] = useState({});
 
   useEffect(() => {
     const getCarData = async () => {
       try {
-        const carResponse = await axios.get(`/api/cars/${id}`);
+        const responses = await Promise.all([
+          axios.get(`/api/cars/${id}`),
+          axios.get(`/api/users/${user.id}`),
+          axios.get(`/api/availability/cars/${id}`),
+          axios.get(`/api/orders/cars/${id}`),
+          axios.get(`/api/reviews?carId=${id}`)
+        ]);
 
-        // Not doing API calls in parallel because I need the user_id from carResponse
-        // to be able to make the call to /api/users/:id
-        const ownerResponse = await axios.get(`/api/users/${carResponse.data.user_id}`);
+        setCarData({
+          car: responses[0].data,
+          owner: responses[1].data,
+          listings: responses[2].data,
+          orders: responses[3].data,
+          reviews: responses[4].data
+        });
 
-        setCar(carResponse.data);
-        setOwner(ownerResponse.data);
       } catch (err) {
-        console.error('Error retrieving car by ID from API', err);
+        console.error('Error retrieving car data', err);
       }
     };
-    getCarData();
-  }, [id]);
 
-  useEffect(() => {
-    const getCarReviews = async () => {
-      const response = await axios.get(`/api/reviews?carId=${id}`);
-      setReviews(response.data);
-    };
-    getCarReviews();
-  }, [id]);
+    if (id && user.id) {
+      getCarData();
+    }
+  }, [id, user.id]);
 
-  if (car.id) {
+  useEffect(() => console.log('carData:', carData));
+
+  if (carData.car) {
     return (
       <section className="car-details">
-        <Description reviews={reviews} car={car} />
+        <Description reviews={carData.reviews} car={carData.car} />
         <aside className="car-details__aside">
-          <HostDetails owner={owner} />
+          <HostDetails owner={carData.owner} />
           <ReservationContainer
-            carId={car.id}
-            price={car.price}
-            province={car.province}
+            carData={carData}
+            setCarData={setCarData}
           />
         </aside>
       </section>

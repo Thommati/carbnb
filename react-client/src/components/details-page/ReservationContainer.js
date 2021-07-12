@@ -22,16 +22,26 @@ import './ReservationContainer.scss';
 
 // TODO: Add submit reservation button logic
 // TODO: Remove hard-coded values from ReservationDetails
-const ReservationContainer = props => {
+const ReservationContainer = (props) => {
+  const { car, listings, orders } = props.carData;
+  const { setCarData } = props;
+
   const { auth, user } = useContext(authContext);
-  const { carId, price, province } = props;
+
+  // The start and end dates of the selected range of dates
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [numDays, setNumDays] = useState((props.endDate - props.startDate) / (24 * 60 * 60 * 1000) + 1);
+
+  // Number of days selected
+  const [numDays, setNumDays] = useState((endDate - startDate) / (24 * 60 * 60 * 1000) + 1);
+
+  // The minimum and maximum dates displayed by the date range picker
   const [minAvailableDate, setMinAvailableDate] = useState(new Date());
   const [maxAvailableDate, setMaxAvailableDate] = useState(addYears(new Date(), 1));
+
+  // The dates in between the minimum and maximum available that will be disabled due
+  // to lo listing available for those dates.
   const [disabledDates, setDisabledDates] = useState([]);
-  const [listingsAndOrders, setListingsAndOrders] = useState({});
 
   // for snackbars
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -46,36 +56,13 @@ const ReservationContainer = props => {
     setNumDays(Math.ceil((endDate - startDate) / (24 * 60 * 60 * 1000) + 1));
   }, [startDate, endDate]);
 
-  useEffect(() => {
-    const fetchAvailabilitiesAndOrders = async () => {
-      try {
-        const responses = await Promise.all([
-          axios.get(`/api/availability/cars/${carId}`),
-          axios.get(`/api/orders/cars/${carId}`)
-        ]);
-
-        setListingsAndOrders({
-          listings: responses[0].data,
-          orders: responses[1].data
-        });
-
-      } catch (err) {
-        console.log('Error fetching availability for listings');
-      }
-    };
-    if (carId) {
-      fetchAvailabilitiesAndOrders();
-    }
-  }, [carId]);
-
   // Set min and max available dates whenever listings change.
   useEffect(() => {
     let minDate = null;
     let maxDate= null;
     let disabledDates = null;
 
-    const { listings, orders } = listingsAndOrders;
-    if (listingsAndOrders.listings) {
+    if (listings) {
       ({ minDate, maxDate, disabledDates } = getMinAndMaxDates(listings, orders));
     }
 
@@ -86,11 +73,11 @@ const ReservationContainer = props => {
       setEndDate(minDate);
       setDisabledDates(disabledDates);
     }
-  }, [listingsAndOrders]);
+  }, [listings, orders]);
 
   const handleSubmitReservation = async () => {
     try {
-      const { listingId, listingPrice } = getListingIdForOrder(listingsAndOrders.listings, { startDate, endDate });
+      const { listingId, listingPrice } = getListingIdForOrder(listings, { startDate, endDate });
       const order = {
         renterId: user.id,
         startDate,
@@ -99,17 +86,15 @@ const ReservationContainer = props => {
         price: listingPrice
       };
 
-      // console.log(order);
-
       const response = await axios.post('/api/orders', order);
 
       if (response.status === 201) {
         // Snackbar confirmation
         setOpenSuccess(true);
 
-        // Add the new order to the list of order to update the date range picker
-        const orders = [...listingsAndOrders.orders, { start_date: order.startDate, end_date: order.endDate }];
-        setListingsAndOrders(prev => ({...prev, orders }));
+        // Add the new order to the list of orders to update the date range picker
+        const newOrdersList = [...orders, { id: order.id, start_date: order.startDate, end_date: order.endDate }];
+        setCarData(prev => ({...prev, orders: newOrdersList }));
       } else {
         setOpenFail(true);
       }
@@ -117,7 +102,7 @@ const ReservationContainer = props => {
       console.error(err);
       setOpenFail(true);
     }
-  }
+  };
 
   // Snackbar close handler
   const handleClose = (event, reason) => {
@@ -146,10 +131,10 @@ const ReservationContainer = props => {
         {!auth && 'Login to Book'}
       </Button>
       <ReservationDetail
-        price={price}
+        price={0}
         days={numDays}
         serviceFees={pricingInfo.serviceFeesPerDay}
-        taxRate={pricingInfo.tax[province]}
+        taxRate={pricingInfo.tax[car.province]}
       />
 
       <Snackbar open={openSuccess} autoHideDuration={6000} onClose={handleClose}>
