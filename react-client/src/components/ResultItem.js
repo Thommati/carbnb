@@ -11,6 +11,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { purple } from "@material-ui/core/colors";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     height: "280px",
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResultItem(props) {
-  const { addFavourite, removeFavourite } = useContext(searchContext);
+  const { addFavourite, removeFavourite, search } = useContext(searchContext);
 
   const classes = useStyles();
 
@@ -74,7 +75,16 @@ function ResultItem(props) {
             />
           }
         />
-        <Link to={`/cars/${props.car.id}`} className={classes.link}>
+        <Link
+          to={{
+            pathname: `/cars/${props.car.id}`,
+            initialDates: {
+              from: search.fromDate,
+              to: search.toDate
+            }
+          }}
+          className={classes.link}
+        >
           <div className={classes.imageWrapper}>
             <img
               className={classes.img}

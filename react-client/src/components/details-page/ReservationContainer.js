@@ -24,6 +24,7 @@ import './ReservationContainer.scss';
 // TODO: Remove hard-coded values from ReservationDetails
 const ReservationContainer = (props) => {
   const { car, listings, orders } = props.carData;
+  const { from, to } = props.initialDates;
   const { setCarData } = props;
 
   const { auth, user } = useContext(authContext);
@@ -81,8 +82,8 @@ const ReservationContainer = (props) => {
     if (minDate && maxDate) {
       setMinAvailableDate(minDate);
       setMaxAvailableDate(maxDate);
-      setStartDate(minDate);
-      setEndDate(minDate);
+      setStartDate(from || minDate);
+      setEndDate(to || minDate);
       setDisabledDates(disabledDates);
     }
 
@@ -95,7 +96,7 @@ const ReservationContainer = (props) => {
       }
     );
     setSelectedPrice(listingPrice);
-  }, [listings, orders]);
+  }, [listings, orders, from, to]);
 
   const handleSubmitReservation = async () => {
     try {

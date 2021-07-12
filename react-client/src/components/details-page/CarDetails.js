@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { authContext } from '../../providers/authProvider';
@@ -14,6 +14,8 @@ import './CarDetails.scss';
 // Main component that is rendered when the details page is loaded.
 // Coordinates all details page sub components.
 const CarDetails = () => {
+  const history = useHistory();
+  const initialDates = history.location.initialDates;
   const { user } = useContext(authContext);
   const { id } = useParams();
   const [carData, setCarData] = useState({});
@@ -58,6 +60,7 @@ const CarDetails = () => {
           <ReservationContainer
             carData={carData}
             setCarData={setCarData}
+            initialDates={initialDates}
           />
         </aside>
       </section>
