@@ -1,28 +1,63 @@
-import React from 'react';
-import {
-  Tabs,
-  Tab,
-  AppBar
-} from '@material-ui/core'
+import React from "react";
+import { Tabs, Tab, AppBar, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
 import MainContainer from "./MainContainer";
 import Favourites from "./Favourites";
 import PastBookings from "./PastBookings";
 
-export default function UserTabs () {
-  const [value,setValue]=React.useState(0);
-  const handleTabs=(e, value) => {
-  setValue(value);
-  }
+const useStyles = makeStyles((theme) => ({
+  tabs: {
+    minWidth: 650,
+    "& > button": {
+      borderRadius: "0px",
+      boxShadow: "none",
+      borderRight: "solid 1px gray",
+    },
+    borderTop: "solid 1px gray",
+    background: theme.palette.primary.main,
+  },
+}));
+
+export default function UserTabs() {
+  const [value, setValue] = React.useState(0);
+
+  const classes = useStyles();
+
+  const handleTabs = (value) => {
+    setValue(value);
+  };
   return (
     <div>
-      <AppBar position="static" >
-        <Tabs value={value} onChange={handleTabs}>
-          <Tab label="New Bookings" />
-          <Tab label="Past Bookings" />
-          <Tab label="Favourites" />
-
-        </Tabs>
-      </AppBar>
+      <div className={classes.tabs}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleTabs(0);
+          }}
+        >
+          New Bookings
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleTabs(1);
+          }}
+        >
+          Past Bookings
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleTabs(2);
+          }}
+        >
+          Favourites
+        </Button>
+      </div>
       <TabPanel value={value} index={0}>
         <MainContainer />
       </TabPanel>
@@ -34,17 +69,9 @@ export default function UserTabs () {
       </TabPanel>
     </div>
   );
-};
+}
 
 function TabPanel(props) {
-  const {children, value, index}=props;
-  return (
-    <div>
-      {
-        value === index && (
-          <div>{children}</div>
-        )
-      }
-    </div>
-  );
-};
+  const { children, value, index } = props;
+  return <div>{value === index && <div>{children}</div>}</div>;
+}
