@@ -204,6 +204,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
                     "aria-label": "change date",
                   }}
                   fullWidth={true}
+                  required
                 />
               </Grid>
 
@@ -221,6 +222,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
                     "aria-label": "change date",
                   }}
                   fullWidth={true}
+                  required
                 />
               </Grid>
 
@@ -229,10 +231,9 @@ export default function AddAvailability({ locations, updateAvailability }) {
                   autoFocus
                   margin="dense"
                   id="price"
-                  label="Price / Day"
+                  label="Price / Day ($)"
                   type="number"
                   inputProps={{ min: 1, step: 5 }}
-                  placeholder="$"
                   value={price}
                   onChange={event => setPrice(event.target.value)}
                   fullWidth={true}
