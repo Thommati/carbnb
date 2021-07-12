@@ -58,7 +58,8 @@ export default function PastBookings() {
   const { user } = useContext(authContext);
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
-  const [page, setPage] = React.useState(0);
+  const [reviews, setReviews] = useState({});
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     const getOrders = async () => {
@@ -75,6 +76,22 @@ export default function PastBookings() {
       getOrders();
     }
 
+  }, [user.id]);
+
+  useEffect(() => {
+    const getExistingReviews = async () => {
+      const response = await axios.get(`/api/reviews?renterId=${user.id}`);
+
+      const reviewObj = {};
+      for (const review of response.data) {
+        reviewObj[review.car_id] = { ...review };
+      }
+      setReviews(reviewObj);
+    };
+
+    if (user.id) {
+      getExistingReviews();
+    }
   }, [user.id]);
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -144,7 +161,8 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <UserReview carId={row.car_id} />
+                  { reviews[row.car_id] !== undefined && <div>*****Review*****</div> }
+                  { !reviews[row.car_id] && <UserReview carId={row.car_id} /> }
                 </TableCell>
               </TableRow>
           )
