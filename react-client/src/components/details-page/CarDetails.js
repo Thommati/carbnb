@@ -48,7 +48,7 @@ const CarDetails = () => {
     if (id) {
       getCarData();
     }
-  }, [id, user.id]);
+  }, [id]);
 
   if (carData.car) {
     return (
