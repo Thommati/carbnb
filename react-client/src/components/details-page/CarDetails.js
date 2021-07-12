@@ -40,13 +40,12 @@ const CarDetails = () => {
           orders: responses[2].data,
           reviews: responses[3].data
         });
-
       } catch (err) {
         console.error('Error retrieving car data', err);
       }
     };
 
-    if (id && user.id) {
+    if (id) {
       getCarData();
     }
   }, [id, user.id]);
