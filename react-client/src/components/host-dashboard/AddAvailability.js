@@ -30,8 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
   avail: {
     padding: "20px",
-    borderRadius: "20px",
-    boxShadow: theme.shadows[2],
+    borderRadius: "15px",
+    boxShadow: theme.shadows[5],
+  },
+  paper: {
+    margin: theme.spacing(2),
   },
   title: {
     marginBottom: "30px",
@@ -39,15 +42,15 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: '10px',
-    border: "6px solid",
-    borderImageSlice: 1,
-    borderImageSource: "linear-gradient(to left, green, blue)"
+    color: "#FFFFFF",
+    backgroundColor: "blue",
+    fontSize: "12pt",
   },
   buttoncancel: {
     padding: '10px',
-    border: "6px solid",
-    borderImageSlice: 1,
-    borderImageSource: "linear-gradient(to left, red, orange)"
+    color: "#FFFFFF",
+    backgroundColor: "red",
+    fontSize: "12pt"
   },
   formControl: {
     margin: theme.spacing(1),
@@ -139,16 +142,16 @@ export default function AddAvailability({ locations, updateAvailability }) {
         onClick={handleClickOpen}
         style={{ cursor: "pointer" }}
       />}
-      <Dialog
+      <Dialog className={classes.paper}
         open={open}
         onClose={handleClose}
         aria-labelledby="add-availability"
       >
-
+        <paper className={classes.paper}>
         <Container className={classes.avail} maxWidth="sm">
           <DialogTitle id="add-availability" className={classes.title}>
             Add Vehicle Availability
-        </DialogTitle>
+          </DialogTitle>
           <Grid container spacing={3}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid item xs={12}>
@@ -161,7 +164,6 @@ export default function AddAvailability({ locations, updateAvailability }) {
                     value={selectedCar}
                     onChange={event => setSelectedCar(event.target.value)}
                     required
-                    MenuProps={{ classes: { paper: classes.menuPaper } }}
                   >
                     {usersCars.map((c) => (
                       <MenuItem key={c.id} value={c.id}>{`${c.id}: ${c.model_year} ${c.make} ${c.model}`}</MenuItem>
@@ -180,7 +182,6 @@ export default function AddAvailability({ locations, updateAvailability }) {
                     value={selectedLocation}
                     onChange={event => setSelectedLocation(event.target.value)}
                     required
-                    MenuProps={{ classes: { paper: classes.menuPaper } }}
                   >
                     {locations.map((loc) => (
                       <MenuItem key={loc.id} value={loc.id}>{`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}</MenuItem>
@@ -259,6 +260,8 @@ export default function AddAvailability({ locations, updateAvailability }) {
                   color="primary"
                   fullWidth={true}
                   onClick={handleClose}
+                  buttonStyle={{ borderRadius: 15 }}
+                  style={{ borderRadius: 15 }}
                 >
                   Cancel
                 </Button>
@@ -270,6 +273,8 @@ export default function AddAvailability({ locations, updateAvailability }) {
                   color="primary"
                   fullWidth={true}
                   onClick={handleSubmit}
+                  buttonStyle={{ borderRadius: 15 }}
+                  style={{ borderRadius: 15 }}
                 >
                   Submit
                 </Button>
@@ -277,6 +282,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
             </MuiPickersUtilsProvider>
           </Grid>
         </Container>
+        </paper>
       </Dialog>
     </div>
   );
