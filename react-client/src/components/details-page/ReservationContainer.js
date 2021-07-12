@@ -101,7 +101,7 @@ const ReservationContainer = (props) => {
       }
     );
     setSelectedPrice(listingPrice);
-  }, [listings, orders, props.from, props.to]);
+  }, [listings, orders, initialDates]);
 
   const handleSubmitReservation = async () => {
     try {
