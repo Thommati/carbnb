@@ -52,7 +52,7 @@ const disableBookedDays = orders => {
   return bookedDays;
 };
 
-// Determine the availability id for submitting an order
+// Determine the availability id and price for a range selection
 const getListingIdForOrder = (listings, orderDates) => {
   const { startDate, endDate } = orderDates;
 
@@ -66,7 +66,30 @@ const getListingIdForOrder = (listings, orderDates) => {
   }
 };
 
+// Returns the range of prices available for a car
+const getPriceRange = (listings) => {
+  let minPrice = null;
+  let maxPrice = null;
+
+  if (listings && listings.length > 0) {
+    for (const listing of listings) {
+      const price = Number(listing.price.replace(/[^0-9.-]+/g,""));
+      if (!(minPrice && maxPrice)) {
+        minPrice = price;
+        maxPrice = price;
+      } else if (price < minPrice) {
+        minPrice = price
+      } else if (price > maxPrice) {
+        maxPrice = price;
+      }
+    }
+  }
+
+  return { minPrice, maxPrice };
+};
+
 export {
   getMinAndMaxDates,
-  getListingIdForOrder
+  getListingIdForOrder,
+  getPriceRange,
 };

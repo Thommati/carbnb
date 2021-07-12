@@ -6,10 +6,9 @@ import { authContext } from '../../providers/authProvider';
 import Description from './Description';
 import HostDetails from './HostDetails';
 import ReservationContainer from './ReservationContainer';
-
-import './CarDetails.scss';
 import LoadingSpinner from '../LoadingSpinner';
 
+import './CarDetails.scss';
 
 
 // Main component that is rendered when the details page is loaded.
@@ -24,18 +23,20 @@ const CarDetails = () => {
       try {
         const responses = await Promise.all([
           axios.get(`/api/cars/${id}`),
-          axios.get(`/api/users/${user.id}`),
           axios.get(`/api/availability/cars/${id}`),
           axios.get(`/api/orders/cars/${id}`),
           axios.get(`/api/reviews?carId=${id}`)
         ]);
 
+        // Need to use the car owner's id from the car object
+        const ownerResponse = await axios.get(`/api/users/${responses[0].data.user_id}`);
+
         setCarData({
           car: responses[0].data,
-          owner: responses[1].data,
-          listings: responses[2].data,
-          orders: responses[3].data,
-          reviews: responses[4].data
+          owner: ownerResponse.data,
+          listings: responses[1].data,
+          orders: responses[2].data,
+          reviews: responses[3].data
         });
 
       } catch (err) {
@@ -48,12 +49,10 @@ const CarDetails = () => {
     }
   }, [id, user.id]);
 
-  useEffect(() => console.log('carData:', carData));
-
   if (carData.car) {
     return (
       <section className="car-details">
-        <Description reviews={carData.reviews} car={carData.car} />
+        <Description carData={carData} />
         <aside className="car-details__aside">
           <HostDetails owner={carData.owner} />
           <ReservationContainer
