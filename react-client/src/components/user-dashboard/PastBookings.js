@@ -1,4 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
+import axios from 'axios';
+import ReactStars from 'react-rating-stars-component';
+
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -14,8 +17,8 @@ import {
   TablePagination,
   TableFooter
 } from '@material-ui/core';
+
 import UserReview from "./UserReview";
-import axios from 'axios';
 import { authContext } from '../../providers/authProvider'
 
 const useStyles = makeStyles((theme) => ({
@@ -161,7 +164,18 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  { reviews[row.car_id] !== undefined && <div>*****Review*****</div> }
+                  {
+                    reviews[row.car_id] !== undefined && <div>
+                      <ReactStars
+                        count={5}
+                        size={24}
+                        activeColor="#ffd700"
+                        value={reviews[row.car_id].rating}
+                        edit={false}
+                      />
+                      <small>{reviews[row.car_id].comments}</small>
+                    </div>
+                  }
                   { !reviews[row.car_id] && <UserReview carId={row.car_id} /> }
                 </TableCell>
               </TableRow>
