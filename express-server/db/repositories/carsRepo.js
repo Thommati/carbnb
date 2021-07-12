@@ -135,12 +135,12 @@ exports.createNewCarAsync = (data) => {
 
 // Return a car and some user / location info by car id
 exports.getCarByIdAsync = (id) => {
+  console.log('id passed into query is:', id);
   const queryText = `
-    SELECT cars.*, name, email, phone, city, province, country, price
+    SELECT cars.*, name, email, phone, city, province, country
     FROM cars
     JOIN users ON cars.user_id = users.id
-    JOIN locations ON cars.location_id = locations.id
-    JOIN availability ON cars.id = availability.car_id
+    JOIN locations on cars.location_id = locations.id
     WHERE cars.id = $1;
   `;
   const queryParams = [id];
