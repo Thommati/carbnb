@@ -1,8 +1,7 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-import { authContext } from '../../providers/authProvider';
 import Description from './Description';
 import HostDetails from './HostDetails';
 import ReservationContainer from './ReservationContainer';
@@ -16,7 +15,6 @@ import './CarDetails.scss';
 const CarDetails = () => {
   const history = useHistory();
   const initialDates = history.location.initialDates;
-  const { user } = useContext(authContext);
   const { id } = useParams();
   const [carData, setCarData] = useState({});
 
