@@ -1,6 +1,6 @@
-import React, {useEffect, useContext, useState} from 'react';
-import { authContext } from '../../providers/authProvider';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useContext, useState } from "react";
+import { authContext } from "../../providers/authProvider";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
@@ -12,12 +12,10 @@ import {
   Avatar,
   Grid,
   Typography,
-  TablePagination,
-  TableFooter
-} from '@material-ui/core';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import axios from 'axios';
-import AddAvailability from './AddAvailability';
+} from "@material-ui/core";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import axios from "axios";
+import AddAvailability from "./AddAvailability";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -25,42 +23,42 @@ const useStyles = makeStyles((theme) => ({
   },
   TableContainer: {
     borderRadius: 15,
-    margin: '10px 10px',
-    maxWidth: 1400
+    margin: "10px 10px",
+    maxWidth: 1400,
   },
   TableHeaderCell: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     backgroundColor: theme.palette.primary.dark,
-    color: theme.palette.getContrastText(theme.palette.primary.dark)
+    color: theme.palette.getContrastText(theme.palette.primary.dark),
   },
   name: {
-    fontWeight: 'bold',
-    color: '#ec407a'
+    fontWeight: "bold",
+    color: "#ec407a",
   },
   status: {
-    fontweight: 'bold',
-    fontsize: '0.75rem',
-    color: 'white',
-    backgroundColor: 'grey',
+    fontweight: "bold",
+    fontsize: "0.75rem",
+    color: "white",
+    backgroundColor: "grey",
     borderRadius: 8,
-    padding: '3px 10px',
-    display: 'inline-block'
+    padding: "3px 10px",
+    display: "inline-block",
   },
   TableFooter: {
-    justifyContent: 'right'
+    justifyContent: "right",
   },
   Mail: {
-  color: '#1e88e5',
-  fontSize: 30
+    color: "#1e88e5",
+    fontSize: 30,
   },
   Delete: {
-    color: '#c62828',
-    fontSize: 30
+    color: "#c62828",
+    fontSize: 30,
   },
   AvatarLarge: {
     width: theme.spacing(10),
-    height: theme.spacing(10)
-  }
+    height: theme.spacing(10),
+  },
 }));
 
 export default function VehicleAvailability({ locations }) {
@@ -75,20 +73,22 @@ export default function VehicleAvailability({ locations }) {
         const response = await axios.get(`/api/availability/users/${user.id}`);
         setAvailability(response.data);
       } catch (err) {
-        console.error('Error retrieving availabilities', err);
+        console.error("Error retrieving availabilities", err);
       }
-    }
+    };
     getAvailability();
   }, [user]);
 
   const deleteAvailability = async (id) => {
     try {
       await axios.delete(`/api/availability/${id}`);
-      setAvailability(prev => prev.filter(availability => availability.id !== id));
+      setAvailability((prev) =>
+        prev.filter((availability) => availability.id !== id)
+      );
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -102,7 +102,7 @@ export default function VehicleAvailability({ locations }) {
   };
 
   const updateAvailability = (newAvailability) => {
-    setAvailability(prev => ([...prev, newAvailability]));
+    setAvailability((prev) => [...prev, newAvailability]);
   };
 
   return (
@@ -110,60 +110,81 @@ export default function VehicleAvailability({ locations }) {
       <Table className={classes.table} aria-label="host-availability">
         <TableHead>
           <TableRow>
-            <TableCell className={classes.TableHeaderCell} align="center">CAR ID</TableCell>
-            <TableCell className={classes.TableHeaderCell} ></TableCell>
-            <TableCell className={classes.TableHeaderCell} >VEHICLE INFO</TableCell>
-            <TableCell className={classes.TableHeaderCell} >AVAILABILITY START DATE</TableCell>
-            <TableCell className={classes.TableHeaderCell} >AVAILABILITY END DATE</TableCell>
-            <TableCell className={classes.TableHeaderCell} >PRICE PER DAY</TableCell>
-            <TableCell className={classes.TableHeaderCell} >
-              <AddAvailability locations={locations} updateAvailability={updateAvailability} />
+            <TableCell className={classes.TableHeaderCell} align="center">
+              CAR ID
+            </TableCell>
+            <TableCell className={classes.TableHeaderCell}></TableCell>
+            <TableCell className={classes.TableHeaderCell}>
+              VEHICLE INFO
+            </TableCell>
+            <TableCell className={classes.TableHeaderCell}>
+              AVAILABILITY START DATE
+            </TableCell>
+            <TableCell className={classes.TableHeaderCell}>
+              AVAILABILITY END DATE
+            </TableCell>
+            <TableCell className={classes.TableHeaderCell}>
+              PRICE PER DAY
+            </TableCell>
+            <TableCell className={classes.TableHeaderCell}>
+              <AddAvailability
+                locations={locations}
+                updateAvailability={updateAvailability}
+              />
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {availability.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row" align="center">
-                {row.car_id}
-              </TableCell>
-              <TableCell>
-                <Avatar alt={row.image} img src={row.image} className={classes.AvatarLarge} />
-              </TableCell>
-              <TableCell>
-                <Grid container>
-                  <Grid item>
-                  <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>
-                  </Grid>
-                </Grid>
-              </TableCell>
-              <TableCell>
-              <Typography color="textSecondary" variant="body2">{new Date(row.start_date).toLocaleDateString("en-ca")}</Typography>
-              </TableCell>
-              <TableCell>
-              <Typography color="textSecondary" variant="body2">{new Date(row.end_date).toLocaleDateString("en-ca")}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography color="textSecondary" variant="body2">{row.price}</Typography>
-              </TableCell>
+          {availability
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row) => (
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row" align="center">
+                  {row.car_id}
+                </TableCell>
                 <TableCell>
-                <DeleteForeverIcon className={classes.Delete} onClick={() => deleteAvailability(row.id)} style={{cursor: 'pointer'}}/>
+                  <Avatar
+                    alt={row.image}
+                    img
+                    src={row.image}
+                    className={classes.AvatarLarge}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Grid container>
+                    <Grid item>
+                      <Typography color="primary" variant="subtitle2">
+                        {row.make} {row.model}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </TableCell>
+                <TableCell>
+                  <Typography color="textSecondary" variant="body2">
+                    {new Date(row.start_date).toLocaleDateString("en-ca")}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography color="textSecondary" variant="body2">
+                    {new Date(row.end_date).toLocaleDateString("en-ca")}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography color="textSecondary" variant="body2">
+                    {row.price}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <DeleteForeverIcon
+                    className={classes.Delete}
+                    onClick={() => deleteAvailability(row.id)}
+                    style={{ cursor: "pointer" }}
+                  />
                 </TableCell>
               </TableRow>
             ))}
-          </TableBody>
-        </Table>
-      <TableFooter>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={availability.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </TableFooter>
+        </TableBody>
+      </Table>
     </TableContainer>
   );
-};
+}
