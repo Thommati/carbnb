@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useContext } from 'react';
+import  { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -78,6 +79,7 @@ export default function Favourites() {
         const response = await axios.get(`/api/favourites/${user.id}`);
         if (response.status === 200) {
           setFavourites (response.data);
+          // console.log('response data favourites', response.data);
         }
       } catch (error) {
         console.error(error);
@@ -145,7 +147,7 @@ export default function Favourites() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                <a href={`/cars/${row.car_id}`}><PageviewIcon className={classes.View} style={{cursor: 'pointer'}}/></a>
+                  <Link to={`/cars/${row.car_id}`}><PageviewIcon className={classes.View} style={{cursor: 'pointer'}}/></Link>
                 </TableCell>
                 <TableCell>
                   <DeleteForeverIcon className={classes.Delete} onClick={() => deleteFavourites(row.user_id, row.car_id)} style={{cursor: 'pointer'}} />
