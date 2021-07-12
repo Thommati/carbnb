@@ -8,8 +8,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,32 +17,45 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from '@material-ui/core/Checkbox';
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import Container from "@material-ui/core/Container";
 
 import axios from "axios";
 import { authContext } from "../../providers/authProvider";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // width: 500,
-    // display: "flex",
-    // alignItems: "center",
-    flexgrow: 1,
-  },
-  Add: {
+  add: {
     fontSize: 30,
   },
-  // button: {
-  //   display: "block",
-  //   marginTop: theme.spacing(2),
-  // },
-  // formControl: {
-  //   margin: theme.spacing(1),
-  //   minWidth: 120,
-  // },
+  avail: {
+    padding: "20px",
+    borderRadius: "15px",
+    boxShadow: theme.shadows[5],
+  },
   paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,  }
+    margin: theme.spacing(2),
+  },
+  title: {
+    marginBottom: "30px",
+    padding: "10px",
+  },
+  button: {
+    padding: '10px',
+    color: "#FFFFFF",
+    backgroundColor: "blue",
+    fontSize: "12pt",
+  },
+  buttoncancel: {
+    padding: '10px',
+    color: "#FFFFFF",
+    backgroundColor: "red",
+    fontSize: "12pt"
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  }
 }));
 
 export default function AddAvailability({ locations, updateAvailability }) {
@@ -125,117 +136,154 @@ export default function AddAvailability({ locations, updateAvailability }) {
   };
 
   return (
-    <div className = {classes.root}>
+    <div className={classes.addAvail}>
       {auth && <AddCircleOutlineIcon
         className={classes.Add}
         onClick={handleClickOpen}
         style={{ cursor: "pointer" }}
       />}
-      <Dialog
+      <Dialog className={classes.paper}
         open={open}
         onClose={handleClose}
         aria-labelledby="add-availability"
       >
-
-        <DialogTitle id="add-availability">
-          Add Vehicle Availability
-        </DialogTitle>
-        <DialogContent>
-
-          <TextField
-            id="car-select"
-            select
-            label="Select Car"
-            value={selectedCar}
-            onChange={event => setSelectedCar(event.target.value)}
-            variant="filled"
-            required
-            fullWidth
-          >
-            {usersCars.map((c) => (
-              <MenuItem key={c.id} value={c.id}>
-                {`${c.id}: ${c.model_year} ${c.make} ${c.model}`}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-              id="car-locations"
-              select
-              label="Select Location"
-              value={selectedLocation}
-              onChange={event => setSelectedLocation(event.target.value)}
-              variant="filled"
-              required
-              fullWidth
-            >
-              {locations.map((loc) => (
-                <MenuItem key={loc.id} value={loc.id}>
-                  {`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}
-                </MenuItem>
-              ))}
-            </TextField>
-          <Grid container justifyContent="space-around">
+        <paper className={classes.paper}>
+        <Container className={classes.avail} maxWidth="sm">
+          <DialogTitle id="add-availability" className={classes.title}>
+            Add Vehicle Availability
+          </DialogTitle>
+          <Grid container spacing={3}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="date-picker-start"
-                label="Available Start Date"
-                value={selectedStartDate}
-                onChange={handleStartDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="date-picker-end"
-                label="Available End Date"
-                value={selectedEndDate}
-                onChange={handleEndDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
+              <Grid item xs={12}>
+                <FormControl fullWidth={true}>
+                  <InputLabel id="demo-simple-select-label">Select Vehicle</InputLabel>
+                  <Select
+                    id="car-select"
+                    select
+                    labelId="Select Car"
+                    value={selectedCar}
+                    onChange={event => setSelectedCar(event.target.value)}
+                    required
+                  >
+                    {usersCars.map((c) => (
+                      <MenuItem key={c.id} value={c.id}>{`${c.id}: ${c.model_year} ${c.make} ${c.model}`}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12}>
+                <FormControl fullWidth={true}>
+                  <InputLabel id="demo-simple-select-label">Select Location</InputLabel>
+                  <Select
+                    id="car-locations"
+                    select
+                    labelId="Select Location"
+                    value={selectedLocation}
+                    onChange={event => setSelectedLocation(event.target.value)}
+                    required
+                  >
+                    {locations.map((loc) => (
+                      <MenuItem key={loc.id} value={loc.id}>{`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={6}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-start"
+                  label="Available Start Date"
+                  value={selectedStartDate}
+                  onChange={handleStartDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  fullWidth={true}
+                  required
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-end"
+                  label="Available End Date"
+                  value={selectedEndDate}
+                  onChange={handleEndDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  fullWidth={true}
+                  required
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="price"
+                  label="Price / Day ($)"
+                  type="number"
+                  inputProps={{ min: 1, step: 5 }}
+                  value={price}
+                  onChange={event => setPrice(event.target.value)}
+                  fullWidth={true}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={deliver}
+                      onChange={event => setDeliver(event.target.checked)}
+                      name="Deliver"
+                    />
+                  }
+                  label="Delivery"
+                />
+              </Grid>
+
+              <Grid item xs={3}></Grid>
+              <Grid item xs={3}></Grid>
+              <Grid item xs={3}>
+                <Button className={classes.buttoncancel}
+                  variant="contained"
+                  color="primary"
+                  fullWidth={true}
+                  onClick={handleClose}
+                  buttonStyle={{ borderRadius: 15 }}
+                  style={{ borderRadius: 15 }}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+
+              <Grid item xs={3}>
+                <Button className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  fullWidth={true}
+                  onClick={handleSubmit}
+                  buttonStyle={{ borderRadius: 15 }}
+                  style={{ borderRadius: 15 }}
+                >
+                  Submit
+                </Button>
+              </Grid>
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="price"
-              label="Price / Day"
-              type="number"
-              inputProps={{ min: 1, step: 1 }}
-              placeholder="$"
-              fullWidth
-              value={price}
-              onChange={event => setPrice(event.target.value)}
-            />
-
-
-
-          </Grid>
-        </DialogContent>
-        <FormControl>
-          <FormControlLabel
-            control={<Checkbox checked={deliver} onChange={event => setDeliver(event.target.checked)} name="sport" />}
-            label="Delivery"
-          />
-        </FormControl>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Submit
-          </Button>
-        </DialogActions>
+        </Container>
+        </paper>
       </Dialog>
     </div>
   );
