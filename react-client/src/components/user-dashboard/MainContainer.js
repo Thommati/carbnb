@@ -165,7 +165,7 @@ export default function MainContainer() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <a href="mailto:{row.email}"><MailOutlineIcon className={classes.Mail}/></a>
+                  <a href={`mailto:${row.email}`}><MailOutlineIcon className={classes.Mail}/></a>
                 </TableCell>
                 <TableCell>
                   <DeleteForeverIcon className={classes.Delete} onClick={() => deleteOrders(row.id)} style={{cursor: 'pointer'}}/>
