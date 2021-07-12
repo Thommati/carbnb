@@ -16,10 +16,10 @@ router.post('/', async (req, res) => {
     user.password = await bcrypt.hash(req.body.password, 12);
 
     const { rows } = await createNewUserAsync(user);
-    const { id, name, email, image } = rows[0];
+    const { id, name, email, image, hosts } = rows[0];
 
     // Create JWT token
-    const token = generateJwtToken(id, name, email, image);
+    const token = generateJwtToken(id, name, email, image, hosts);
 
     return res.status(201).json(token);
   } catch (err) {
