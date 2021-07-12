@@ -8,8 +8,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,32 +17,37 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from '@material-ui/core/Checkbox';
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import Container from "@material-ui/core/Container";
 
 import axios from "axios";
 import { authContext } from "../../providers/authProvider";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // width: 500,
-    // display: "flex",
-    // alignItems: "center",
-    flexgrow: 1,
-  },
-  Add: {
+  add: {
     fontSize: 30,
   },
-  // button: {
-  //   display: "block",
-  //   marginTop: theme.spacing(2),
-  // },
-  // formControl: {
-  //   margin: theme.spacing(1),
-  //   minWidth: 120,
-  // },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,  }
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  avail: {
+    padding: "30px",
+    borderRadius: "4px",
+    boxShadow: theme.shadows[5],
+    marginTop: "32px",
+  },
+  button: {
+    display: "block",
+    marginTop: theme.spacing(2),
+  },
+  menuPaper: {
+    maxHeight: 100
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  }
 }));
 
 export default function AddAvailability({ locations, updateAvailability }) {
@@ -125,7 +128,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
   };
 
   return (
-    <div className = {classes.root}>
+    <div className={classes.addAvail}>
       {auth && <AddCircleOutlineIcon
         className={classes.Add}
         onClick={handleClickOpen}
@@ -140,102 +143,135 @@ export default function AddAvailability({ locations, updateAvailability }) {
         <DialogTitle id="add-availability">
           Add Vehicle Availability
         </DialogTitle>
-        <DialogContent>
-
-          <TextField
-            id="car-select"
-            select
-            label="Select Car"
-            value={selectedCar}
-            onChange={event => setSelectedCar(event.target.value)}
-            variant="filled"
-            required
-            fullWidth
-          >
-            {usersCars.map((c) => (
-              <MenuItem key={c.id} value={c.id}>
-                {`${c.id}: ${c.model_year} ${c.make} ${c.model}`}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-              id="car-locations"
-              select
-              label="Select Location"
-              value={selectedLocation}
-              onChange={event => setSelectedLocation(event.target.value)}
-              variant="filled"
-              required
-              fullWidth
-            >
-              {locations.map((loc) => (
-                <MenuItem key={loc.id} value={loc.id}>
-                  {`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}
-                </MenuItem>
-              ))}
-            </TextField>
-          <Grid container justifyContent="space-around">
+        <Container className={classes.avail} maxWidth="sm">
+          <Grid container spacing={3}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="date-picker-start"
-                label="Available Start Date"
-                value={selectedStartDate}
-                onChange={handleStartDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="date-picker-end"
-                label="Available End Date"
-                value={selectedEndDate}
-                onChange={handleEndDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
+              <Grid item xs={12}>
+                <FormControl fullWidth={true}>
+                  <InputLabel id="demo-simple-select-label">Select Vehicle</InputLabel>
+                  <Select
+                    id="car-select"
+                    select
+                    labelId="Select Car"
+                    value={selectedCar}
+                    onChange={event => setSelectedCar(event.target.value)}
+                    required
+                    MenuProps={{ classes: { paper: classes.menuPaper } }}
+                  >
+                    {usersCars.map((c) => (
+                      <MenuItem key={c.id} value={c.id}>{`${c.id}: ${c.model_year} ${c.make} ${c.model}`}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12}>
+                <FormControl fullWidth={true}>
+                  <InputLabel id="demo-simple-select-label">Select Location</InputLabel>
+                  <Select
+                    id="car-locations"
+                    select
+                    labelId="Select Location"
+                    value={selectedLocation}
+                    onChange={event => setSelectedLocation(event.target.value)}
+                    required
+                    MenuProps={{ classes: { paper: classes.menuPaper } }}
+                  >
+                    {locations.map((loc) => (
+                      <MenuItem key={loc.id} value={loc.id}>{`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={6}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-start"
+                  label="Available Start Date"
+                  value={selectedStartDate}
+                  onChange={handleStartDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  fullWidth={true}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-end"
+                  label="Available End Date"
+                  value={selectedEndDate}
+                  onChange={handleEndDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  fullWidth={true}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="price"
+                  label="Price / Day"
+                  type="number"
+                  inputProps={{ min: 1, step: 5 }}
+                  placeholder="$"
+                  value={price}
+                  onChange={event => setPrice(event.target.value)}
+                  fullWidth={true}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={deliver}
+                      onChange={event => setDeliver(event.target.checked)}
+                      name="Deliver"
+                    />
+                  }
+                  label="Delivery"
+                />
+              </Grid>
+
+              <Grid item xs={3}></Grid>
+              <Grid item xs={3}></Grid>
+              <Grid item xs={3}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth={true}
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+
+              <Grid item xs={3}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth={true}
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </Grid>
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="price"
-              label="Price / Day"
-              type="number"
-              inputProps={{ min: 1, step: 1 }}
-              placeholder="$"
-              fullWidth
-              value={price}
-              onChange={event => setPrice(event.target.value)}
-            />
-
-
-
-          </Grid>
-        </DialogContent>
-        <FormControl>
-          <FormControlLabel
-            control={<Checkbox checked={deliver} onChange={event => setDeliver(event.target.checked)} name="sport" />}
-            label="Delivery"
-          />
-        </FormControl>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Submit
-          </Button>
-        </DialogActions>
+        </Container>
       </Dialog>
     </div>
   );
