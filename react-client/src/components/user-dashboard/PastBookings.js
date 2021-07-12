@@ -54,13 +54,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const tempUser = 3;
-
 export default function PastBookings() {
-  const {auth, user} = useContext(authContext);
+  const { user } = useContext(authContext);
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
   const [page, setPage] = React.useState(0);
+
   useEffect(() => {
     const getOrders = async () => {
       try {
