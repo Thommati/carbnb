@@ -144,26 +144,31 @@ const ReservationContainer = (props) => {
   // TODO:  user correct price below
   return (
     <div className="reservation-container">
-      <div>
-        <DateRange
-          ranges={[{ startDate, endDate, key: 'selection' }]}
-          onChange={handleRangeSelection}
-          scroll={{enabled: true}}
-          minDate={minAvailableDate || new Date()}
-          maxDate={maxAvailableDate}
-          disabledDates={disabledDates}
+
+      {listings && listings.length > 0 && <>
+        <div>
+          <DateRange
+            ranges={[{ startDate, endDate, key: 'selection' }]}
+            onChange={handleRangeSelection}
+            scroll={{enabled: true}}
+            minDate={minAvailableDate || new Date()}
+            maxDate={maxAvailableDate}
+            disabledDates={disabledDates}
+          />
+        </div>
+
+        <Button variant="contained" color="primary" onClick={handleSubmitReservation} disabled={!auth}>
+          {auth && 'Reserve'}
+          {!auth && 'Login to Book'}
+        </Button>
+
+        <ReservationDetail
+          price={selectedPrice}
+          days={numDays}
+          serviceFees={pricingInfo.serviceFeesPerDay}
+          taxRate={pricingInfo.tax[car.province]}
         />
-      </div>
-      <Button variant="contained" color="primary" onClick={handleSubmitReservation} disabled={!auth}>
-        {auth && 'Reserve'}
-        {!auth && 'Login to Book'}
-      </Button>
-      <ReservationDetail
-        price={selectedPrice}
-        days={numDays}
-        serviceFees={pricingInfo.serviceFeesPerDay}
-        taxRate={pricingInfo.tax[car.province]}
-      />
+      </>}
 
       <Snackbar open={openSuccess} autoHideDuration={6000} onClose={handleClose}>
         <MuiAlert onClose={handleClose} severity="success" elevation={6} variant="filled">

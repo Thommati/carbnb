@@ -43,6 +43,7 @@ const Description = props => {
       <div className="Details__content">
         <h2>{car.model_year} {car.make} {car.model}</h2>
         {(minPrice && maxPrice) && <h4>From: ${minPrice} - ${maxPrice} per Day</h4>}
+        {!minPrice && <h4 className="not-available">Currently Not Available For Rent</h4>}
         <p>{car.description}</p>
       </div>
       <div className="Details__content">
