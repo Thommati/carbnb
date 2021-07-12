@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function UserReview({ carId }) {
+export default function UserReview({ carId, handleReviewUpdated }) {
   const classes = useStyles();
   const { user } = useContext(authContext);
 
@@ -58,7 +58,8 @@ export default function UserReview({ carId }) {
     };
 
     try {
-      await axios.post('/api/reviews', formData);
+      const response = await axios.post('/api/reviews', formData);
+      handleReviewUpdated(response.data);
       setOpen(false);
     } catch (err) {
       console.error('Error saving review', err);
