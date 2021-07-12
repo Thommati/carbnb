@@ -66,14 +66,12 @@ export default function PastBookings() {
         const response = await axios.get(`/api/orders/user/${user.id}`);
         if (response.status === 200) {
           setOrders(response.data);
-          console.log(response.data);
         }
       } catch (error) {
         console.error(error);
       }
     }
     if (user.id) {
-      console.log('Past container user id', user.id);
       getOrders();
     }
 
@@ -146,7 +144,7 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <UserReview/>
+                  <UserReview carId={row.car_id} />
                 </TableCell>
               </TableRow>
           )
