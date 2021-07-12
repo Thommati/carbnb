@@ -28,21 +28,26 @@ const useStyles = makeStyles((theme) => ({
   add: {
     fontSize: 30,
   },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
   avail: {
-    padding: "30px",
-    borderRadius: "4px",
-    boxShadow: theme.shadows[5],
-    marginTop: "32px",
+    padding: "20px",
+    borderRadius: "20px",
+    boxShadow: theme.shadows[2],
+  },
+  title: {
+    marginBottom: "30px",
+    padding: "10px",
   },
   button: {
-    display: "block",
-    marginTop: theme.spacing(2),
+    padding: '10px',
+    border: "6px solid",
+    borderImageSlice: 1,
+    borderImageSource: "linear-gradient(to left, green, blue)"
   },
-  menuPaper: {
-    maxHeight: 100
+  buttoncancel: {
+    padding: '10px',
+    border: "6px solid",
+    borderImageSlice: 1,
+    borderImageSource: "linear-gradient(to left, red, orange)"
   },
   formControl: {
     margin: theme.spacing(1),
@@ -140,10 +145,10 @@ export default function AddAvailability({ locations, updateAvailability }) {
         aria-labelledby="add-availability"
       >
 
-        <DialogTitle id="add-availability">
-          Add Vehicle Availability
-        </DialogTitle>
         <Container className={classes.avail} maxWidth="sm">
+          <DialogTitle id="add-availability" className={classes.title}>
+            Add Vehicle Availability
+        </DialogTitle>
           <Grid container spacing={3}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid item xs={12}>
@@ -249,7 +254,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
               <Grid item xs={3}></Grid>
               <Grid item xs={3}></Grid>
               <Grid item xs={3}>
-                <Button
+                <Button className={classes.buttoncancel}
                   variant="contained"
                   color="primary"
                   fullWidth={true}
@@ -260,7 +265,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
               </Grid>
 
               <Grid item xs={3}>
-                <Button
+                <Button className={classes.button}
                   variant="contained"
                   color="primary"
                   fullWidth={true}
