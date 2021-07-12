@@ -7,7 +7,7 @@ const ReservationDetail = props => {
 
   const convertPriceToNumber = price => {
     if (price) {
-      return price.split('$')[1];
+      return Number(price.replace(/[^0-9.-]+/g,""));
     }
     return 0;
   };
