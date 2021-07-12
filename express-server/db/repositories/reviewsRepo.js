@@ -5,7 +5,8 @@ exports.getReviewsAsync = filters => {
     SELECT reviews.*, reviewer.name as reviewer_name, reviewer.image as reviewer_image, reviewed.name as reviewed_name
     FROM reviews
     JOIN users reviewer ON reviewer_id = reviewer.id
-    JOIN users reviewed ON reviewed_user_id = reviewed.id
+    JOIN cars ON car_id = cars.id
+    JOIN users reviewed ON user_id = reviewed.id
   `;
   const queryParams = [];
 
@@ -15,11 +16,11 @@ exports.getReviewsAsync = filters => {
     queryParams.push(filters.carId);
   } else if (filters.hostId) {
     // gets all reviews for a host
-    queryText += 'WHERE reviewed_user_id = $1';
+    queryText += 'WHERE reviewer.id = $1';
     queryParams.push(filters.hostId);
   } else if (filters.renterId) {
     // gets all reviews for a renter
-    queryText += 'WHERE reviewed_user_id = $1';
+    queryText += 'WHERE reviewer.id = $1';
     queryParams.push(filters.renterId);
   } else {
     // get all reviews
@@ -45,18 +46,16 @@ exports.createNewReviewAsync = review => {
   const queryText = `
     INSERT INTO reviews (
       reviewer_id,
-      reviewed_user_id,
       car_id,
       date_reviewed,
       rating,
       comments
     )
-    VALUES ($1, $2, $3, $4, $5, $6)
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING *;
   `;
   const queryParams = [
     review.reviewerId,
-    review.reviewedId,
     review.carId,
     review.dateReviewed,
     review.rating,

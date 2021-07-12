@@ -1,4 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
+import axios from 'axios';
+import ReactStars from 'react-rating-stars-component';
+
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -14,8 +17,8 @@ import {
   TablePagination,
   TableFooter
 } from '@material-ui/core';
+
 import UserReview from "./UserReview";
-import axios from 'axios';
 import { authContext } from '../../providers/authProvider'
 
 const useStyles = makeStyles((theme) => ({
@@ -54,30 +57,44 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const tempUser = 3;
-
 export default function PastBookings() {
-  const {auth, user} = useContext(authContext);
+  const { user } = useContext(authContext);
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
-  const [page, setPage] = React.useState(0);
+  const [reviews, setReviews] = useState({});
+  const [page, setPage] = useState(0);
+
   useEffect(() => {
     const getOrders = async () => {
       try {
         const response = await axios.get(`/api/orders/user/${user.id}`);
         if (response.status === 200) {
           setOrders(response.data);
-          console.log(response.data);
         }
       } catch (error) {
         console.error(error);
       }
     }
     if (user.id) {
-      console.log('Past container user id', user.id);
       getOrders();
     }
 
+  }, [user.id]);
+
+  useEffect(() => {
+    const getExistingReviews = async () => {
+      const response = await axios.get(`/api/reviews?renterId=${user.id}`);
+
+      const reviewObj = {};
+      for (const review of response.data) {
+        reviewObj[review.car_id] = { ...review };
+      }
+      setReviews(reviewObj);
+    };
+
+    if (user.id) {
+      getExistingReviews();
+    }
   }, [user.id]);
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -147,7 +164,19 @@ export default function PastBookings() {
                 </Grid>
               </TableCell>
                 <TableCell>
-                  <UserReview/>
+                  {
+                    reviews[row.car_id] !== undefined && <div>
+                      <ReactStars
+                        count={5}
+                        size={24}
+                        activeColor="#ffd700"
+                        value={reviews[row.car_id].rating}
+                        edit={false}
+                      />
+                      <small>{reviews[row.car_id].comments}</small>
+                    </div>
+                  }
+                  { !reviews[row.car_id] && <UserReview carId={row.car_id} /> }
                 </TableCell>
               </TableRow>
           )

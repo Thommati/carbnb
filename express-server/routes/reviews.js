@@ -6,6 +6,7 @@ const {
 
 const router = express.Router();
 
+// GET /api/reviews?[[hostId={id}], [renterId={id}], [carId={id}]]
 router.get('/', async (req, res) => {
   try {
     const { rows } = await getReviewsAsync(req.query);
