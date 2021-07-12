@@ -71,7 +71,7 @@ export default function UserReview({ carId, handleReviewUpdated }) {
       <RateReviewIcon className={classes.Review} onClick={() => setOpen(true)} style={{cursor: 'pointer'}}/>
       <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="review-rating">
         <form id="user-review-form" onSubmit={handleSubmit}>
-          <DialogTitle id="review-rating">Review Vehicle - </DialogTitle>
+          <DialogTitle id="review-rating">Leave a Review</DialogTitle>
           <DialogContent>
 
             <div className={classes.root}>
