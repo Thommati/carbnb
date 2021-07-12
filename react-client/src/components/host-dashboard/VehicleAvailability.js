@@ -90,16 +90,7 @@ export default function VehicleAvailability({ locations }) {
     }
   };
 
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   const updateAvailability = (newAvailability) => {
     setAvailability((prev) => [...prev, newAvailability]);
@@ -136,7 +127,6 @@ export default function VehicleAvailability({ locations }) {
         </TableHead>
         <TableBody>
           {availability
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row" align="center">

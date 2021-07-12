@@ -1,38 +1,54 @@
 import { useContext, useState } from 'react';
 import axios from 'axios';
-
 import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormLabel from '@material-ui/core/FormLabel';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Checkbox from '@material-ui/core/Checkbox';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  DialogActions,
+  DialogContentText,
+  TextField,
+  Snackbar,
+  MenuItem,
+  FormControl,
+  Checkbox,
+  Grid,
+  Select,
+  Container,
+  InputLabel
+} from "@material-ui/core";
 
 import { authContext } from '../../providers/authProvider';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+  avail: {
+    padding: "20px",
+    borderRadius: "15px",
+    boxShadow: theme.shadows[5],
   },
-  textField: {
-    marginRight: '.5rem'
+  paper: {
+    margin: theme.spacing(2),
   },
-  selectTextField: {
-    width: '11rem',
-    marginRight: '.5rem'
+  title: {
+    marginBottom: "30px",
+    padding: "10px",
+  },
+  formControl: {
+    margin: theme.spacing(3),
+    minWidth: 120,
+  },
+  select: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
+  },
+  trans: {
+    marginTop: theme.spacing(2),
   }
 }));
 
@@ -177,235 +193,326 @@ const AddVehicle = (props) => {
   return (
     <div>
       <Dialog
+        className={classes.paper}
         open={open}
         onClose={handleClose}
         aria-labelledby="login-dialog"
-        fullWidth
-        maxWidth="md"
       >
-        <DialogTitle id="login-dialog">Register Vehicle</DialogTitle>
-        <DialogContent>
-          <form id="register-vehicle-form" onSubmit={handleSubmit}>
+        <paper className={classes.paper}>
+          <Container className={classes.avail} maxWidth="sm">
+            <DialogTitle id="login-dialog" className={classes.title}>Register Vehicle</DialogTitle>
+              <Grid container spacing={3}>
 
-            {errorMessage && <DialogContentText>{errorMessage}</DialogContentText>}
+                <form id="register-vehicle-form" onSubmit={handleSubmit}>
 
-            <TextField
-              className={classes.textField}
-              id="rvehicle-make"
-              label="Make"
-              variant="filled"
-              value={make}
-              onChange={event => setMake(event.target.value)}
-              required
-            />
+                {errorMessage && <DialogContentText>{errorMessage}</DialogContentText>}
 
-            <TextField
-              className={classes.textField}
-              id="rvehicle-model"
-              label="Model"
-              variant="filled"
-              value={model}
-              onChange={event => setModel(event.target.value)}
-              required
-            />
+                  <Grid item xs={8}>
+                    <FormControl fullWidth={true}>
+                      <InputLabel id="demo-simple-select-label">
+                        Select Location
+                      </InputLabel>
 
-            <TextField
-              className={classes.textField}
-              id="rvehicle-seats"
-              label="Model Year"
-              type="number"
-              inputProps={{ min: 1900, max: (new Date().getFullYear() + 1), step: 1 }}
-              variant="filled"
-              value={modelYear}
-              onChange={event => setModelYear(event.target.value)}
-              required
-            />
+                      <Select
+                        className={classes.select}
+                        autoFocus
+                        margin="dense"
+                        id="rvehicle-location"
+                        select
+                        label="Location"
+                        value={locationField}
+                        onChange={event => setLocationField(event.target.value)}
+                        required
+                      >
+                        {locations.map((loc) => (
+                          <MenuItem key={loc.id} value={loc.id}>
+                            {`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
 
-            <TextField
-              className={classes.textField}
-              id="rvehicle-seats"
-              label="Number of Seats"
-              type="number"
-              inputProps={{ min: 1, step: 1 }}
-              variant="filled"
-              value={seats}
-              onChange={event => setSeats(event.target.value)}
-              required
-            />
+                  <Grid item xs={8}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="rvehicle-make"
+                      label="Make"
+                      type="text"
+                      value={make}
+                      onChange={event => setMake(event.target.value)}
+                      fullWidth={true}
+                      required
+                    />
+                  </Grid>
 
-            <TextField
-              className={classes.selectTextField}
-              id="rvehicle-doors"
-              select
-              label="Number of Doors"
-              value={doors}
-              onChange={event => setDoors(event.target.value)}
-              variant="filled"
-              required
-            >
-              {[2, 4].map((num) => (
-                <MenuItem key={num} value={num}>
-                  {num}
-                </MenuItem>
-              ))}
-            </TextField>
+                  <Grid item xs={8}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="rvehicle-model"
+                      label="Model"
+                      type="text"
+                      value={model}
+                      onChange={event => setModel(event.target.value)}
+                      fullWidth={true}
+                      required
+                    />
+                  </Grid>
 
-            <TextField
-              className={classes.selectTextField}
-              id="rvehicle-colours"
-              select
-              label="Colour"
-              value={colour}
-              onChange={event => setColour(event.target.value)}
-              variant="filled"
-              required
-            >
-              {colours.map((col) => (
-                <MenuItem key={col} value={col}>
-                  {col}
-                </MenuItem>
-              ))}
-            </TextField>
+                  <Grid item xs={4}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="rvehicle-seats"
+                      label="Model Year"
+                      type="number"
+                      inputProps={{ min: 1900, max: (new Date().getFullYear() + 1), step: 1 }}
+                      value={modelYear}
+                      onChange={event => setModelYear(event.target.value)}
+                      fullWidth={true}
+                      required
+                    />
+                  </Grid>
 
-            <TextField
-              className={classes.selectTextField}
-              id="rvehicle-fuel"
-              select
-              label="Fuel"
-              value={fuel}
-              onChange={event => setFuel(event.target.value)}
-              variant="filled"
-              required
-            >
-              {fuels.map((f) => (
-                <MenuItem key={f} value={f}>
-                  {f}
-                </MenuItem>
-              ))}
-            </TextField>
+                  <Grid item xs={4}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="rvehicle-seats"
+                      label="Number of Seats"
+                      type="number"
+                      inputProps={{ min: 1, step: 1 }}
+                      value={seats}
+                      onChange={event => setSeats(event.target.value)}
+                      fullWidth={true}
+                      required
+                    />
+                  </Grid>
 
-            <TextField
-              className={classes.selectTextField}
-              id="rvehicle-location"
-              select
-              label="Location"
-              value={locationField}
-              onChange={event => setLocationField(event.target.value)}
-              variant="filled"
-              required
-            >
-              {locations.map((loc) => (
-                <MenuItem key={loc.id} value={loc.id}>
-                  {`${loc.street_number} ${loc.street} ${loc.city}, ${loc.province}`}
-                </MenuItem>
-              ))}
-            </TextField>
+                  <Grid item xs={4}>
+                    <FormControl fullWidth={true}>
+                      <InputLabel id="demo-simple-select-label">
+                        Select No.of Doors
+                      </InputLabel>
 
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Transmission</FormLabel>
-              <RadioGroup
-                aria-label="transmission type"
-                name="vtransmission"
-                value={transmission}
-                onChange={event => setTransmission(event.target.value)}
-                row
-              >
-                <FormControlLabel value="automatic" control={<Radio />} label="Automatic" />
-                <FormControlLabel value="manual" control={<Radio />} label="Manual" />
-                <FormControlLabel value="dct" control={<Radio />} label="Dual Clutch" />
-              </RadioGroup>
-            </FormControl>
+                      <Select
+                        className={classes.select}
+                        autoFocus
+                        margin="dense"
+                        id="rvehicle-doors"
+                        label="Number of Doors"
+                        select
+                        value={doors}
+                        onChange={event => setDoors(event.target.value)}
+                        fullWidth={true}
+                        required
+                      >
+                        {[2, 4].map((num) => (
+                          <MenuItem key={num} value={num}>
+                            {num}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
 
-            <FormControl>
-              <FormLabel component="legend">Vehicle Information</FormLabel>
-              <FormGroup row>
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.sport} onChange={handleCheckChange} name="sport" />}
-                  label="Sport"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.luxury} onChange={handleCheckChange} name="luxury" />}
-                  label="Luxury"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.economy} onChange={handleCheckChange} name="economy" />}
-                  label="Economy"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.truck} onChange={handleCheckChange} name="truck" />}
-                  label="Truck"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.van} onChange={handleCheckChange} name="van" />}
-                  label="Van"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.miniVan} onChange={handleCheckChange} name="miniVan" />}
-                  label="Mini Van"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.rv} onChange={handleCheckChange} name="rv" />}
-                  label="RV"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.suv} onChange={handleCheckChange} name="suv" />}
-                  label="SUV"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.convertible} onChange={handleCheckChange} name="convertible" />}
-                  label="Convertible"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={checkState.petFriendly} onChange={handleCheckChange} name="petFriendly" />}
-                  label="Pet Friendly"
-                />
-              </FormGroup>
-            </FormControl>
 
-            <TextField
-              className={classes.textField}
-              id="rvehicle-description"
-              label="Description"
-              variant="filled"
-              inputProps={{ minLength: 10 }}
-              value={description}
-              onChange={event => setDescription(event.target.value)}
-              multiline
-              rows={3}
-              fullWidth
-              required
-            />
+                  <Grid item xs={4}>
+                  <FormControl fullWidth={true}>
+                      <InputLabel id="demo-simple-select-label">
+                        Select Colour
+                      </InputLabel>
 
-            <TextField
-              className={classes.textField}
-              id="rvehicle-image"
-              label="Image URL"
-              variant="filled"
-              value={image}
-              onChange={event => setImage(event.target.value)}
-              fullWidth
-              required
-            />
+                      <Select
+                        className={classes.select}
+                        autoFocus
+                        margin="dense"
+                        id="rvehicle-colours"
+                        select
+                        label="Select Colour"
+                        value={colour}
+                        onChange={event => setColour(event.target.value)}
+                        fullWidth={true}
+                        required
+                      >
+                        {colours.map((col) => (
+                          <MenuItem key={col} value={col}>
+                            {col}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
 
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} variant="contained">
-            Cancel
-          </Button>
-          <Button type="submit" form="register-vehicle-form" variant="contained" color="secondary">
-            Register
-          </Button>
-        </DialogActions>
-      </Dialog>
+                  <Grid item xs={4}>
+                    <FormControl fullWidth={true}>
+                      <InputLabel id="demo-simple-select-label">
+                        Select Fuel Type
+                      </InputLabel>
 
-      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
-        <MuiAlert onClose={handleCloseSnack} severity="success" elevation={6} variant="filled">
-          Successfully registered new car
-        </MuiAlert>
-      </Snackbar>
-    </div>
-  );
-};
+                      <Select
+                        className={classes.select}
+                        autoFocus
+                        margin="dense"
+                        id="rvehicle-fuel"
+                        select
+                        label="Select Fuel Type"
+                        value={fuel}
+                        onChange={event => setFuel(event.target.value)}
+                        fullWidth={true}
+                        required
+                      >
+                        {fuels.map((f) => (
+                          <MenuItem key={f} value={f}>
+                            {f}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <FormControl component="fieldset" fullWidth={true} className={classes.trans}>
+                      <FormLabel component="legend">Transmission</FormLabel>
+                      <RadioGroup
+                        aria-label="transmission type"
+                        name="vtransmission"
+                        value={transmission}
+                        onChange={event => setTransmission(event.target.value)}
+                        row
+                      >
+                        <FormControlLabel value="automatic" control={<Radio />} label="Automatic" />
+                        <FormControlLabel value="manual" control={<Radio />} label="Manual" />
+                        <FormControlLabel value="dct" control={<Radio />} label="Dual Clutch" />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+
+                  <FormControl fullWidth={true} className={classes.trans}>
+                    <FormLabel component="legend">Vehicle Information</FormLabel>
+                    <FormGroup row>
+
+                      <Grid item xs={2}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.sport} onChange={handleCheckChange} name="sport" />}
+                          label="Sport"
+                        />
+                      </Grid>
+
+                      <Grid item xs={2}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.luxury} onChange={handleCheckChange} name="luxury" />}
+                          label="Luxury"
+                        />
+                      </Grid>
+
+                      <Grid item xs={2}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.economy} onChange={handleCheckChange} name="economy" />}
+                          label="Economy"
+                        />
+                      </Grid>
+
+                      <Grid item xs={3}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.truck} onChange={handleCheckChange} name="truck" />}
+                          label="Truck"
+                        />
+                      </Grid>
+
+                      <Grid item xs={3}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.van} onChange={handleCheckChange} name="van" />}
+                          label="Van"
+                        />
+                      </Grid>
+
+                      <Grid item xs={2}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.miniVan} onChange={handleCheckChange} name="miniVan" />}
+                          label="Mini Van"
+                        />
+                      </Grid>
+
+                      <Grid item xs={2}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.rv} onChange={handleCheckChange} name="rv" />}
+                          label="RV"
+                        />
+                      </Grid>
+
+                      <Grid item xs={2}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.suv} onChange={handleCheckChange} name="suv" />}
+                          label="SUV"
+                        />
+                      </Grid>
+
+                      <Grid item xs={3}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.convertible} onChange={handleCheckChange} name="convertible" />}
+                          label="Convertible"
+                        />
+                      </Grid>
+
+                      <Grid item xs={3}>
+                        <FormControlLabel
+                          control={<Checkbox checked={checkState.petFriendly} onChange={handleCheckChange} name="petFriendly" />}
+                          label="Pet Friendly"
+                        />
+                      </Grid>
+                    </FormGroup>
+                  </FormControl>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      id="rvehicle-description"
+                      label="Description"
+                      inputProps={{ minLength: 10 }}
+                      value={description}
+                      onChange={event => setDescription(event.target.value)}
+                      multiline
+                      rows={3}
+                      fullWidth={true}
+                      required
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      id="rvehicle-image"
+                      label="Image URL"
+                      value={image}
+                      onChange={event => setImage(event.target.value)}
+                      fullWidth={true}
+                      required
+                    />
+                  </Grid>
+
+                  <DialogActions>
+                    <Button onClick={handleClose} variant="contained">
+                      Cancel
+                    </Button>
+                    <Button type="submit" form="register-vehicle-form" variant="contained" color="secondary">
+                      Register
+                    </Button>
+                  </DialogActions>
+
+                </form>
+              </Grid>
+            </Container>
+          </paper>
+        </Dialog>
+
+        <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
+          <MuiAlert onClose={handleCloseSnack} severity="success" elevation={6} variant="filled">
+            Successfully registered new car
+          </MuiAlert>
+        </Snackbar>
+      </div>
+    );
+  };
 
 export default AddVehicle;
