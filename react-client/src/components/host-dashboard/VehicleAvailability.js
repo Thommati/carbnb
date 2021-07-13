@@ -65,7 +65,6 @@ export default function VehicleAvailability({ locations }) {
   const { user } = useContext(authContext);
   const classes = useStyles();
   const [availability, setAvailability] = useState([]);
-  const [page, setPage] = React.useState(0);
 
   useEffect(() => {
     const getAvailability = async () => {
@@ -135,7 +134,6 @@ export default function VehicleAvailability({ locations }) {
                 <TableCell>
                   <Avatar
                     alt={row.image}
-                    img
                     src={row.image}
                     className={classes.AvatarLarge}
                   />

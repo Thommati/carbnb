@@ -11,8 +11,6 @@ import {
   Avatar,
   Grid,
   Typography,
-  TablePagination,
-  TableFooter,
 } from "@material-ui/core";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
@@ -63,13 +61,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tempUser = 3;
-
 export default function MainContainer() {
-  const { auth, user } = useContext(authContext);
+  const { user } = useContext(authContext);
   const classes = useStyles();
   const [orders, setOrders] = useState([]);
-  const [page, setPage] = React.useState(0);
 
   useEffect(() => {
     const getOrders = async () => {
@@ -83,29 +78,17 @@ export default function MainContainer() {
       }
     };
     if (user.id) {
-      console.log("Main container user id", user.id);
       getOrders();
     }
   }, [user.id]);
 
   const deleteOrders = async (id) => {
     try {
-      const response = await axios.delete(`/api/orders/${id}`);
+      await axios.delete(`/api/orders/${id}`);
       setOrders((prev) => prev.filter((order) => order.id !== id));
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   let today = new Date().toLocaleDateString("en-ca");
@@ -139,7 +122,6 @@ export default function MainContainer() {
         </TableHead>
         <TableBody>
           {orders
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map(
               (row) =>
                 new Date(new Date(row.end_date).toLocaleDateString("en-ca")) >
@@ -151,7 +133,6 @@ export default function MainContainer() {
                     <TableCell>
                       <Avatar
                         alt={row.image}
-                        img
                         src={row.image}
                         className={classes.AvatarLarge}
                       />
@@ -181,7 +162,7 @@ export default function MainContainer() {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Grid Container>
+                      <Grid container>
                         <Grid item>
                           <Typography className={classes.name}>
                             {row.owners_name}
