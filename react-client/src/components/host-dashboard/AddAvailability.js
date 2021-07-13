@@ -144,6 +144,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
         open={open}
         onClose={handleClose}
         aria-labelledby="add-availability"
+        disableEnforceFocus
       >
         <Container className={classes.avail} maxWidth="sm">
           <DialogTitle id="add-availability" className={classes.title}>
