@@ -10,7 +10,6 @@ import {
   Avatar,
   Grid,
   Typography,
-  TableFooter
 } from '@material-ui/core';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
@@ -42,9 +41,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     padding: '3px 10px',
     display: 'inline-block'
-  },
-  TableFooter: {
-    justifyContent: 'right'
   },
   Mail: {
   color: '#1e88e5',
@@ -106,7 +102,6 @@ export default function NewContainer({orders}) {
                 <Grid container>
                   <Grid item>
                   <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>
-                    {/* <Typography>{row.description}</Typography> */}
                   </Grid>
                 </Grid>
               </TableCell>
@@ -127,18 +122,16 @@ export default function NewContainer({orders}) {
                 </Grid>
               </TableCell>
                 <TableCell>
-                <a href={`mailto:${row.email}`}><MailOutlineIcon className={classes.Mail}/></a>
+                  <a href={`mailto:${row.email}`}><MailOutlineIcon className={classes.Mail}/></a>
                 </TableCell>
                 <TableCell>
-                <DeleteForeverIcon className={classes.Delete} onClick={() => deleteOrders(row.id)} style={{cursor: 'pointer'}}/>
+                  <DeleteForeverIcon className={classes.Delete} onClick={() => deleteOrders(row.id)} style={{cursor: 'pointer'}}/>
                 </TableCell>
               </TableRow>
             )
             ))}
           </TableBody>
         </Table>
-      <TableFooter>
-      </TableFooter>
     </TableContainer>
   );
 };

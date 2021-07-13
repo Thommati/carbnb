@@ -87,24 +87,24 @@ export default function MainContainer({orders}) {
               <TableCell>
                 <Grid container>
                   <Grid item>
-                  <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>
+                    <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>
                   </Grid>
                 </Grid>
               </TableCell>
               <TableCell>
-              <Typography color="textSecondary" variant="body2">{new Date(row.start_date).toLocaleDateString("en-ca")}</Typography>
+                <Typography color="textSecondary" variant="body2">{new Date(row.start_date).toLocaleDateString("en-ca")}</Typography>
               </TableCell>
               <TableCell>
-              <Typography color="textSecondary" variant="body2">{new Date(row.end_date).toLocaleDateString("en-ca")}</Typography>
+                <Typography color="textSecondary" variant="body2">{new Date(row.end_date).toLocaleDateString("en-ca")}</Typography>
               </TableCell>
               <TableCell>
                 <Typography color="textSecondary" variant="body2">{row.price}</Typography>
               </TableCell>
               <TableCell>
-                <Grid container>
+                <Grid>
                   <Grid item>
                     <Typography className={classes.name}>{row.renter_id}</Typography>
-                    </Grid>
+                  </Grid>
                 </Grid>
               </TableCell>
                 <TableCell>
