@@ -162,7 +162,7 @@ export default function MainContainer() {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Grid>
+                      <Grid container>
                         <Grid item>
                           <Typography className={classes.name}>
                             {row.owners_name}

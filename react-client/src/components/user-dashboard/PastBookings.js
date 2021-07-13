@@ -129,7 +129,7 @@ export default function PastBookings() {
                 {row.id}
               </TableCell>
               <TableCell>
-                <Avatar alt={row.image} img src={row.image} className={classes.AvatarLarge} />
+                <Avatar alt={row.image} src={row.image} className={classes.AvatarLarge} />
               </TableCell>
               <TableCell>
                 <Grid container>

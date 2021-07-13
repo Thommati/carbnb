@@ -85,7 +85,7 @@ export default function MainContainer({orders}) {
                 <Avatar alt={row.image} src={row.image} className={classes.AvatarLarge} />
               </TableCell>
               <TableCell>
-                <Grid>
+                <Grid container>
                   <Grid item>
                   <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>
                   </Grid>
@@ -101,7 +101,7 @@ export default function MainContainer({orders}) {
                 <Typography color="textSecondary" variant="body2">{row.price}</Typography>
               </TableCell>
               <TableCell>
-                <Grid>
+                <Grid container>
                   <Grid item>
                     <Typography className={classes.name}>{row.renter_id}</Typography>
                     </Grid>
