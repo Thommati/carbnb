@@ -49,7 +49,17 @@ const useStyles = makeStyles((theme) => ({
   },
   trans: {
     marginTop: theme.spacing(2),
-  }
+  },
+  button: {
+    marginTop: theme.spacing(2),
+    padding: "10px",
+    fontSize: "12pt",
+  },
+  buttoncancel: {
+    marginTop: theme.spacing(2),
+    padding: "10px",
+    fontSize: "12pt",
+  },
 }));
 
 const colours = [
@@ -492,10 +502,25 @@ const AddVehicle = (props) => {
                   </Grid>
 
                   <DialogActions>
-                    <Button onClick={handleClose} variant="contained">
+                    <Button
+                      className={classes.button}
+                      onClick={handleClose}
+                      variant="contained"
+                      color="primary"
+                      buttonStyle={{ borderRadius: 5 }}
+                      style={{ borderRadius: 5 }}
+                    >
                       Cancel
                     </Button>
-                    <Button type="submit" form="register-vehicle-form" variant="contained" color="secondary">
+                    <Button
+                      className={classes.button}
+                      type="submit"
+                      form="register-vehicle-form"
+                      variant="contained"
+                      color="primary"
+                      buttonStyle={{ borderRadius: 5 }}
+                      style={{ borderRadius: 5 }}
+                    >
                       Register
                     </Button>
                   </DialogActions>

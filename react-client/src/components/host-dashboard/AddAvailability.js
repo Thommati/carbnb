@@ -45,14 +45,10 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: "10px",
-    color: "#FFFFFF",
-    backgroundColor: "blue",
     fontSize: "12pt",
   },
   buttoncancel: {
     padding: "10px",
-    color: "#FFFFFF",
-    backgroundColor: "red",
     fontSize: "12pt",
   },
   formControl: {
@@ -279,8 +275,8 @@ export default function AddAvailability({ locations, updateAvailability }) {
                     color="primary"
                     fullWidth={true}
                     onClick={handleClose}
-                    buttonStyle={{ borderRadius: 15 }}
-                    style={{ borderRadius: 15 }}
+                    buttonStyle={{ borderRadius: 5 }}
+                    style={{ borderRadius: 5 }}
                   >
                     Cancel
                   </Button>
@@ -293,8 +289,8 @@ export default function AddAvailability({ locations, updateAvailability }) {
                     color="primary"
                     fullWidth={true}
                     onClick={handleSubmit}
-                    buttonStyle={{ borderRadius: 15 }}
-                    style={{ borderRadius: 15 }}
+                    buttonStyle={{ borderRadius: 5 }}
+                    style={{ borderRadius: 5 }}
                   >
                     Submit
                   </Button>
