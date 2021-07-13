@@ -12,8 +12,6 @@ import {
   Avatar,
   Grid,
   Typography,
-  TablePagination,
-  TableFooter
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PageviewIcon from '@material-ui/icons/Pageview';
@@ -69,8 +67,6 @@ export default function Favourites() {
   const { user } = useContext(authContext);
   const classes = useStyles();
   const [favourites, setFavourites] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   // Load all of a users' favourites into state, favourites
   useEffect(() => {
@@ -98,15 +94,6 @@ export default function Favourites() {
     }
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
   return (
     <TableContainer component={Paper} className={classes.TableContainer}>
       <Table className={classes.table} aria-label="favourites">
@@ -121,10 +108,10 @@ export default function Favourites() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {favourites.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+          {favourites.map((row) => (
             <TableRow key={row.car_id}>
               <TableCell>
-                <Avatar alt={row.image} img src={row.image} className={classes.AvatarLarge} />
+                <Avatar alt={row.image} src={row.image} className={classes.AvatarLarge} />
               </TableCell>
               <TableCell>
                 <Grid container>
@@ -136,7 +123,7 @@ export default function Favourites() {
                 {/* <Typography color="textSecondary" variant="body2">${row.price} /day</Typography> */}
               </TableCell>
               <TableCell>
-                <Grid Container>
+                <Grid container>
                   <Grid item>
                     <Typography color="textSecondary" variant="body2">{row.city}, {row.province}</Typography>
                   </Grid>
@@ -152,17 +139,6 @@ export default function Favourites() {
             ))}
           </TableBody>
         </Table>
-      <TableFooter>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={favourites.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </TableFooter>
     </TableContainer>
   );
 };
