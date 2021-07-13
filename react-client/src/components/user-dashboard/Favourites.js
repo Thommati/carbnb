@@ -138,11 +138,7 @@ export default function Favourites() {
               <TableCell>
                 <Grid Container>
                   <Grid item>
-                    <Typography className={classes.name}>{row.host}</Typography>
-                    <Typography color="textSecondary" variant="body2">{row.street_number} {row.street},</Typography>
-                    <Typography color="textSecondary" variant="body2">{row.city},</Typography>
-                    <Typography color="textSecondary" variant="body2">{row.province},</Typography>
-                    <Typography color="textSecondary" variant="body2">{row.postal_code}</Typography>
+                    <Typography color="textSecondary" variant="body2">{row.city}, {row.province}</Typography>
                   </Grid>
                 </Grid>
               </TableCell>
