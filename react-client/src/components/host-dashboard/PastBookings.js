@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -11,8 +10,6 @@ import {
   Avatar,
   Grid,
   Typography,
-  TablePagination,
-  TableFooter
 } from '@material-ui/core';
 import HostReview from "./HostReview";
 
@@ -58,18 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MainContainer({orders}) {
   const classes = useStyles();
-  const [page, setPage] = useState(0);
-
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   let today = new Date().toLocaleDateString("en-ca");
   today = new Date(today);
@@ -90,17 +75,17 @@ export default function MainContainer({orders}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+          {orders.map((row) => (
           new Date(new Date(row.end_date).toLocaleDateString("en-ca")) < today && (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.id}
               </TableCell>
               <TableCell>
-                <Avatar alt={row.image} img src={row.image} className={classes.AvatarLarge} />
+                <Avatar alt={row.image} src={row.image} className={classes.AvatarLarge} />
               </TableCell>
               <TableCell>
-                <Grid container>
+                <Grid>
                   <Grid item>
                   <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>
                   </Grid>
@@ -116,7 +101,7 @@ export default function MainContainer({orders}) {
                 <Typography color="textSecondary" variant="body2">{row.price}</Typography>
               </TableCell>
               <TableCell>
-                <Grid Container>
+                <Grid>
                   <Grid item>
                     <Typography className={classes.name}>{row.renter_id}</Typography>
                     </Grid>
@@ -130,17 +115,6 @@ export default function MainContainer({orders}) {
             ))}
           </TableBody>
         </Table>
-      <TableFooter>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={orders.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </TableFooter>
     </TableContainer>
   );
 };

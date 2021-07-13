@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "transparent",
       },
     },
-    "&$disabled": {
+    "&:disabled": {
       backgroundColor: "transparent",
       color: theme.palette.action.disabled,
     },

@@ -11,8 +11,6 @@ import {
   Avatar,
   Grid,
   Typography,
-  TablePagination,
-  TableFooter
 } from '@material-ui/core';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -73,7 +71,6 @@ export default function RegisterVehicle({ locations }) {
   const { auth, user } = useContext(authContext);
   const classes = useStyles();
   const [cars, setCars] = useState([]);
-  const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
 
@@ -100,23 +97,12 @@ export default function RegisterVehicle({ locations }) {
     }
   }
 
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
   const handleClickOpen = () => {
     if (auth && locations.length > 0) {
       setOpen(true);
     } else {
       setSnackOpen(true);
     }
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   const handleAddVehicleClose = () => {
@@ -152,7 +138,7 @@ export default function RegisterVehicle({ locations }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {cars.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+          {cars.map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {row.id}
@@ -180,17 +166,6 @@ export default function RegisterVehicle({ locations }) {
             ))}
           </TableBody>
         </Table>
-      <TableFooter>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={cars.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </TableFooter>
 
     </TableContainer>
       <AddVehicle
