@@ -84,7 +84,6 @@ export default function AddAvailability({ locations, updateAvailability }) {
   };
 
   const handleStartDateChange = (date) => {
-    console.log("Date is being set", date);
     setSelectedStartDate(date);
   };
 
@@ -105,7 +104,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
     if (user.id) {
       getCars();
     }
-  }, [user]);
+  }, [user.id]);
 
   const handleSubmit = async () => {
     console.log("handle submit called");

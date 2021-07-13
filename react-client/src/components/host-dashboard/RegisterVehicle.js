@@ -144,7 +144,7 @@ export default function RegisterVehicle({ locations }) {
                 {row.id}
               </TableCell>
               <TableCell>
-                <Avatar alt={`${row.make} ${row.model}`} img src={row.image} className={classes.AvatarLarge} />
+                <Avatar alt={`${row.make} ${row.model}`} src={row.image} className={classes.AvatarLarge} />
               </TableCell>
               <TableCell>
                 <Grid container>
