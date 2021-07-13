@@ -14,20 +14,29 @@ router.post('/login', async (req, res) => {
     return res.status(401).json({error: 'Invalid email or password'});
   }
 
-  // Retrieve user from database
-  const { rows } = await getUserByEmailAsync(email);
-  const user = rows[0];
+  try {
+    // Retrieve user from database
+    const { rows } = await getUserByEmailAsync(email);
+    const user = rows[0];
 
-  // compare passwords
-  const match = await bcrypt.compare(password, user.password);
+    if (!user) {
+      return res.status(401).json({error: 'Invalid email or password'});
+    }
 
-  if (match) {
-    // Return token if match is true.
-    const token = generateJwtToken(user.id, user.name, user.email, user.image, user.hosts);
-    return res.json(token);
-  } else {
-    // Return unauthorized if match is false
-    return res.status(401).json({error: 'Invalid email or password'});
+    // compare passwords
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
+      // Return token if match is true.
+      const token = generateJwtToken(user.id, user.name, user.email, user.image, user.hosts);
+      return res.json(token);
+    } else {
+      // Return unauthorized if match is false
+      return res.status(401).json({error: 'Invalid email or password'});
+    }
+  } catch (err) {
+    console.error('Error on login', err);
+    return res.status(500).json({error: 'Server error'});
   }
 });
 
