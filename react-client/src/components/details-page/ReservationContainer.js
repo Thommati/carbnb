@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 // Material UI imports
@@ -27,6 +28,7 @@ const ReservationContainer = (props) => {
   const { setCarData, initialDates } = props;
 
   const { auth, user } = useContext(authContext);
+  const history = useHistory();
 
   // The start and end dates of the selected range of dates
   const [startDate, setStartDate] = useState(new Date());
@@ -124,6 +126,7 @@ const ReservationContainer = (props) => {
         // Add the new order to the list of orders to update the date range picker
         const newOrdersList = [...orders, { id: order.id, start_date: order.startDate, end_date: order.endDate }];
         setCarData(prev => ({...prev, orders: newOrdersList }));
+        history.push('/user-dashboard');
       } else {
         setOpenFail(true);
       }
