@@ -1,39 +1,80 @@
-import { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { authContext } from '../providers/authProvider';
+import { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { authContext } from "../providers/authProvider";
+import {
+  AppBar,
+  Typography,
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Snackbar,
+  Toolbar,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 
-import AppBar from '@material-ui/core/AppBar';
-import ToolBar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles, alpha } from "@material-ui/core/styles";
 
-import './TopNav.scss';
+import MuiAlert from "@material-ui/lab/Alert";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
-const TopNav = props => {
+import "./TopNav.scss";
+
+const useStyles = makeStyles((theme) => ({
+  iconButton: {
+    minWidth: "48px",
+    textAlign: "center",
+    flex: "0 0 auto",
+    // fontSize: theme.typography.pxToRem(24),
+    padding: 12,
+    borderRadius: "50%",
+    overflow: "visible",
+    fontSize: "medium",
+    textTransform: "none",
+    // Explicitly set the default value to solve a bug on IE 11.
+    color: theme.palette.action.active,
+    transition: theme.transitions.create("background-color", {
+      duration: theme.transitions.duration.shortest,
+    }),
+    "&:hover": {
+      backgroundColor: (0, alpha)(
+        theme.palette.action.active,
+        theme.palette.action.hoverOpacity
+      ),
+      // Reset on touch devices, it doesn't add specificity
+      "@media (hover: none)": {
+        backgroundColor: "transparent",
+      },
+    },
+    "&$disabled": {
+      backgroundColor: "transparent",
+      color: theme.palette.action.disabled,
+    },
+  },
+}));
+
+const TopNav = (props) => {
   const { login, register, logout, auth, user } = useContext(authContext);
   const history = useHistory();
+  const classes = useStyles();
 
   //
-  // Loing Form state and methods
+  // Loding Form state and methods
   //
   const [loginOpen, setLoginOpen] = useState(false);
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-  const [loginErrorMessage, setLoginErrorMessage] = useState('');
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginErrorMessage, setLoginErrorMessage] = useState("");
 
   // Close login dialog and clear form
   const handleLoginClose = () => {
-    setLoginEmail('');
-    setLoginPassword('');
-    setLoginErrorMessage('');
+    setLoginEmail("");
+    setLoginPassword("");
+    setLoginErrorMessage("");
     setLoginOpen(false);
   };
 
@@ -41,7 +82,7 @@ const TopNav = props => {
   const loginSubmit = async (event) => {
     event.preventDefault();
     const { result, error } = await login(loginEmail, loginPassword);
-    if (result === 'success') {
+    if (result === "success") {
       handleLoginClose();
       setSnackOpen(true);
     } else {
@@ -54,22 +95,23 @@ const TopNav = props => {
   //
 
   const [registerOpen, setRegisterOpen] = useState(false);
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [registerPasswordConfirmation, setRegisterPasswordConfirmation] = useState('');
-  const [registerName, setRegisterName] = useState('');
-  const [registerPhone, setRegisterPhone] = useState('');
-  const [registerImage, setRegisterImage] = useState('');
-  const [registerErrorMessage, setRegisterErrorMessage] = useState('');
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [registerPasswordConfirmation, setRegisterPasswordConfirmation] =
+    useState("");
+  const [registerName, setRegisterName] = useState("");
+  const [registerPhone, setRegisterPhone] = useState("");
+  const [registerImage, setRegisterImage] = useState("");
+  const [registerErrorMessage, setRegisterErrorMessage] = useState("");
 
   const handleRegisterClose = () => {
-    setRegisterEmail('');
-    setRegisterPassword('');
-    setRegisterPasswordConfirmation('');
-    setRegisterName('');
-    setRegisterPhone('');
-    setRegisterImage('');
-    setRegisterErrorMessage('');
+    setRegisterEmail("");
+    setRegisterPassword("");
+    setRegisterPasswordConfirmation("");
+    setRegisterName("");
+    setRegisterPhone("");
+    setRegisterImage("");
+    setRegisterErrorMessage("");
     setRegisterOpen(false);
   };
 
@@ -77,7 +119,7 @@ const TopNav = props => {
     event.preventDefault();
     // Make sure password and confirmation match.
     if (registerPassword !== registerPasswordConfirmation) {
-      return setRegisterErrorMessage('Passwords must match');
+      return setRegisterErrorMessage("Passwords must match");
     }
 
     const formData = {
@@ -85,16 +127,16 @@ const TopNav = props => {
       email: registerEmail,
       image: registerImage,
       password: registerPassword,
-      phone: registerPhone
+      phone: registerPhone,
     };
     const { result, error } = await register(formData);
 
-    if (result === 'success') {
+    if (result === "success") {
       // TODO: add a toast notification to show success.
-      handleRegisterClose()
+      handleRegisterClose();
     } else {
       console.log(error.response);
-      setRegisterErrorMessage('There was an error creating your account');
+      setRegisterErrorMessage("There was an error creating your account");
     }
   };
 
@@ -103,7 +145,7 @@ const TopNav = props => {
   const [loggedOutOpen, setLoggedOutOpen] = useState(false);
 
   const handleCloseSnack = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     snackOpen && setSnackOpen(false);
@@ -113,40 +155,110 @@ const TopNav = props => {
   const handleLogout = () => {
     logout();
     setLoggedOutOpen(true);
-    history.push('/');
+    closeMenu();
+    history.push("/");
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const menuIsOpen = Boolean(anchorEl);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const closeMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleUserDashboard = () => {
+    history.push("/user-dashboard");
+    closeMenu();
+  };
+
+  const handleHostDashboard = () => {
+    history.push("/host-dashboard");
+    closeMenu();
+  };
   return (
     <nav>
       <AppBar position="static">
-        <ToolBar className="topnav__toolbar">
+        <Toolbar className="topnav__toolbar">
           <div className="topnav__toolbar--left">
-            <Typography variant="h5" onClick={() => history.push('/')} className="topnav__logo">
+            <Typography
+              variant="h5"
+              onClick={() => history.push("/")}
+              className="topnav__logo"
+            >
               Carbnb
             </Typography>
           </div>
           <div>
             {!auth && (
               <>
-                <Button color="inherit" onClick={() => setLoginOpen(true)}>Login</Button>
-                <Button color="inherit" onClick={() => setRegisterOpen(true)}>Register</Button>
-              </>
-            )}
-            {auth && (
-              <>
-                <Button color="inherit" onClick={() => history.push('/user-dashboard')}>{user.name}'s Dashboard</Button>
-                <Button color="inherit" onClick={handleLogout}>Log Out</Button>
+                <Button color="inherit" onClick={() => setLoginOpen(true)}>
+                  Login
+                </Button>
+                <Button color="inherit" onClick={() => setRegisterOpen(true)}>
+                  Register
+                </Button>
               </>
             )}
           </div>
-        </ToolBar>
+
+          {auth && (
+            <div>
+              <Button
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+                className={classes.iconButton}
+              >
+                <AccountCircle />
+                {user.name}
+              </Button>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={menuIsOpen}
+                onClose={closeMenu}
+              >
+                <MenuItem onClick={handleUserDashboard}>
+                  User Dashboard
+                </MenuItem>
+                {user.hosts && (
+                  <MenuItem onClick={handleHostDashboard}>
+                    Host Dashboard
+                  </MenuItem>
+                )}
+
+                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+              </Menu>
+            </div>
+          )}
+        </Toolbar>
       </AppBar>
 
-      <Dialog open={loginOpen} onClose={handleLoginClose} aria-labelledby="login-dialog">
+      <Dialog
+        open={loginOpen}
+        onClose={handleLoginClose}
+        aria-labelledby="login-dialog"
+      >
         <form id="dsub" onSubmit={loginSubmit}>
           <DialogTitle id="login-dialog">Login</DialogTitle>
-          <DialogContent  className="topnav__login--error">
-            {loginErrorMessage && <DialogContentText>{loginErrorMessage}</DialogContentText>}
+          <DialogContent className="topnav__login--error">
+            {loginErrorMessage && (
+              <DialogContentText>{loginErrorMessage}</DialogContentText>
+            )}
             <TextField
               margin="dense"
               id="login-email"
@@ -154,7 +266,7 @@ const TopNav = props => {
               label="Email Address"
               fullWidth
               value={loginEmail}
-              onChange={event => setLoginEmail(event.target.value)}
+              onChange={(event) => setLoginEmail(event.target.value)}
               required
               autoFocus
             />
@@ -165,7 +277,7 @@ const TopNav = props => {
               label="Password"
               fullWidth
               value={loginPassword}
-              onChange={event => setLoginPassword(event.target.value)}
+              onChange={(event) => setLoginPassword(event.target.value)}
               required
             />
           </DialogContent>
@@ -173,18 +285,29 @@ const TopNav = props => {
             <Button onClick={handleLoginClose} variant="contained">
               Cancel
             </Button>
-            <Button type="submit" form="dsub" variant="contained" color="secondary">
+            <Button
+              type="submit"
+              form="dsub"
+              variant="contained"
+              color="secondary"
+            >
               Submit
             </Button>
           </DialogActions>
         </form>
       </Dialog>
 
-      <Dialog open={registerOpen} onClose={handleRegisterClose} aria-labelledby="register-dialog">
+      <Dialog
+        open={registerOpen}
+        onClose={handleRegisterClose}
+        aria-labelledby="register-dialog"
+      >
         <form id="rform" onSubmit={registerSubmit}>
           <DialogTitle id="register-dialog">Register</DialogTitle>
           <DialogContent className="topnav__login--error">
-            {registerErrorMessage && <DialogContentText>{registerErrorMessage}</DialogContentText>}
+            {registerErrorMessage && (
+              <DialogContentText>{registerErrorMessage}</DialogContentText>
+            )}
             <TextField
               margin="dense"
               id="register-email"
@@ -192,7 +315,7 @@ const TopNav = props => {
               label="Email Address"
               fullWidth
               value={registerEmail}
-              onChange={event => setRegisterEmail(event.target.value)}
+              onChange={(event) => setRegisterEmail(event.target.value)}
               required
             />
             <TextField
@@ -231,7 +354,7 @@ const TopNav = props => {
               type="password"
               label="Password"
               value={registerPassword}
-              onChange={event => setRegisterPassword(event.target.value)}
+              onChange={(event) => setRegisterPassword(event.target.value)}
               fullWidth
               required
             />
@@ -241,30 +364,55 @@ const TopNav = props => {
               type="password"
               label="Confirm Password"
               value={registerPasswordConfirmation}
-              onChange={event => setRegisterPasswordConfirmation(event.target.value)}
+              onChange={(event) =>
+                setRegisterPasswordConfirmation(event.target.value)
+              }
               fullWidth
               required
             />
           </DialogContent>
           <DialogActions>
-          <Button onClick={handleRegisterClose} variant="contained">
+            <Button onClick={handleRegisterClose} variant="contained">
               Cancel
             </Button>
-            <Button type="submit" form="rform" variant="contained" color="secondary">
+            <Button
+              type="submit"
+              form="rform"
+              variant="contained"
+              color="secondary"
+            >
               Submit
             </Button>
           </DialogActions>
         </form>
       </Dialog>
 
-      <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
-        <MuiAlert onClose={handleCloseSnack} severity="success" elevation={6} variant="filled">
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnack}
+      >
+        <MuiAlert
+          onClose={handleCloseSnack}
+          severity="success"
+          elevation={6}
+          variant="filled"
+        >
           Successfully logged in as {user.name}
         </MuiAlert>
       </Snackbar>
 
-      <Snackbar open={loggedOutOpen} autoHideDuration={6000} onClose={handleCloseSnack}>
-        <MuiAlert onClose={handleCloseSnack} severity="info" elevation={6} variant="filled">
+      <Snackbar
+        open={loggedOutOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnack}
+      >
+        <MuiAlert
+          onClose={handleCloseSnack}
+          severity="info"
+          elevation={6}
+          variant="filled"
+        >
           Logged out
         </MuiAlert>
       </Snackbar>
