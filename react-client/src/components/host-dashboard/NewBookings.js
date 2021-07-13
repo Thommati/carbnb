@@ -100,7 +100,7 @@ export default function NewContainer({orders}) {
                 {row.id}
               </TableCell>
               <TableCell>
-                <Avatar alt={row.image} img src={row.image} className={classes.AvatarLarge} />
+                <Avatar alt={row.image} src={row.image} className={classes.AvatarLarge} />
               </TableCell>
               <TableCell>
                 <Grid container>
@@ -120,7 +120,7 @@ export default function NewContainer({orders}) {
                 <Typography color="textSecondary" variant="body2">{row.price}</Typography>
               </TableCell>
               <TableCell>
-                <Grid Container>
+                <Grid container>
                   <Grid item>
                     <Typography className={classes.name}>{row.name}</Typography>
                   </Grid>
