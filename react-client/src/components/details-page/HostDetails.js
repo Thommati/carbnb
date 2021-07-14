@@ -13,7 +13,7 @@ const HostDetails = props => {
       if (id) {
         try {
           const response = await axios.get(`/api/reviews?hostId=${id}`);
-          console.log(response.data);
+
           const rating = Math.floor(response.data.reduce((acc, curr) => curr.rating + acc, 0) / response.data.length);
           if (isNaN(rating)) {
             setAvgRating(0);
