@@ -12,6 +12,7 @@ body {
   height: 100%;
   width: 250px;
   background-color: #2F4050;
+  padding-top: 10px;
 }
 
 .SidebarList {
@@ -33,6 +34,15 @@ body {
   color: white;
 }
 
+.SidebarList .row:hover {
+  cursor: pointer;
+  background-color: #293846;
+}
+
+.SidebarList #active {
+  background-color: #293846;
+}
+
 .row #icon {
   flex: 30%;
   display: grid;
@@ -43,11 +53,88 @@ body {
   flex: 70%;
 }
 
-.SidebarList .row:hover {
+.UserList {
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.UserList .row {
+  width: 100%;
+  height: 60px;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: white;
+}
+
+.UserList .row:hover {
   cursor: pointer;
   background-color: #293846;
 }
 
-.SidebarList #active {
+.UserList #active {
   background-color: #293846;
+}
+
+.HostList {
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.HostList .row {
+  width: 100%;
+  height: 60px;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: white;
+}
+
+.HostList .row:hover {
+  cursor: pointer;
+  background-color: #293846;
+}
+
+.HostList #active {
+  background-color: #293846;
+}
+
+.Heading {
+  background-color: #80deea;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 800;
+  font-size: large;
+  color: white;
+  height: 50px;
+  display: flex;
+  flex: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0px;
+}
+
+.ProfileName {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 400;
+  font-size: large;
+  color: #80deea;
+  display: flex;
+  flex: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0px;
+}
+
+.Divider {
+  padding-left: 0;
 }

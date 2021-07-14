@@ -8,23 +8,14 @@ import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-export const SidebarData = [
-  {
-    title: "Profile",
-    icon: <AccountCircleIcon />,
-  },
-  {
-    title: "Home",
-    icon: <HomeIcon />,
-    link: "/"
-  },
+export const User = [
   {
     title: "New Bookings",
     icon: <DashboardIcon />,
     link: "/user-dashboard"
   },
   {
-    title: "Past Booking",
+    title: "Past Bookings",
     icon: <DashboardIcon />,
     link: "/"
   },
@@ -32,7 +23,10 @@ export const SidebarData = [
     title: "Favourites",
     icon: <FavoriteBorderIcon />,
     link: "/"
-  },
+  }
+]
+
+export const Host = [
   {
     title: "New Bookings",
     icon: <DashboardIcon />,
@@ -52,10 +46,18 @@ export const SidebarData = [
     title: "My Vehicles",
     icon: <DriveEtaIcon />,
     link: "/"
+  }
+]
+
+export const SidebarData = [
+  {
+    title: "Home",
+    icon: <HomeIcon />,
+    link: "/"
   },
   {
     title: "Messages",
     icon: <ChatIcon />,
     link: "/"
-  },
+  }
 ]
