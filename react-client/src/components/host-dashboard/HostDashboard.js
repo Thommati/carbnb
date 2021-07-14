@@ -3,9 +3,7 @@ import HostTabs from "./HostTabs";
 function HostDashboard() {
   return(
   <div>
-    <div>
-      <HostTabs />
-    </div>
+    <HostTabs />
   </div>
   );
 };

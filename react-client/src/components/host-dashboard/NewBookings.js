@@ -21,8 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   TableContainer: {
     borderRadius: 15,
-    margin: '10px 10px',
-    maxWidth: 1400
+    marginLeft: '20%',
+    marginTop: '5%',
+    maxWidth: "72%",
   },
   TableHeaderCell: {
     fontWeight: 'bold',
