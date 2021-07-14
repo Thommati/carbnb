@@ -28,11 +28,6 @@ const HostDetails = props => {
     getHostReviews();
   }, [id]);
 
-  // useEffect(() => {
-  //   const avgRating = Math.floor(reviews.reduce((acc, curr) => curr.rating + acc, 0) / reviews.length);
-  // })
-
-  // TODO: reviews need to be a five-star component
   return (
     <div className="host-details">
       <img
@@ -42,7 +37,7 @@ const HostDetails = props => {
       />
       <div className="host-details__details">
         <div>{name}</div>
-        <div><a href={`mailto:${email}`}>Email Owner</a></div>
+        <div><a href={`mailto:${email}`}>Email {name}</a></div>
       </div>
       {(avgRating !== 0) && (<div className="host-details__reviews">
         <ReactStars
