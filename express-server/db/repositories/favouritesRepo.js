@@ -6,7 +6,7 @@ exports.getFavouritesForUserIdAsync = id => {
     FROM favourites
     JOIN users ON favourites.user_id = users.id
     JOIN cars ON favourites.car_id = cars.id
-    JOIN locations ON locations.user_id = cars.user_id
+    JOIN locations ON locations.user_id = favourites.user_id
     WHERE favourites.user_id = $1;
   `;
   const queryParams = [id];
