@@ -32,7 +32,7 @@ const ReviewItem = props => {
             edit={false}
           />
         </div>
-        <small>Reviewed on: {date_reviewed}</small>
+        <small>Reviewed on: {new Date(date_reviewed).toLocaleDateString()}</small>
         <p>{comments}</p>
       </div>
     </ListItem>
