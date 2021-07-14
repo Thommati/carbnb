@@ -26,13 +26,13 @@ const ReviewItem = props => {
           <h5>{reviewer_name}</h5>
           <ReactStars
             count={5}
-            size={16}
+            size={20}
             activeColor="#ffd700"
             value={rating}
             edit={false}
           />
         </div>
-        <small>Reviewed on: {date_reviewed}</small>
+        <small>Reviewed on: {new Date(date_reviewed).toLocaleDateString()}</small>
         <p>{comments}</p>
       </div>
     </ListItem>

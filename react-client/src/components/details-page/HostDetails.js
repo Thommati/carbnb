@@ -13,13 +13,12 @@ const HostDetails = props => {
       if (id) {
         try {
           const response = await axios.get(`/api/reviews?hostId=${id}`);
-          if (response.status === 200) {
-            const rating = Math.floor(response.data.reduce((acc, curr) => curr.rating + acc, 0) / response.data.length);
-            if (isNaN(rating)) {
-              setAvgRating(0);
-            } else {
-              setAvgRating(rating);
-            }
+
+          const rating = Math.floor(response.data.reduce((acc, curr) => curr.rating + acc, 0) / response.data.length);
+          if (isNaN(rating)) {
+            setAvgRating(0);
+          } else {
+            setAvgRating(rating);
           }
         } catch (err) {
           console.error(err);
@@ -29,11 +28,6 @@ const HostDetails = props => {
     getHostReviews();
   }, [id]);
 
-  // useEffect(() => {
-  //   const avgRating = Math.floor(reviews.reduce((acc, curr) => curr.rating + acc, 0) / reviews.length);
-  // })
-
-  // TODO: reviews need to be a five-star component
   return (
     <div className="host-details">
       <img
@@ -43,7 +37,7 @@ const HostDetails = props => {
       />
       <div className="host-details__details">
         <div>{name}</div>
-        <div><a href={`mailto:${email}`}>Email Owner</a></div>
+        <div><a href={`mailto:${email}`}>Email {name}</a></div>
       </div>
       {(avgRating !== 0) && (<div className="host-details__reviews">
         <ReactStars

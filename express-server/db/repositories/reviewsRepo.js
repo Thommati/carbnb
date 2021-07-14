@@ -16,7 +16,7 @@ exports.getReviewsAsync = filters => {
     queryParams.push(filters.carId);
   } else if (filters.hostId) {
     // gets all reviews for a host
-    queryText += 'WHERE reviewer.id = $1';
+    queryText += 'WHERE cars.user_id = $1';
     queryParams.push(filters.hostId);
   } else if (filters.renterId) {
     // gets all reviews for a renter
