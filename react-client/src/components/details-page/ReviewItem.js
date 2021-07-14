@@ -26,7 +26,7 @@ const ReviewItem = props => {
           <h5>{reviewer_name}</h5>
           <ReactStars
             count={5}
-            size={16}
+            size={20}
             activeColor="#ffd700"
             value={rating}
             edit={false}
