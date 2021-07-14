@@ -188,7 +188,7 @@ const TopNav = (props) => {
               onClick={() => history.push("/")}
               className="topnav__logo"
             >
-              Carbnb
+              Share My Ride
             </Typography>
           </div>
           <div>
