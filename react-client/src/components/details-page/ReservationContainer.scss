@@ -16,5 +16,18 @@
 
   > div > div {
     width: 100%;
+
+    div {
+      > div {
+        padding: 0;
+        // padding-right: .5rem;
+        width: 100%;
+      }
+
+      > div > div > div {
+        width: 100%;
+        padding: 0;
+      }
+    }
   }
 }
