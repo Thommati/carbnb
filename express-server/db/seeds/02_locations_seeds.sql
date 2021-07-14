@@ -5,4 +5,6 @@ VALUES
   (3, 110, NULL, '9th Avenue SE', 'Calgary', 'Alberta', 'Canada', 'T2G 5A6', TRUE),
   (4, 999, NULL, 'Canada Place', 'Vancouver', 'British Columbia', 'Canada', 'V6C 3B5', TRUE),
   (5, 9, 77, 'Kity Cat Way', 'Calgary', 'Alberta', 'Canada', 'T2P 1C6', TRUE),
-  (3, 15, NULL, 'Stampede Circle', 'Calgary', 'Alberta', 'Canada', 'T2J 3C6', TRUE);
+  (3, 15, NULL, 'Stampede Circle', 'Calgary', 'Alberta', 'Canada', 'T2J 3C6', FALSE),
+  (7, 1818, NULL, 'Mountain Avenue', 'Vancouver', 'British Columbia', 'Canada', 'V6H 3Z3', FALSE),
+  (6, 11, 3707, 'Stampede Way', 'Calgary', 'Alberta', 'Canada', 'T2J 3C6', TRUE);
