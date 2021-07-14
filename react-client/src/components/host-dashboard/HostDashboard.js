@@ -1,9 +1,10 @@
 import HostTabs from "./HostTabs";
+import App from "../navigation/App";
 
 function HostDashboard() {
   return(
   <div>
-    <HostTabs />
+    <App />
   </div>
   );
 };
