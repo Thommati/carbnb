@@ -12,6 +12,8 @@ import UserDashboard from "./user-dashboard/UserDashboard";
 import HostDashboard from "./host-dashboard/HostDashboard";
 import TopNav from "./TopNav";
 
+import AppSide from './navigation/AppSide'
+
 function App() {
   return (
     <CarTheme>
@@ -21,24 +23,25 @@ function App() {
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
-            <Route path="/cars/:id">
-              <CarDetails />
-            </Route>
             <Route path="/user-dashboard">
+              <AppSide />
               <UserDashboard />
             </Route>
             <Route path="/host-dashboard">
+              <AppSide />
               <HostDashboard />
+            </Route>
+            <Route path="/cars/:id">
+              <CarDetails />
+              <Footer />
             </Route>
             <Route path="/">
               <Home />
+              <Footer />
             </Route>
           </Switch>
         </div>
       </Router>
-      <div>
-        <Footer></Footer>
-      </div>
     </CarTheme>
   );
 }

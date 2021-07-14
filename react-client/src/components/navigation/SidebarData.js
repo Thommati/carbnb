@@ -6,7 +6,6 @@ import HomeIcon from "@material-ui/icons/Home";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 export const User = [
   {
@@ -30,12 +29,12 @@ export const Host = [
   {
     title: "New Bookings",
     icon: <DashboardIcon />,
-    link: "/"
+    link: "/host-dashboard"
   },
   {
     title: "Past Bookings",
     icon: <DashboardIcon />,
-    link: "/"
+    link: "/host-dashboard/past"
   },
   {
     title: "Vehicle Availabiliy",

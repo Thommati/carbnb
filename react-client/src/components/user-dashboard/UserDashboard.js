@@ -1,9 +1,10 @@
+import MainContainer from "./MainContainer";
 import UserTabs from "./UserTabs";
 
 function UserDashboard() {
   return(
   <div>
-    <UserTabs />
+    <MainContainer />
   </div>
   );
 };

@@ -1,7 +1,7 @@
 import './App.css';
 import Sidebar from './Sidebar';
 
-function App() {
+function AppSide() {
   return (
     <div className='App'>
       <Sidebar />
@@ -9,4 +9,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppSide;
