@@ -143,7 +143,7 @@ export default function VehicleAvailability({ locations }) {
                 <TableCell>
                   <Grid container>
                     <Grid item>
-                      <Typography color="textsecondary" variant="subtitle2">
+                      <Typography color="textSecondary" variant="subtitle2">
                         {row.make} {row.model}
                       </Typography>
                     </Grid>
