@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   popularLocations: {
     padding: "0px",
-    backgroundColor: "#FFFFF0",
+    backgroundColor: "#FFFFFF",
 
   },
   h: {
