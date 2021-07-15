@@ -103,7 +103,7 @@ export default function MainContainer({orders}) {
               <TableCell>
                 <Grid>
                   <Grid item>
-                    <Typography className={classes.name}>{row.renter_id}</Typography>
+                    <Typography className={classes.name}>{row.name}</Typography>
                   </Grid>
                 </Grid>
               </TableCell>
