@@ -116,11 +116,11 @@ export default function Favourites() {
               <TableCell>
                 <Grid container>
                   <Grid item>
-                  <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>                  </Grid>
+                    <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>
+                  </Grid>
                 </Grid>
               </TableCell>
               <TableCell>
-                {/* <Typography color="textSecondary" variant="body2">${row.price} /day</Typography> */}
               </TableCell>
               <TableCell>
                 <Grid container>
