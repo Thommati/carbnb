@@ -121,9 +121,7 @@ export default function MainContainer() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders
-            .map(
-              (row) =>
+          {orders.map((row) =>
                 new Date(new Date(row.end_date).toLocaleDateString("en-ca")) >
                   today && (
                   <TableRow key={row.id}>
