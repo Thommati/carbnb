@@ -24,10 +24,16 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 
 import "./TopNav.scss";
 
+import logo from "../pics/logo.png";
+
 const useStyles = makeStyles((theme) => ({
   login: {
     font: 'Trebuchet MS',
     fontSize: "larger",
+  },
+  topnav__logo: {
+    font: 'Trebuchet MS',
+
   },
   icon: {
     width: theme.spacing(8),
@@ -195,8 +201,7 @@ const TopNav = (props) => {
               variant="h5"
               onClick={() => history.push("/")}
               className="topnav__logo"
-            >
-              Share My Ride
+            >Share My Ride
             </Typography>
           </div>
           <div>

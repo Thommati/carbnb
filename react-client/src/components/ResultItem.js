@@ -15,7 +15,7 @@ import { purple } from "@material-ui/core/colors";
 const useStyles = makeStyles((theme) => ({
   paper: {
     height: "280px",
-    backgroundColor: "#c1eff4",
+    backgroundColor: "#eeeef5",
     padding: theme.spacing(1),
     boxShadow: theme.shadows[5],
     // textAlign: "center",

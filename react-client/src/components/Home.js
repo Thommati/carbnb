@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   background: {
-    backgroundColor: "#FFFFF0",
+  backgroundColor: "#FFFFF0",
   },
 }));
 

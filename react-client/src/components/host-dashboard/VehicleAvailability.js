@@ -21,14 +21,15 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
-  TableContainer: {
-    borderRadius: 15,
-    margin: "10px 10px",
-    maxWidth: 1400,
-  },
+  TableContainer:{
+      borderRadius: 15,
+      marginLeft: '20%',
+      marginTop: '15%',
+      maxWidth: "72%",
+    },
   TableHeaderCell: {
     fontWeight: "bold",
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.secondary.light,
     color: theme.palette.getContrastText(theme.palette.primary.dark),
   },
   name: {

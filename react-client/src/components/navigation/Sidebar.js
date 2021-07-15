@@ -9,15 +9,15 @@ function Sidebar(props) {
   let location = useLocation();
   return (
     <div className="Sidebar">
-      <ul className="ProfileName">
-        <Avatar />
+      {/* <ul className="ProfileName">
+        <Avatar/>
       </ul>
       <ul className="ProfileName">
         My Name
       </ul>
       <ul className="Divider">
         <Divider />
-      </ul>
+      </ul> */}
 
       <ul className="SidebarList">
         {SidebarData.map((val, key) => {

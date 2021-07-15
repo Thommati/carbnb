@@ -13,7 +13,9 @@ body {
   height: 100%;
   width: 250px;
   background-color: #2F4050;
-  padding-top: 10px;
+  padding-top: 100px;
+  position: fixed;
+  top: 0;
 }
 
 .SidebarList {
@@ -37,10 +39,6 @@ body {
 
 .SidebarList .row:hover {
   cursor: pointer;
-  background-color: #293846;
-}
-
-.SidebarList #active {
   background-color: #293846;
 }
 
@@ -78,10 +76,6 @@ body {
   background-color: #293846;
 }
 
-.UserList #active {
-  background-color: #293846;
-}
-
 .HostList {
   height: auto;
   padding: 0;
@@ -103,10 +97,6 @@ body {
 
 .HostList .row:hover {
   cursor: pointer;
-  background-color: #293846;
-}
-
-.HostList #active {
   background-color: #293846;
 }
 

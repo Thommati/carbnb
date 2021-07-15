@@ -8,10 +8,11 @@ import blue from "../pics/blue.jpeg";
 import yellow from "../pics/yellow.jpeg";
 import ferrari from "../pics/Ferrari_F8.jpeg";
 import SearchBar from './SearchBar'
+import logo from "../pics/logo.png";
 
 const useStyles = makeStyles((theme) => ({
   background: {
-    backgroundImage: `url(${ferrari})`,
+    backgroundImage: `url(${blue})`,
     position: 'relative',
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center center",
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     width: '100%',
-    height: '100%',
+    height: 'auto',
     margin: 0,
   },
 }));

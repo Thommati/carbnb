@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     font: "Trebuchet MS",
     fontSize: theme.typography.pxToRem(20),
     fontWeight: "bold",
-    color: "grey"
+    color: "white"
   }
 }));
 

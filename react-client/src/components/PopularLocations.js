@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: theme.typography.pxToRem(26),
     color: theme.palette.action.active,
-    paddingTop: "32px",
+    paddingTop: 0,
   },
 }));
 
