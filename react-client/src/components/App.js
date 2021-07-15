@@ -17,6 +17,7 @@ import PastBooking from "./host-dashboard/PastBookings";
 import VehicleAvailability from "./host-dashboard/VehicleAvailability";
 import RegisterVehicle from "./host-dashboard/RegisterVehicle";
 
+import UserDashboard from "./user-dashboard/UserDashboard";
 
 import HostDashboard from "./host-dashboard/HostDashboard";
 import TopNav from "./TopNav";
@@ -38,44 +39,12 @@ function App() {
             </Route>
 
             <Route path="/user-dashboard/">
-              <AppSide />
-              <MainContainer />
-            </Route>
-
-            <Route path="/user-pastbookings">
-              <AppSide />
-              <PastBookings />
-            </Route>
-
-            <Route path="/user-favourites">
-              <AppSide />
-              <Favourites />
+              <UserDashboard />
             </Route>
 
             <Route path="/host-dashboard">
-              <AppSide />
               <HostDashboard />
             </Route>
-{/*
-            <Route path="/host-dashboard">
-              <AppSide />
-              <NewBookings />
-            </Route>
-
-            <Route path="/host-pastbookings">
-              <AppSide />
-              <PastBooking />
-            </Route>
-
-            <Route path="/host-availability">
-              <AppSide />
-              <VehicleAvailability />
-            </Route>
-
-            <Route path="/host-vehicle">
-              <AppSide />
-              <RegisterVehicle />
-            </Route> */}
 
             <Route path="/">
               <Home />

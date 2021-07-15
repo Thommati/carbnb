@@ -1,7 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import NewBookings from "./NewBookings";
 import PastBookings from "./PastBookings";
@@ -10,30 +8,11 @@ import RegisterVehicle from "./RegisterVehicle";
 
 import { authContext } from "../../providers/authProvider";
 
-const useStyles = makeStyles((theme) => ({
-  tabs: {
-    minWidth: 650,
-    "& > button": {
-      borderRadius: "0px",
-      boxShadow: "none",
-      borderRight: "solid 1px gray",
-    },
-    borderTop: "solid 1px gray",
-    background: theme.palette.primary.main,
-  },
-}));
-export default function UserTabs() {
+export default function UserTabs(props) {
   const { auth, user } = useContext(authContext);
-
-  const classes = useStyles();
-
-  const [value, setValue] = useState(0);
+  const value = props.tabValue;
   const [locations, setLocations] = useState([]);
   const [orders, setOrders] = useState([]);
-
-  const handleTabs = (value) => {
-    setValue(value);
-  };
 
   useEffect(() => {
     const getLocation = async () => {
@@ -64,44 +43,6 @@ export default function UserTabs() {
 
   return (
     <div>
-      <div className={classes.tabs}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            handleTabs(0);
-          }}
-        >
-          New Bookings
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            handleTabs(1);
-          }}
-        >
-          Past Bookings
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            handleTabs(2);
-          }}
-        >
-          Vehicle Availaility
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            handleTabs(3);
-          }}
-        >
-          Register Vehicle
-        </Button>
-      </div>
       <TabPanel value={value} index={0}>
         <NewBookings orders={orders} />
       </TabPanel>

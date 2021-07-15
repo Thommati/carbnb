@@ -1,10 +1,20 @@
-import MainContainer from "./MainContainer";
+import { useState } from "react";
 import UserTabs from "./UserTabs";
+import AppSide from '../navigation/AppSide'
+
 
 function UserDashboard() {
+  const [tableValue, setTableValue] = useState(0);
+
+  const handleTabChange = (valueData) => {
+    console.log('Handle Change', valueData);
+    setTableValue(valueData);
+  }
+
   return(
   <div>
-    <UserTabs />
+    <AppSide tabChange={handleTabChange} />
+    <UserTabs tabValue={tableValue}/>
   </div>
   );
 };

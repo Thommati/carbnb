@@ -1,9 +1,12 @@
 import { Avatar, Divider } from '@material-ui/core';
-import React from 'react';
+import { DomainPropTypes } from '@material-ui/pickers/constants/prop-types';
+import React, { useState } from 'react';
 import './App.css';
-import {SidebarData, User, Host} from './SidebarData'
+import {SidebarData, User, Host} from './SidebarData';
+import { useLocation } from 'react-router-dom';
 
-function Sidebar() {
+function Sidebar(props) {
+  let location = useLocation();
   return (
     <div className="Sidebar">
       <ul className="ProfileName">
@@ -40,6 +43,8 @@ function Sidebar() {
         })}
       </ul>
 
+      {location.pathname === "/user-dashboard" &&
+      <>
       <ul className="Heading">
         USER DASHBOARD
       </ul>
@@ -50,9 +55,9 @@ function Sidebar() {
             <li
               key={key}
               className="row"
-              id={window.location.pathname === val.link ? "active" : ""}
+              id={location.pathname === val.link ? "active" : ""}
               onClick = {() => {
-                window.location.pathname = val.link;
+                props.tabChange(key);
               }}
             >
               {""}
@@ -67,8 +72,11 @@ function Sidebar() {
           );
         })}
       </ul>
+      </>}
 
-      <ul className="Heading">
+      {location.pathname === "/host-dashboard" &&
+      <>
+       <ul className="Heading">
         HOST DASHBOARD
       </ul>
 
@@ -78,10 +86,11 @@ function Sidebar() {
             <li
               key={key}
               className="row"
-              id={window.location.pathname === val.link ? "active" : ""}
+              id={location.pathname === val.link ? "active" : ""}
               onClick = {() => {
-                window.location.pathname = val.link;
+                props.tabChange(key);
               }}
+
             >
               {""}
               <div id="icon">
@@ -95,6 +104,7 @@ function Sidebar() {
           );
         })}
       </ul>
+      </>}
     </div>
   )
 }

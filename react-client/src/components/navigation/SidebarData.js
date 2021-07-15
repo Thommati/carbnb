@@ -29,22 +29,22 @@ export const Host = [
   {
     title: "New Bookings",
     icon: <DashboardIcon />,
-    link: "/host-dashboard"
+    link: 0
   },
   {
     title: "Past Bookings",
     icon: <DashboardIcon />,
-    link: "/host-pastbookings"
+    link: 1
   },
   {
     title: "Vehicle Availabiliy",
     icon: <EventAvailableIcon />,
-    link: "/host-availability"
+    link: 2
   },
   {
     title: "My Vehicles",
     icon: <DriveEtaIcon />,
-    link: "/host-vehicles"
+    link: 3
   }
 ]
 

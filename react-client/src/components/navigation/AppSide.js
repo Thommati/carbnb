@@ -1,10 +1,11 @@
 import './App.css';
 import Sidebar from './Sidebar';
 
-function AppSide() {
+function AppSide(props) {
+console.log("props", props.tabChange)
   return (
     <div className='App'>
-      <Sidebar />
+      <Sidebar tabChange={props.tabChange}/>
     </div>
   );
 }
