@@ -266,7 +266,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
                 <Button
                   className={classes.buttoncancel}
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   fullWidth={true}
                   onClick={handleClose}
                   style={{ borderRadius: 5 }}
@@ -279,7 +279,7 @@ export default function AddAvailability({ locations, updateAvailability }) {
                 <Button
                   className={classes.button}
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   fullWidth={true}
                   onClick={handleSubmit}
                   style={{ borderRadius: 5 }}

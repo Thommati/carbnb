@@ -13,11 +13,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     "& > *": {
       margin: theme.spacing(1),
+      backgroundColor: "#FFFFF0",
     },
   },
   footer: {
     padding: "0px",
     marginTop: "32px",
+    font: "Trebuchet MS",
     fontSize: "12px",
     color: "#9999bb",
     backgroundColor: "#FFFFF0",

@@ -499,7 +499,7 @@ const AddVehicle = (props) => {
                   className={classes.button}
                   onClick={handleClose}
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   style={{ borderRadius: 5 }}
                 >
                   Cancel
@@ -509,7 +509,7 @@ const AddVehicle = (props) => {
                   type="submit"
                   form="register-vehicle-form"
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   style={{ borderRadius: 5 }}
                 >
                   Register

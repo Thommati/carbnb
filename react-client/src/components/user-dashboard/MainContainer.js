@@ -19,6 +19,13 @@ import axios from "axios";
 import { authContext } from "../../providers/authProvider";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    "& > *": {
+      margin: theme.spacing(1),
+      background: "#FFFFF0",
+    },
+  },
   table: {
     minWidth: 650,
   },
@@ -97,7 +104,7 @@ export default function MainContainer() {
   today = new Date(today);
 
   return (
-  <div>
+  <div className={classes.Main}>
     <TableContainer component={Paper} className={classes.TableContainer}>
       <Table className={classes.table} aria-label="user-dashboard">
         <TableHead>
