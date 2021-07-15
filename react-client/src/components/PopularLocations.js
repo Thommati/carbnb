@@ -25,16 +25,22 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(12),
     height: theme.spacing(12),
     boxShadow: theme.shadows[8],
+    font: "Trebuchet MS",
   },
   popularLocations: {
     padding: "0px",
+    backgroundColor: "#FFFFF0",
+
   },
   h: {
+    font: "Trebuchet MS",
     borderTop: "2px solid #eeeef5",
     textAlign: "center",
     marginTop: "80px",
     marginBottom: "20px",
     fontWeight: "bold",
+    fontSize: theme.typography.pxToRem(26),
+    color: theme.palette.action.active,
     paddingTop: "32px",
   },
 }));

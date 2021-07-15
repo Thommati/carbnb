@@ -26,13 +26,23 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   searchBox: {
-    backgroundColor: "#eeeef5",
-    padding: "30px",
+    backgroundColor: "lightgrey",
+    padding: "25px",
     borderRadius: "4px",
     boxShadow: theme.shadows[5],
-    marginTop: "32px",
-    // maxWidth: "800px",
+    marginTop: "200px",
+    opacity: 0.85,
   },
+  checkbox: {
+    alignContent: "flex-end",
+    alignItems: "center",
+  },
+  Submit: {
+    font: "Trebuchet MS",
+    fontSize: theme.typography.pxToRem(20),
+    fontWeight: "bold",
+    color: "grey"
+  }
 }));
 
 function SearchBar(props) {
@@ -68,12 +78,12 @@ function SearchBar(props) {
   };
 
   return (
-    <Container className={classes.searchBox} maxWidth="sm">
+    <Container className={classes.searchBox} maxWidth="sm" >
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <FormControl fullWidth={true}>
-              <InputLabel id="demo-simple-select-label">Location</InputLabel>
+              <InputLabel id="demo-simple-select-label" >Location</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -87,7 +97,7 @@ function SearchBar(props) {
             </FormControl>
           </Grid>
           <Grid item xs={6}>
-            <KeyboardDatePicker
+            <KeyboardDatePicker className={classes.input}
               disableToolbar
               variant="inline"
               format="dd/MM/yyyy"
@@ -103,7 +113,7 @@ function SearchBar(props) {
             />
           </Grid>
           <Grid item xs={6}>
-            <KeyboardDatePicker
+            <KeyboardDatePicker className={classes.input}
               disableToolbar
               variant="inline"
               format="dd/MM/yyyy"
@@ -120,8 +130,9 @@ function SearchBar(props) {
           </Grid>
           <Grid item xs={12}>
             <Button
+              className={classes.Submit}
               variant="contained"
-              color="primary"
+              color="secondary"
               fullWidth={true}
               onClick={handleSearchClick}
             >
@@ -130,8 +141,8 @@ function SearchBar(props) {
           </Grid>
 
           {search.location !== "" && (
-            <Fragment>
-              <Grid item xs={4}>
+            <Fragment className={classes.chekbox}>
+              <Grid item xs={4} >
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -144,7 +155,7 @@ function SearchBar(props) {
                   label="Pet Friendly"
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={4} >
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -157,7 +168,7 @@ function SearchBar(props) {
                   label="RV's Only"
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={4} >
                 <FormControlLabel
                   control={
                     <Checkbox

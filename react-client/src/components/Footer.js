@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "32px",
     fontSize: "12px",
     color: "#9999bb",
+    backgroundColor: "#FFFFF0",
   },
   h: {
     fontWeight: "bold",
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 function Footer() {
   const classes = useStyles();
   return (
-    <Container className={classes.footer} maxWidth="sm">
+    <Container className={classes.footer} maxWidth="md">
       <div className={classes.divStyle}></div>
       <Grid container spacing={3}>
         <Grid item xs={1}></Grid>

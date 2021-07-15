@@ -8,17 +8,35 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import SearchProvider from "../providers/SearchProvider";
 import { Typography } from '@material-ui/core';
+import smr from "../pics/smr.png";
+import BackgroundImage from "./BackgroundImage";
+
+import Box from '@material-ui/core/Box'
 
 const useStyles = makeStyles((theme) => ({
   h: {
     borderTop: "2px solid #eeeef5",
-    marginTop: "80px",
     textAlign: "center",
-    paddingTop: "32px",
+    paddingTop: "250px",
+  },
+  body2: {
+    fontSize: theme.typography.pxToRem(66),
+    color: theme.palette.action.active,
+    font: "Trebuchet MS",
+    fontWeight: "bold",
   },
   body1: {
-    fontSize: "1.3rem"
-  }
+    fontSize: theme.typography.pxToRem(30),
+    color: theme.palette.action.active,
+  },
+  body: {
+    fontSize: theme.typography.pxToRem(30),
+    color:  "#80deea",
+    fontWeight: "bold",
+  },
+  background: {
+    backgroundColor: "#FFFFF0",
+  },
 }));
 
 //created the internalHome component to be able to wrap the useContext with a search provider
@@ -35,17 +53,19 @@ function InternalHome(props) {
   const { search } = useContext(searchContext);
 
   return (
-    <div>
+    <div className={classes.background}>
+      <BackgroundImage />
       <SearchBar />
-      <p></p>
       {search.location === "" && (
         <div>
-          <Container className={classes.h} maxWidth="sm">
-            <Typography variant="h4" color="primary" gutterBottom>Share My Ride, re-inventing car rentals.</Typography>
+          <Container className={classes.h} maxWidth="md">
+          <Typography className={classes.body2} paragraph>
+              Share My Ride - Reinventing Car Rentals
+            </Typography>
             <Typography variant="body1" className={classes.body1} paragraph>
               We offer a vast range of vehicles from sports cars to trucks and even RV's, for those perfect weekend getaways to enjoy the beautiful outdoors.
             </Typography>
-            <Typography variant="h6">
+            <Typography className={classes.body} >
               Get out of the ordinary and book your dream car today!
             </Typography>
           </Container>

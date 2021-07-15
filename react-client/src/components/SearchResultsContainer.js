@@ -12,13 +12,13 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 const useStyles = makeStyles((theme) => ({
   searchBox: {
-    // backgroundColor: "#ddd",
     padding: "0",
-    // borderRadius: "8px",
+    marginTop: '250px',
   },
   formControl: {
     marginBottom: theme.spacing(1),
     minWidth: 120,
+    font: "Trebuchet MS",
   },
   formControlRight: {
     marginBottom: theme.spacing(1),
