@@ -1,6 +1,4 @@
-import { Avatar, Divider } from '@material-ui/core';
-import { DomainPropTypes } from '@material-ui/pickers/constants/prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import {SidebarData, User, Host} from './SidebarData';
 import { useLocation } from 'react-router-dom';
@@ -9,15 +7,6 @@ function Sidebar(props) {
   let location = useLocation();
   return (
     <div className="Sidebar">
-      {/* <ul className="ProfileName">
-        <Avatar/>
-      </ul>
-      <ul className="ProfileName">
-        My Name
-      </ul>
-      <ul className="Divider">
-        <Divider />
-      </ul> */}
 
       <ul className="SidebarList">
         {SidebarData.map((val, key) => {

@@ -24,8 +24,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 
 import "./TopNav.scss";
 
-import logo from "../pics/logo.png";
-
 const useStyles = makeStyles((theme) => ({
   login: {
     font: 'Trebuchet MS',

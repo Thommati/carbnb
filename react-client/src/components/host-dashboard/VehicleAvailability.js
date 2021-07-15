@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   TableContainer:{
       borderRadius: 15,
       marginLeft: '20%',
-      marginTop: '15%',
+      marginTop: '10%',
       maxWidth: "72%",
     },
   TableHeaderCell: {
@@ -143,7 +143,7 @@ export default function VehicleAvailability({ locations }) {
                 <TableCell>
                   <Grid container>
                     <Grid item>
-                      <Typography color="primary" variant="subtitle2">
+                      <Typography color="textsecondary" variant="subtitle2">
                         {row.make} {row.model}
                       </Typography>
                     </Grid>

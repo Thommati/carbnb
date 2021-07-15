@@ -1,14 +1,9 @@
 import React from 'react'
 
-import Container from '@material-ui/core/Container'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 
 import blue from "../pics/blue.jpeg";
-import yellow from "../pics/yellow.jpeg";
-import ferrari from "../pics/Ferrari_F8.jpeg";
-import SearchBar from './SearchBar'
-import logo from "../pics/logo.png";
 
 const useStyles = makeStyles((theme) => ({
   background: {

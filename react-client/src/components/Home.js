@@ -8,10 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import SearchProvider from "../providers/SearchProvider";
 import { Typography } from '@material-ui/core';
-import smr from "../pics/smr.png";
 import BackgroundImage from "./BackgroundImage";
-
-import Box from '@material-ui/core/Box'
 
 const useStyles = makeStyles((theme) => ({
   h: {

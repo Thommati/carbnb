@@ -25,7 +25,6 @@ import {
 } from "@material-ui/core";
 // select
 import { authContext } from '../../providers/authProvider';
-import HostTabs from "./HostTabs";
 
 const useStyles = makeStyles((theme) => ({
   avail: {
