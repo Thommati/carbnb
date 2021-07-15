@@ -9,7 +9,6 @@ import {
   TableRow,
   Paper,
   Avatar,
-  Container,
   Grid,
   Typography,
 } from "@material-ui/core";
@@ -38,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
   TableHeaderCell: {
     fontWeight: "bold",
     backgroundColor: theme.palette.secondary.light,
-    color: theme.palette.getContrastText(theme.palette.primary.dark),
+    color: theme.palette.action.active,
+    fontSize: '1.1rem',
   },
   name: {
     fontWeight: "bold",
@@ -59,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   Mail: {
     color: "#1e88e5",
     fontSize: 30,
+  },
+  Make: {
+    color: "black"
   },
   Delete: {
     color: "#c62828",
@@ -81,6 +84,7 @@ export default function MainContainer() {
         const response = await axios.get(`/api/orders/user/${user.id}`);
         if (response.status === 200) {
           setOrders(response.data);
+          console.log(response.data);
         }
       } catch (error) {
         console.error(error);
@@ -148,7 +152,7 @@ export default function MainContainer() {
                     <TableCell>
                       <Grid container>
                         <Grid item>
-                          <Typography color="primary" variant="subtitle2">
+                          <Typography color="textSecondary" variant="subtitle2" className="{classes.Make}">
                             {row.make} {row.model}
                           </Typography>
                         </Grid>

@@ -30,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
   TableHeaderCell: {
     fontWeight: "bold",
     backgroundColor: theme.palette.secondary.light,
-    color: theme.palette.getContrastText(theme.palette.primary.dark),
-  },
+    color: theme.palette.action.active,
+    fontSize: '1.1rem',
+    },
   name: {
     fontWeight: "bold",
     color: "#ec407a",

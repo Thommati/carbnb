@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
   TableHeaderCell: {
     fontWeight: "bold",
     backgroundColor: theme.palette.secondary.light,
-    color: theme.palette.getContrastText(theme.palette.primary.dark),
+    color: theme.palette.action.active,
+    fontSize: '1.1rem',
   },
   name: {
     fontWeight: 'bold',
@@ -88,7 +89,7 @@ export default function MainContainer({orders}) {
               <TableCell>
                 <Grid container>
                   <Grid item>
-                    <Typography color="primary" variant="subtitle2">{row.make} {row.model}</Typography>
+                    <Typography color="textSecondary" variant="subtitle2">{row.make} {row.model}</Typography>
                   </Grid>
                 </Grid>
               </TableCell>
