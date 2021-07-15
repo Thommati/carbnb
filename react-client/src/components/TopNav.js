@@ -25,15 +25,27 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import "./TopNav.scss";
 
 const useStyles = makeStyles((theme) => ({
+  login: {
+    font: 'Trebuchet MS',
+    fontSize: "larger",
+  },
+  topnav__logo: {
+    font: 'Trebuchet MS',
+
+  },
+  icon: {
+    width: theme.spacing(8),
+    height: theme.spacing(8),
+  },
   iconButton: {
+    font: 'Trebuchet MS',
     minWidth: "48px",
     textAlign: "center",
     flex: "0 0 auto",
-    // fontSize: theme.typography.pxToRem(24),
+    fontSize: theme.typography.pxToRem(22),
     padding: 12,
     borderRadius: "50%",
     overflow: "visible",
-    fontSize: "medium",
     textTransform: "none",
     // Explicitly set the default value to solve a bug on IE 11.
     color: theme.palette.action.active,
@@ -180,24 +192,23 @@ const TopNav = (props) => {
   };
   return (
     <nav>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar className="topnav__toolbar">
           <div className="topnav__toolbar--left">
             <Typography
               variant="h5"
               onClick={() => history.push("/")}
               className="topnav__logo"
-            >
-              Share My Ride
+            >Share My Ride
             </Typography>
           </div>
           <div>
             {!auth && (
               <>
-                <Button color="inherit" onClick={() => setLoginOpen(true)}>
+                <Button className={classes.login} color="inherit" onClick={() => setLoginOpen(true)}>
                   Login
                 </Button>
-                <Button color="inherit" onClick={() => setRegisterOpen(true)}>
+                <Button className={classes.login} color="inherit" onClick={() => setRegisterOpen(true)}>
                   Register
                 </Button>
               </>
@@ -214,8 +225,8 @@ const TopNav = (props) => {
                 color="inherit"
                 className={classes.iconButton}
               >
-                <AccountCircle />
                 {user.name}
+                <AccountCircle className={classes.icon}/>
               </Button>
               <Menu
                 id="menu-appbar"

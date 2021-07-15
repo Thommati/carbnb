@@ -21,16 +21,18 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
-  TableContainer: {
-    borderRadius: 15,
-    margin: "10px 10px",
-    maxWidth: 1400,
-  },
+  TableContainer:{
+      borderRadius: 15,
+      marginLeft: '20%',
+      marginTop: '10%',
+      maxWidth: "72%",
+    },
   TableHeaderCell: {
     fontWeight: "bold",
-    backgroundColor: theme.palette.primary.dark,
-    color: theme.palette.getContrastText(theme.palette.primary.dark),
-  },
+    backgroundColor: theme.palette.secondary.light,
+    color: theme.palette.action.active,
+    fontSize: '1.1rem',
+    },
   name: {
     fontWeight: "bold",
     color: "#ec407a",
@@ -141,7 +143,7 @@ export default function VehicleAvailability({ locations }) {
                 <TableCell>
                   <Grid container>
                     <Grid item>
-                      <Typography color="primary" variant="subtitle2">
+                      <Typography color="textSecondary" variant="subtitle2">
                         {row.make} {row.model}
                       </Typography>
                     </Grid>
