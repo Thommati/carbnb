@@ -16,12 +16,12 @@ export const User = [
   {
     title: "Past Bookings",
     icon: <DashboardIcon />,
-    link: "/"
+    link: "/user-pastbookings"
   },
   {
     title: "Favourites",
     icon: <FavoriteBorderIcon />,
-    link: "/"
+    link: "/user-favourites"
   }
 ]
 
@@ -34,17 +34,17 @@ export const Host = [
   {
     title: "Past Bookings",
     icon: <DashboardIcon />,
-    link: "/host-dashboard/past"
+    link: "/host-pastbookings"
   },
   {
     title: "Vehicle Availabiliy",
     icon: <EventAvailableIcon />,
-    link: "/"
+    link: "/host-availability"
   },
   {
     title: "My Vehicles",
     icon: <DriveEtaIcon />,
-    link: "/"
+    link: "/host-vehicles"
   }
 ]
 

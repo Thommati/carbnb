@@ -4,7 +4,7 @@ import UserTabs from "./UserTabs";
 function UserDashboard() {
   return(
   <div>
-    <MainContainer />
+    <UserTabs />
   </div>
   );
 };

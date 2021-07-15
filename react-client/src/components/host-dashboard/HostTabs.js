@@ -64,7 +64,7 @@ export default function UserTabs() {
 
   return (
     <div>
-      {/* <div className={classes.tabs}>
+      <div className={classes.tabs}>
         <Button
           variant="contained"
           color="primary"
@@ -81,8 +81,8 @@ export default function UserTabs() {
             handleTabs(1);
           }}
         >
-          Past Bookings */}
-        {/* </Button>
+          Past Bookings
+        </Button>
         <Button
           variant="contained"
           color="primary"
@@ -100,8 +100,8 @@ export default function UserTabs() {
           }}
         >
           Register Vehicle
-        </Button> */}
-      {/* </div> */}
+        </Button>
+      </div>
       <TabPanel value={value} index={0}>
         <NewBookings orders={orders} />
       </TabPanel>
