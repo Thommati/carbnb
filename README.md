@@ -1,4 +1,4 @@
-# Carbnb
+# Share My Ride
 
 ## Description
 
